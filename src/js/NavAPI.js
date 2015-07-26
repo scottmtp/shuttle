@@ -71,6 +71,6 @@ let updateMenuItems = function() {
   });
 };
 
-module.exports = {
+export default {
   updateMenuItems: updateMenuItems
 };

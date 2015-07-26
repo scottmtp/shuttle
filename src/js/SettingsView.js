@@ -8,4 +8,4 @@ let Settings = React.createClass({
   }
 });
 
-module.exports = Settings;
+export default Settings;

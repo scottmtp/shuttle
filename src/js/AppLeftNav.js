@@ -5,7 +5,7 @@ import { LeftNav, RaisedButton, Styles } from 'material-ui';
 let { Colors, Spacing, Typography } = Styles;
 
 
-class AppLeftNav extends React.Component {
+export default class AppLeftNav extends React.Component {
 
   constructor() {
     super();
@@ -88,5 +88,3 @@ AppLeftNav.propTypes = {
 AppLeftNav.contextTypes = {
   router: React.PropTypes.func
 };
-
-module.exports = AppLeftNav;

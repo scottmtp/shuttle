@@ -2,7 +2,7 @@ import AppDispatcher from './AppDispatcher';
 import NavAPI from './NavAPI';
 import NavConstants from './NavConstants';
 
-module.exports = {
+export default {
   update: function() {
     AppDispatcher.dispatch({
       'actionType': NavConstants.UPDATE

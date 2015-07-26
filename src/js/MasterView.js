@@ -9,7 +9,7 @@ import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
 import AppLeftNav from './AppLeftNav';
 
-class MasterView extends React.Component {
+export default class MasterView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { menuItems: NavStore.getMenuItems() };
@@ -68,5 +68,3 @@ class MasterView extends React.Component {
 MasterView.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
-
-module.exports = MasterView;

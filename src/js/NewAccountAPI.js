@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 import dbApi from './DbAPI';
 
-module.exports = {
+export default {
   
   initializeNewAccount: function() {
     console.log('initializeNewAccount');

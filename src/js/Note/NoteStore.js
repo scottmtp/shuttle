@@ -56,4 +56,4 @@ AppDispatcher.register(function(action) {
   }
 });
 
-module.exports = NoteStore;
+export default NoteStore;

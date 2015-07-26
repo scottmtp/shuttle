@@ -1,7 +1,7 @@
 import AppDispatcher from './AppDispatcher';
 import NavConstants from './NavConstants';
 
-module.exports = {
+export default {
   receiveUpdate: function(items) {
     AppDispatcher.dispatch({
       'actionType': NavConstants.RECEIVE_UPDATE,

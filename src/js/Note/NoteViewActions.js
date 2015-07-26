@@ -2,7 +2,7 @@ import AppDispatcher from '../AppDispatcher';
 import NoteConstants from './NoteConstants';
 import NoteAPI from './NoteAPI';
 
-module.exports = {
+export default {
   getNote: function(groupId, noteId) {
     AppDispatcher.dispatch({
       actionType: NoteConstants.GET,

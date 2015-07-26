@@ -42,4 +42,4 @@ AppDispatcher.register(function(action) {
 });
 
 
-module.exports = NavStore;
+export default NavStore;

@@ -162,7 +162,7 @@ var removeNote = function(project, id) {
   return removeObject('note', id);
 };
 
-module.exports = {
+export default {
   getGroup: getGroup,
   getAllGroups: getAllGroups,
   updateGroup: updateGroup,

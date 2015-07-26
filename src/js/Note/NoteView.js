@@ -4,7 +4,7 @@ import { Styles, Tab, Tabs, TextField } from 'material-ui';
 import NoteStore from './NoteStore';
 import NoteViewActions from './NoteViewActions';
 
-class NoteView extends React.Component {
+export default class NoteView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { note: NoteStore.getCurrentNote() };
@@ -104,5 +104,3 @@ class NoteView extends React.Component {
     );
   }
 }
-
-module.exports = NoteView;

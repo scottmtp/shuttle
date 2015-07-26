@@ -15,7 +15,7 @@ let updateNote = function(groupId, note) {
   
 };
 
-module.exports = {
+export default {
   getNote: getNote,
   updateNote: updateNote
 };
