@@ -8,17 +8,17 @@ export default class NoteView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { note: NoteStore.getCurrentNote() };
+    
+    this._onChange = this._onChange.bind(this);
+    this.handleDocumentChange = this.handleDocumentChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this._onSquireLoad = this._onSquireLoad.bind(this);
   }
 
   componentDidMount() {
     console.log('mount!');
     this.groupId = this.props.params.groupid;
     this.noteId = this.props.params.noteid;
-    
-    this._onChange = this._onChange.bind(this);
-    this.handleDocumentChange = this.handleDocumentChange.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this._onSquireLoad = this._onSquireLoad.bind(this);
     
     NoteStore.addChangeListener(this._onChange);
     NoteViewActions.getNote(this.groupId, this.noteId);
