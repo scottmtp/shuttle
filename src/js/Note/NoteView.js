@@ -47,6 +47,9 @@ export default class NoteView extends React.Component {
         title: e.target.value
       }
     });
+    
+    NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
+      e.target.value, this.state.note.html);
   }
   
   handleDocumentChange() {
@@ -56,6 +59,9 @@ export default class NoteView extends React.Component {
         title: this.state.note.title
       }
     });
+    
+    NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
+      this.state.note.title, this.state.note.html);
   }
   
   getStyles() {

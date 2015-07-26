@@ -6,10 +6,8 @@ import AppDispatcher from '../AppDispatcher';
 let CHANGE_EVENT = 'change';
 
 let currentNote = {
-  _id: '',
   title: '',
-  html: '',
-  __html: ''
+  html: ''
 };
 
 let NoteStore = assign({}, EventEmitter.prototype, {
@@ -32,22 +30,10 @@ let NoteStore = assign({}, EventEmitter.prototype, {
 });
 
 AppDispatcher.register(function(action) {
-
   switch(action.actionType) {
-    case NoteConstants.GET:
-      NoteStore.emitChange();
-      break;
-      
     case NoteConstants.GET_COMPLETED:
+      //case NoteConstants.UPDATE_COMPLETED:
       currentNote = action.note;
-      NoteStore.emitChange();
-      break;
-    
-    case NoteConstants.CREATE:
-      NoteStore.emitChange();
-      break;
-
-    case NoteConstants.UPDATE:
       NoteStore.emitChange();
       break;
 

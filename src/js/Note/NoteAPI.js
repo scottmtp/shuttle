@@ -11,8 +11,28 @@ let getNote = function(groupId, noteId) {
     });
 };
 
-let updateNote = function(groupId, note) {
+let updateNote = function(groupId, noteId, title, markup) {
+  let theGroup;
+  let theNote;
   
+  dbApi.getGroup(groupId)
+    .then(function(group) {
+      theGroup = group;
+      return dbApi.getNote(group, noteId);
+    })
+    .then(function(note) {
+      theNote = note;
+      note.title = title;
+      note.html = markup;
+      return dbApi.updateNote(theGroup, theNote);
+    })
+    .then(function(res) {
+      theNote._rev = res._rev
+      NoteActions.updateCompleted(theNote);
+    })
+    .catch(function(e) {
+      console.log('Error: ' + e);
+    });
 };
 
 export default {
