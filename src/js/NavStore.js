@@ -21,12 +21,10 @@ let NavStore = assign({}, EventEmitter.prototype, {
   },
   
   getMenuItems: function() {
-    console.log('getMenuItems: ' + JSON.stringify(menuItems));
     return menuItems;
   },
 
   receiveMenuItems: function(items) {
-    console.log('receiveMenuItems: ' + JSON.stringify(items));
     menuItems = items;
   }
 });
@@ -34,7 +32,7 @@ let NavStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case NavConstants.RECEIVE_UPDATE:
-      NavStore.receiveMenuItems(action.menuItems)
+      NavStore.receiveMenuItems(action.menuItems);
       NavStore.emitChange();
       break;
 

@@ -2,16 +2,68 @@ import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
 
 import NoteStore from './NoteStore';
-import NoteActions from './NoteActions';
+import NoteViewActions from './NoteViewActions';
 
-function getState(id) {
-  return {
-    note: NoteStore.getNote(id)
-  };
-}
+class NoteView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { note: NoteStore.getCurrentNote() };
+  }
 
-let NoteView = React.createClass({
-  getStyles: function() {
+  componentDidMount() {
+    console.log('mount!');
+    this.groupId = this.props.params.groupid;
+    this.noteId = this.props.params.noteid;
+    
+    this._onChange = this._onChange.bind(this);
+    this.handleDocumentChange = this.handleDocumentChange.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this._onSquireLoad = this._onSquireLoad.bind(this);
+    
+    NoteStore.addChangeListener(this._onChange);
+    NoteViewActions.getNote(this.groupId, this.noteId);
+  }
+
+  componentWillUnmount() {
+    NoteStore.removeChangeListener(this._onChange);
+  }
+  
+  _onChange() {
+    // TODO: need solution for isMounted
+    // see https://github.com/facebook/react/issues/3417
+    this.setState({ note: NoteStore.getCurrentNote() });
+    
+    if (this.editor) {
+      this.editor.setHTML(this.state.note.html);
+    }
+  }
+  
+  _onSquireLoad() {
+    let squireFrame = React.findDOMNode(this.refs.squireFrame);
+    this.editor = squireFrame.contentWindow.editor;
+    this.editor.setHTML(this.state.note.html);
+    this.editor.addEventListener('input', this.handleDocumentChange);
+  }
+  
+  handleTitleChange(e) {
+    this.setState({
+      note: {
+        html: this.state.note.html,
+        title: e.target.value
+      }
+    });
+  }
+  
+  handleDocumentChange() {
+    this.setState({
+      note: {
+        html: this.editor.getHTML(),
+        title: this.state.note.title
+      }
+    });
+  }
+  
+  getStyles() {
     return {
       title: {
         marginBottom: '6px'
@@ -32,57 +84,14 @@ let NoteView = React.createClass({
         border: '1px solid black'
       }
     };
-  },
+  }
   
-  getInitialState: function() {
-    this.groupId = this.props.params.groupid;
-    this.noteId = this.props.params.noteid;
-    return getState(this.noteId);
-  },
-
-  componentDidMount: function() {
-    NoteStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    NoteStore.removeChangeListener(this._onChange);
-  },
-  
-  _onChange: function() {
-    getState(this.noteId);
-  },
-  
-  _onSquireLoad: function() {
-    let squireFrame = React.findDOMNode(this.refs.squireFrame);
-    this.editor = squireFrame.contentWindow.editor;
-    this.editor.setHTML(this.state.note.__html);
-    this.editor.addEventListener('input', this.handleDocumentChange);
-  },
-  
-  handleTitleChange: function(e) {
-    this.setState({
-      note: {
-        __html: this.state.note.__html,
-        title: e.target.value
-      }
-    });
-  },
-  
-  handleDocumentChange: function() {
-    this.setState({
-      note: {
-        __html: this.editor.getHTML(),
-        title: this.state.note.title
-      }
-    });
-  },
-  
-  render: function() {
+  render() {
     return (
       <Tabs style={this.getStyles().tabs} tabItemContainerStyle={this.getStyles().tabItem}>
         <Tab label="View" style={this.getStyles().tab}>
           <h1 style={this.getStyles().title}>{this.state.note.title}</h1>
-          <div dangerouslySetInnerHTML={this.state.note} />
+          <div dangerouslySetInnerHTML={{__html: this.state.note.html}} />
         </Tab>
         <Tab label="Edit" style={this.getStyles().tab}>
           <TextField
@@ -94,6 +103,6 @@ let NoteView = React.createClass({
       </Tabs>
     );
   }
-});
+}
 
 module.exports = NoteView;

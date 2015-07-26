@@ -1,6 +1,6 @@
 import pouchDB from 'pouchdb';
-import NodeDebug from 'debug';
-let debug = NodeDebug('dbapi');
+import nodeDebug from 'debug';
+let debug = nodeDebug('dbapi');
 
 import _ from 'lodash';
 

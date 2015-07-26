@@ -12,6 +12,7 @@ class AppLeftNav extends React.Component {
     this.toggle = this.toggle.bind(this);
     this._getSelectedIndex = this._getSelectedIndex.bind(this);
     this._onLeftNavChange = this._onLeftNavChange.bind(this);
+    this._onHeaderClick = this._onHeaderClick.bind(this);
   }
 
   getStyles() {
@@ -37,7 +38,7 @@ class AppLeftNav extends React.Component {
 
   render() {
     let header = (
-      <div style={this.getHeaderStyles()} onTouchTap={this._onHeaderClick.bind(this)}>
+      <div style={this.getHeaderStyles()} onTouchTap={this._onHeaderClick}>
         shuttle
       </div>
     );

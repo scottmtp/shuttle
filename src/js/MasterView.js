@@ -13,6 +13,8 @@ class MasterView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { menuItems: NavStore.getMenuItems() };
+    this._onChange = this._onChange.bind(this);
+    this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
   }
 
   getChildContext() {
@@ -22,12 +24,12 @@ class MasterView extends React.Component {
   }
   
   componentDidMount() {
-    NavStore.addChangeListener(this._onChange.bind(this));
+    NavStore.addChangeListener(this._onChange);
     NavViewActions.update();
   }
   
   componentWillUnmount() {
-    NavStore.removeChangeListener(this._onChange.bind(this));
+    NavStore.removeChangeListener(this._onChange);
   }
   
   render() {
@@ -38,7 +40,7 @@ class MasterView extends React.Component {
     return (
         <AppCanvas>
           <AppBar
-            onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap.bind(this)}
+            onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
             title='shuttle'
             zDepth={0}/>
 
