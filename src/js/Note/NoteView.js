@@ -16,12 +16,7 @@ export default class NoteView extends React.Component {
   }
 
   componentDidMount() {
-    console.log('mount!');
-    this.groupId = this.props.params.groupid;
-    this.noteId = this.props.params.noteid;
-    
     NoteStore.addChangeListener(this._onChange);
-    NoteViewActions.getNote(this.groupId, this.noteId);
   }
 
   componentWillUnmount() {
@@ -103,4 +98,9 @@ export default class NoteView extends React.Component {
       </Tabs>
     );
   }
+}
+
+NoteView.willTransitionTo = function(transition, params, query, callback) {
+  NoteViewActions.getNote(params.groupid, params.noteid);
+  callback();
 }
