@@ -27,7 +27,7 @@
   "scripts": {
     "lint": "eslint src",
     "copy": "cp ./src/index.html dist/; cp ./node_modules/squire-rte/build/document.html dist/; cp ./node_modules/squire-rte/build/squire.js dist/",
-    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --content-base dist/ --port 8000 --hot"
+    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot"
   },
   "eslintConfig": {
     "ecmaFeatures": {
