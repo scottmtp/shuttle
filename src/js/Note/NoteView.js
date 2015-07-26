@@ -98,7 +98,7 @@ export default class NoteView extends React.Component {
             floatingLabelText="Note Title"
             value={this.state.note.title}
             onChange={this.handleTitleChange} />
-          <iframe ref="squireFrame" onLoad={this._onSquireLoad} style={this.getStyles().squire} src="document.html" />
+          <iframe ref="squireFrame" onLoad={this._onSquireLoad} style={this.getStyles().squire} src="/document.html" />
         </Tab>
       </Tabs>
     );
