@@ -2,7 +2,7 @@ var webpack = require('webpack');
 
 module.exports = {
   context: __dirname + "/src/js",
-  entry: ["webpack/hot/dev-server", "./App.js"],
+  entry: ["./App.js"],
 
   output: {
     path: __dirname + "/dist",
