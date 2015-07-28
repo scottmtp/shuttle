@@ -45,6 +45,7 @@ let buildMenu = function(projects) {
         });
       })
       .then(function() {
+        menuItems.push(buildSettingsMenuItem(p));
         resolve(menuItems);
       });
       
