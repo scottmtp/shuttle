@@ -20,32 +20,46 @@ let buildSettingsMenuItem = function(project) {
   return { route: '/group/' + project._id + '/settings', text: 'Settings' };
 };
 
+let buildNotesMenu = function(project, notes) {
+  let menuItems = [];
+  notes = _.sortBy(notes, 'title');
+  notes.forEach(function(note) {
+    menuItems.push(buildNoteMenuItem(project, note));
+  });
+  
+  return menuItems;
+};
+
+let buildListMenu = function(project, lists) {
+  let menuItems = [];
+  lists = _.sortBy(lists, 'title');
+  lists.forEach(function(list) {
+    menuItems.push(buildListMenuItem(project, list));
+  });
+  
+  return menuItems;
+};
+
 let buildMenu = function(projects) {
   var promise = new Promise(function(resolve, reject) {
     let projectMap = _.indexBy(projects, 'dbname');
     
     let menuItems = [];
     projects.forEach(function(p) {
-      menuItems.push(buildProjectMenuItem(p));
+      menuItems = menuItems.concat(buildProjectMenuItem(p));
       
       dbApi.getAllNotes(p)
       .then(function(notes) {
-        notes = _.sortBy(notes, 'title');
-        notes.forEach(function(note) {
-          menuItems.push(buildNoteMenuItem(p, note));
-        });
+        menuItems = menuItems.concat(buildNotesMenu(p, notes));
       })
       .then(function() {
         return dbApi.getAllLists(p)
       })
       .then(function(lists) {
-        lists = _.sortBy(lists, 'title');
-        lists.forEach(function(list) {
-          menuItems.push(buildListMenuItem(p, list));
-        });
+        menuItems = menuItems.concat(buildListMenu(p, lists));
       })
       .then(function() {
-        menuItems.push(buildSettingsMenuItem(p));
+        menuItems = menuItems.concat(buildSettingsMenuItem(p));
         resolve(menuItems);
       });
       
