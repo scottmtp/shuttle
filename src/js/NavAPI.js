@@ -12,37 +12,42 @@ let buildNoteMenuItem = function(project, note) {
   return { route: '/group/' + project._id + '/note/' + note._id, text: note.title };
 };
 
+let buildListMenuItem = function(project, list) {
+  return { route: '/group/' + project._id + '/list/' + list._id, text: list.title };
+};
+
 let buildSettingsMenuItem = function(project) {
   return { route: '/group/' + project._id + '/settings', text: 'Settings' };
 };
 
 let buildMenu = function(projects) {
   var promise = new Promise(function(resolve, reject) {
-    let itemPromises = [];
+    let projectMap = _.indexBy(projects, 'dbname');
+    
+    let menuItems = [];
     projects.forEach(function(p) {
-      itemPromises.push(dbApi.getAllNotes(p));
-    });
-  
-    Promise.all(itemPromises)
-    .then(values => {
-      let menuItems = [];
+      menuItems.push(buildProjectMenuItem(p));
       
-      for (let i = 0; i < values.length; i++) {
-        let project = projects[i];
-        let notes = values[i];
-        
-        menuItems.push(buildProjectMenuItem(project));
+      dbApi.getAllNotes(p)
+      .then(function(notes) {
+        notes = _.sortBy(notes, 'title');
         notes.forEach(function(note) {
-          menuItems.push(buildNoteMenuItem(project, note));
+          menuItems.push(buildNoteMenuItem(p, note));
         });
-        
-        menuItems.push(buildSettingsMenuItem(project));
-      }
+      })
+      .then(function() {
+        return dbApi.getAllLists(p)
+      })
+      .then(function(lists) {
+        lists = _.sortBy(lists, 'title');
+        lists.forEach(function(list) {
+          menuItems.push(buildListMenuItem(p, list));
+        });
+      })
+      .then(function() {
+        resolve(menuItems);
+      });
       
-      resolve(menuItems);
-    })
-    .catch(function(e) {
-      reject(e);
     });
     
   });

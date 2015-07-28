@@ -22,6 +22,16 @@ export default {
       title: 'Notes',
       html: '<h1>Welcome to Notes!</h1>'
     };
+    
+    let list1 = {
+      _id: uuid.v4(),
+      title: 'Shopping'
+    };
+  
+    let list2 = {
+      _id: uuid.v4(),
+      title: 'Todo'
+    };
   
     return dbApi.updateGroup(project)
       .then(function() {
@@ -29,6 +39,12 @@ export default {
       })
       .then(function() {
         return dbApi.updateNote(project, note2);
+      })
+      .then(function() {
+        return dbApi.updateList(project, list1);
+      })
+      .then(function() {
+        return dbApi.updateList(project, list2);
       });
   }
 };

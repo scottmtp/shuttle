@@ -7,7 +7,7 @@ import Master from './MasterView';
 import Home from './HomeView';
 import Settings from './SettingsView';
 import Note from './Note/NoteView';
-import List from './Todo/TodoView';
+import List from './List/ListView';
 
 let AppRoutes = (
   <Route name="root" path="/" handler={Master}>

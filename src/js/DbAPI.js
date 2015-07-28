@@ -162,6 +162,29 @@ var removeNote = function(project, id) {
   return removeObject('note', id);
 };
 
+//
+// List API
+//
+var getList = function(project, id) {
+  selectProjectDB(project.dbname);
+  return getObject('list', id);
+};
+
+var getAllLists = function(project) {
+  selectProjectDB(project.dbname);
+  return getAllObjects('list');
+};
+
+var updateList = function(project, obj) {
+  selectProjectDB(project.dbname);
+  return updateObject('list', obj);
+};
+
+var removeList = function(project, id) {
+  selectProjectDB(project.dbname);
+  return removeObject('list', id);
+};
+
 export default {
   getGroup: getGroup,
   getAllGroups: getAllGroups,
@@ -178,5 +201,9 @@ export default {
   getNote: getNote,
   getAllNotes: getAllNotes,
   updateNote: updateNote,
-  removeNote: removeNote
+  removeNote: removeNote,
+  getList: getList,
+  getAllLists: getAllLists,
+  updateList: updateList,
+  removeList: removeList
 };
