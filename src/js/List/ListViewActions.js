@@ -10,5 +10,9 @@ export default {
   
   addListItem: function(groupId, listId, text, status) {
     ListAPI.addListItem(groupId, listId, text, status);
+  },
+  
+  setChecked: function(groupId, listItemId, checked) {
+    ListAPI.setChecked(groupId, listItemId, checked);
   }
 };

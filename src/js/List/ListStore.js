@@ -36,7 +36,7 @@ AppDispatcher.register(function(action) {
       ListStore.emitChange();
       break;
       
-    case ListConstants.UPDATE_LIST_ITEMS_COMPLETED:
+    case ListConstants.UPDATE_LIST_ITEM_COMPLETED:
       currentList.listItems = currentList.listItems.concat(action.item);
       ListStore.emitChange();
       break;

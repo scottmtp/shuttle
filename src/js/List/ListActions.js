@@ -10,7 +10,7 @@ let getListItemsCompleted = function(currentList) {
 
 let addItemCompleted = function(item) {
   AppDispatcher.dispatch({
-    actionType: ListConstants.UPDATE_LIST_ITEMS_COMPLETED,
+    actionType: ListConstants.UPDATE_LIST_ITEM_COMPLETED,
     item: item
   });
 };

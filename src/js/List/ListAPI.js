@@ -49,6 +49,43 @@ let addListItem = function(projectId, listId, text, status) {
     .then(items => { ListActions.addItemCompleted(item) });
 };
 
+let setChecked = function(projectId, listItemId, checked) {
+  let project;
+  let listItem;
+  let currentList = {
+    title: '',
+    listItems: []
+  };
+  
+  return dbApi.getGroup(projectId)
+    .then(prj => {
+      project = prj;
+      return dbApi.getListItem(project, listItemId);
+    })
+    .then((item) => {
+      listItem = item;
+      listItem.status = checked ? ListConstants.STATUS_COMPLETED : ListConstants.STATUS_ACTIVE;
+      return dbApi.updateListItem(project, listItem);
+    })
+    .then(() => {
+      return dbApi.getAllListItems(project, listItem.listId);
+    })
+    .then(items => {
+      if (items && items.length) {
+        currentList.listItems = items;
+      }
+    })
+    .then(() => {
+      return dbApi.getList(project, listItem.listId);
+    })
+    .then(list => {
+      currentList.title = list.title;
+      JSON.stringify(currentList);
+      ListActions.getListItemsCompleted(currentList);
+    });
+  
+};
+
 let updateItem = function() {
   
 };
@@ -56,5 +93,6 @@ let updateItem = function() {
 export default {
   getListItems: getListItems,
   addListItem: addListItem,
+  setChecked: setChecked,
   updateItem: updateItem
 };

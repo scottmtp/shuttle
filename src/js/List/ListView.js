@@ -1,7 +1,8 @@
 import React from 'react';
 import { Checkbox, List, ListItem, Styles, Tab, Tabs, TextField } from 'material-ui';
 
-import AddItemView from './AddItemView'
+import AddItemView from './AddItemView';
+import ListConstants from './ListConstants';
 import ListStore from './ListStore';
 import ListViewActions from './ListViewActions';
 
@@ -9,6 +10,8 @@ export default class ListView extends React.Component {
   constructor(props) {
     super(props);
     this._onChange = this._onChange.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+    
     this.state = { list: ListStore.getCurrentList() };
   }
 
@@ -39,19 +42,27 @@ export default class ListView extends React.Component {
     };
   }
   
+  handleCheck(listItemId, e, checked) {
+    ListViewActions.setChecked(this.props.params.groupid, listItemId, checked);
+  }
+  
   render() {
     let allItems = [];
     let activeItems = [];
     let completedItems = [];
-    this.state.list.listItems.forEach(function(li) {
+    this.state.list.listItems.forEach((li) => {
+      let checkbox = <Checkbox
+        checked={li.status === ListConstants.STATUS_COMPLETED}
+        onCheck={this.handleCheck.bind(this, li._id)} />;
+        
       let listItem = <ListItem
-        leftCheckbox={<Checkbox />}
+        leftCheckbox={checkbox}
         primaryText={li.text}
         key={li._id} />
               
       allItems.push(listItem);
       
-      if (li.status === 'completed') {
+      if (li.status === ListConstants.STATUS_COMPLETED) {
         completedItems.push(listItem);
       } else {
         activeItems.push(listItem);
