@@ -3,7 +3,7 @@ import NoteActions from './NoteActions';
 
 let getNote = function(groupId, noteId) {
   dbApi.getGroup(groupId)
-    .then(function(group) {
+    .then(group => {
       return dbApi.getNote(group, noteId);
     })
     .then(function(note) {
@@ -16,21 +16,21 @@ let updateNote = function(groupId, noteId, title, markup) {
   let theNote;
   
   dbApi.getGroup(groupId)
-    .then(function(group) {
+    .then(group => {
       theGroup = group;
       return dbApi.getNote(group, noteId);
     })
-    .then(function(note) {
+    .then(note => {
       theNote = note;
       note.title = title;
       note.html = markup;
       return dbApi.updateNote(theGroup, theNote);
     })
-    .then(function(res) {
+    .then(res => {
       theNote._rev = res._rev
       NoteActions.updateCompleted(theNote);
     })
-    .catch(function(e) {
+    .catch(e => {
       console.log('Error: ' + e);
     });
 };
