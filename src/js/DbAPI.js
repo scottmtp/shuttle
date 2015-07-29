@@ -185,6 +185,35 @@ var removeList = function(project, id) {
   return removeObject('list', id);
 };
 
+//
+// List Item API
+//
+var getListItem = function(project, id) {
+  selectProjectDB(project.dbname);
+  return getObject('list-item', id);
+};
+
+var getAllListItems = function(project, listId) {
+  selectProjectDB(project.dbname);
+  return getAllObjects('list-item')
+    .then(results => {
+      var items = [];
+      results.forEach(i => { if (i.listId === listId) items.push(i) })
+      
+      return items;
+    });
+};
+
+var updateListItem = function(project, obj) {
+  selectProjectDB(project.dbname);
+  return updateObject('list-item', obj);
+};
+
+var removeListItem = function(project, id) {
+  selectProjectDB(project.dbname);
+  return removeObject('list-item', id);
+};
+
 export default {
   getGroup: getGroup,
   getAllGroups: getAllGroups,
@@ -205,5 +234,9 @@ export default {
   getList: getList,
   getAllLists: getAllLists,
   updateList: updateList,
-  removeList: removeList
+  removeList: removeList,
+  getListItem: getListItem,
+  getAllListItems: getAllListItems,
+  updateListItem: updateListItem,
+  removeListItem: removeListItem
 };
