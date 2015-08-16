@@ -16,17 +16,13 @@ let buildListMenuItem = function(project, list) {
   return { route: '/group/' + project._id + '/list/' + list._id, text: list.title };
 };
 
-let buildSettingsMenuItem = function(project) {
-  return { route: '/group/' + project._id + '/settings', text: 'Settings' };
-};
-
 let buildNotesMenu = function(project, notes) {
   let menuItems = [];
   notes = _.sortBy(notes, 'title');
   notes.forEach(function(note) {
     menuItems.push(buildNoteMenuItem(project, note));
   });
-  
+
   return menuItems;
 };
 
@@ -36,18 +32,18 @@ let buildListMenu = function(project, lists) {
   lists.forEach(function(list) {
     menuItems.push(buildListMenuItem(project, list));
   });
-  
+
   return menuItems;
 };
 
 let buildMenu = function(projects) {
   var promise = new Promise(function(resolve, reject) {
     let projectMap = _.indexBy(projects, 'dbname');
-    
+
     let menuItems = [];
     projects.forEach(function(p) {
       menuItems = menuItems.concat(buildProjectMenuItem(p));
-      
+
       dbApi.getAllNotes(p)
       .then(function(notes) {
         menuItems = menuItems.concat(buildNotesMenu(p, notes));
@@ -57,16 +53,13 @@ let buildMenu = function(projects) {
       })
       .then(function(lists) {
         menuItems = menuItems.concat(buildListMenu(p, lists));
-      })
-      .then(function() {
-        menuItems = menuItems.concat(buildSettingsMenuItem(p));
         resolve(menuItems);
       });
-      
+
     });
-    
+
   });
-  
+
   return promise;
 };
 
@@ -81,7 +74,7 @@ let getMenuItems = function() {
           .then(getMenuItems);
       }
     });
-  
+
   return promise;
 };
 
