@@ -1,11 +1,19 @@
 import React from 'react';
+import ProjectList from './Project/ProjectList';
 
-let Home = React.createClass({
-  render: function() {
+export default class MasterView extends React.Component {
+  constructor(props) {
+    super(props);
+    this.render = this.render.bind(this);
+  }
+
+  render() {
     return (
-      <h1>Welcome to Shuttle!</h1>
+      <div>
+        <h1>Welcome to Shuttle!</h1>
+        <ProjectList />
+      </div>
     );
   }
-});
 
-export default Home;
+}
