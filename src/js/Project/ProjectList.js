@@ -28,11 +28,16 @@ export default class ProjectList extends React.Component {
   }
 
   handleEditProject(project) {
-    this.refs.projectForm.show(project);
+    ProjectViewActions.setActiveProject(project);
+    ProjectViewActions.getComponents(project);
+    this.refs.projectForm.show();
   }
 
   handleNewProject() {
-    this.refs.projectForm.show({});
+    let newProject = {name: 'New Project'};
+    ProjectViewActions.setActiveProject(newProject);
+    ProjectViewActions.getComponents(newProject);
+    this.refs.projectForm.show();
   }
 
   render() {
@@ -51,8 +56,6 @@ export default class ProjectList extends React.Component {
 
       projects.push(listItem);
     });
-
-
 
     return (
       <div>

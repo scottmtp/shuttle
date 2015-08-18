@@ -8,54 +8,35 @@ let buildProjectMenuItem = function(project) {
   return { type: MenuItem.Types.SUBHEADER, text: project.name };
 };
 
-let buildNoteMenuItem = function(project, note) {
-  return { route: '/group/' + project._id + '/note/' + note._id, text: note.title };
+let buildComponentMenuItem = function(project, item) {
+  return { route: '/group/' + project._id + '/' + item.type + '/' + item._id, text: item.title };
 };
 
-let buildListMenuItem = function(project, list) {
-  return { route: '/group/' + project._id + '/list/' + list._id, text: list.title };
-};
-
-let buildNotesMenu = function(project, notes) {
+let buildComponentsMenu = function(project, items) {
   let menuItems = [];
-  notes = _.sortBy(notes, 'title');
-  notes.forEach(function(note) {
-    menuItems.push(buildNoteMenuItem(project, note));
-  });
-
-  return menuItems;
-};
-
-let buildListMenu = function(project, lists) {
-  let menuItems = [];
-  lists = _.sortBy(lists, 'title');
-  lists.forEach(function(list) {
-    menuItems.push(buildListMenuItem(project, list));
+  items.forEach(function(item) {
+    menuItems.push(buildComponentMenuItem(project, item));
   });
 
   return menuItems;
 };
 
 let buildMenu = function(projects) {
-  var promise = new Promise(function(resolve, reject) {
-    let projectMap = _.indexBy(projects, 'dbname');
-
+  let promise = new Promise(function(resolve, reject) {
     let menuItems = [];
+    let idx = 0;
+
     projects.forEach(function(p) {
-      menuItems = menuItems.concat(buildProjectMenuItem(p));
+      dbApi.getComponents(p)
+      .then(function(items) {
+        menuItems = menuItems.concat(buildProjectMenuItem(p));
+        menuItems = menuItems.concat(buildComponentsMenu(p, items));
 
-      dbApi.getAllNotes(p)
-      .then(function(notes) {
-        menuItems = menuItems.concat(buildNotesMenu(p, notes));
-      })
-      .then(function() {
-        return dbApi.getAllLists(p)
-      })
-      .then(function(lists) {
-        menuItems = menuItems.concat(buildListMenu(p, lists));
-        resolve(menuItems);
+        idx++;
+        if (idx === projects.length) {
+          resolve(menuItems);
+        }
       });
-
     });
 
   });

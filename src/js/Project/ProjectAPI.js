@@ -42,9 +42,21 @@ let deleteProject = function(project) {
     });
 };
 
+let getComponents = function(project) {
+  if (project._id) {
+    dbApi.getComponents(project)
+      .then(components => {
+        ProjectActions.getComponentsCompleted(components);
+      });
+  } else {
+    ProjectActions.getComponentsCompleted([]);
+  }
+};
+
 export default {
   getProjects: getProjects,
   createProject: createProject,
   updateProject: updateProject,
-  deleteProject: deleteProject
+  deleteProject: deleteProject,
+  getComponents: getComponents
 }

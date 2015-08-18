@@ -199,7 +199,7 @@ var getAllListItems = function(project, listId) {
     .then(results => {
       var items = [];
       results.forEach(i => { if (i.listId === listId) items.push(i) })
-      
+
       return items;
     });
 };
@@ -212,6 +212,33 @@ var updateListItem = function(project, obj) {
 var removeListItem = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject('list-item', id);
+};
+
+// Component API
+var getComponents = function(project) {
+  let components = [];
+
+  let promise = new Promise(function(resolve, reject) {
+    getAllNotes(project)
+      .then(function(items) {
+        items = _.sortBy(items, 'title');
+        items.forEach(function(item) {
+          components.push(item);
+        });
+      })
+      .then(function() {
+        return getAllLists(project);
+      })
+      .then(function(items) {
+        items = _.sortBy(items, 'title');
+        items.forEach(function(item) {
+          components.push(item);
+        });
+        resolve(components);
+      });
+  });
+
+  return promise;
 };
 
 export default {
@@ -238,5 +265,6 @@ export default {
   getListItem: getListItem,
   getAllListItems: getAllListItems,
   updateListItem: updateListItem,
-  removeListItem: removeListItem
+  removeListItem: removeListItem,
+  getComponents: getComponents
 };

@@ -21,5 +21,12 @@ export default {
       actionType: ProjectConstants.CREATE_COMPLETED,
       projects: groups
     });
+  },
+
+  getComponentsCompleted: function(components) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.GET_COMPONENTS_COMPLETED,
+      components: components
+    });
   }
 };
