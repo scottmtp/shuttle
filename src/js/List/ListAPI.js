@@ -21,8 +21,8 @@ let getListItems = function(projectId, listId) {
     title: '',
     listItems: []
   };
-  
-  return dbApi.getGroup(projectId)
+
+  dbApi.getGroup(projectId)
     .then(prj => {
       project = prj;
       return dbApi.getAllListItems(project, listId);
@@ -43,8 +43,8 @@ let getListItems = function(projectId, listId) {
 
 let addListItem = function(projectId, listId, text, status) {
   let item = createItem(listId, text, status);
-  
-  return dbApi.getGroup(projectId)
+
+  dbApi.getGroup(projectId)
     .then(project => { return dbApi.updateListItem(project, item) })
     .then(items => { ListActions.addItemCompleted(item) });
 };
@@ -56,8 +56,8 @@ let setChecked = function(projectId, listItemId, checked) {
     title: '',
     listItems: []
   };
-  
-  return dbApi.getGroup(projectId)
+
+  dbApi.getGroup(projectId)
     .then(prj => {
       project = prj;
       return dbApi.getListItem(project, listItemId);
@@ -80,19 +80,57 @@ let setChecked = function(projectId, listItemId, checked) {
     })
     .then(list => {
       currentList.title = list.title;
-      JSON.stringify(currentList);
       ListActions.getListItemsCompleted(currentList);
     });
-  
+
 };
 
 let updateItem = function() {
-  
+
+};
+
+let clearList = function(groupId, listId) {
+  let deletionPromises = [];
+  let project;
+  let currentList = {
+    title: '',
+    listItems: []
+  };
+
+  dbApi.getGroup(groupId)
+    .then(prj => {
+      project = prj;
+    })
+    .then(() => {
+      return dbApi.getList(project, listId);
+    })
+    .then(list => {
+      currentList.title = list.title;
+    })
+    .then(() => {
+      return dbApi.getAllListItems(project, listId);
+    })
+    .then(items => {
+      if (items && items.length) {
+        currentList.listItems = items.filter(item => item.status !== ListConstants.STATUS_COMPLETED)
+        items.filter(item => item.status === ListConstants.STATUS_COMPLETED)
+          .forEach(item => {
+            deletionPromises.push(dbApi.removeListItem(project, item._id));
+          });
+      }
+    })
+    .then(() => {
+      Promise.all(deletionPromises)
+        .then(function() {
+          ListActions.clearListCompleted(currentList);
+        });
+    });
 };
 
 export default {
   getListItems: getListItems,
   addListItem: addListItem,
   setChecked: setChecked,
-  updateItem: updateItem
+  updateItem: updateItem,
+  clearList: clearList
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, List, ListItem, Styles, Tab, Tabs, TextField } from 'material-ui';
+import { Checkbox, List, ListItem, RaisedButton, Styles, Tab, Tabs, TextField } from 'material-ui';
 
 import AddItemView from './AddItemView';
 import ListConstants from './ListConstants';
@@ -51,6 +51,10 @@ export default class ListView extends React.Component {
     ListViewActions.setChecked(this.props.params.groupid, listItemId, checked);
   }
 
+  handleClearList() {
+    ListViewActions.clearList(this.props.params.groupid, this.props.params.listid);
+  }
+
   render() {
     let self = this;
 
@@ -94,6 +98,7 @@ export default class ListView extends React.Component {
           <List>
             {completedItems}
           </List>
+          <RaisedButton label='Clear Completed' onTouchTap={self.handleClearList.bind(self)}/>
         </Tab>
         <Tab label='All' style={self.getStyles().tab}>
           <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
