@@ -218,12 +218,13 @@ export default class AddItemView extends React.Component {
           </Tabs>
         </Dialog>
 
-        <Dialog ref='addPartDialog' actions={this.addPartActions()}>
+        <Dialog title='Add Part' ref='addPartDialog' actions={this.addPartActions()}>
           <div>
             <TextField ref='addPartTitleField' value={this.state.addPart.title}
               onChange={this.onAddPartFormChange} floatingLabelText='Title'/>
           </div>
           <div>
+            <label>Type</label>
             <DropDownMenu ref='addPartTypeField' menuItems={[
               {payload: DbTypes.TYPE_LIST, text: DbTypes.TYPE_LIST},
               {payload: DbTypes.TYPE_NOTE, text: DbTypes.TYPE_NOTE}
