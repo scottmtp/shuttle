@@ -23,9 +23,30 @@ export default {
     });
   },
 
-  getComponentsCompleted: function(components) {
+  getActiveProjectPartsCompleted: function(components) {
     AppDispatcher.dispatch({
-      actionType: ProjectConstants.GET_COMPONENTS_COMPLETED,
+      actionType: ProjectConstants.GET_ACTIVE_PROJECT_PARTS_COMPLETED,
+      components: components
+    });
+  },
+
+  addPartCompleted: function(components) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.ADD_PART_COMPLETED,
+      components: components
+    });
+  },
+
+  renamePartCompleted: function(components) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.RENAME_PART_COMPLETED,
+      components: components
+    });
+  },
+
+  deletePartCompleted: function(components) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.DELETE_PART_COMPLETED,
       components: components
     });
   }

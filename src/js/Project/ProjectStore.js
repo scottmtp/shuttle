@@ -2,11 +2,17 @@ import { EventEmitter } from 'events';
 import assign from 'object-assign';
 
 import AppDispatcher from '../AppDispatcher';
+import DbTypes from '../DbTypes';
 import ProjectConstants from './ProjectConstants';
 
 let projects = [];
 let activeProject = {_id: '', name: '', url: '', room: ''}
-let components = [];
+let activeProjectParts = [];
+
+let addPart = {title: '', type: DbTypes.TYPE_NOTE};
+let renamePart = {_id: '', title: ''};
+let deletePart = {_id: '', title: ''};
+
 let CHANGE_EVENT = 'change';
 
 let ProjectStore = assign({}, EventEmitter.prototype, {
@@ -30,8 +36,20 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
     return activeProject;
   },
 
-  getComponents: function() {
-    return components;
+  getActiveProjectParts: function() {
+    return activeProjectParts;
+  },
+
+  getAddPart: function() {
+    return addPart;
+  },
+
+  getRenamePart: function() {
+    return renamePart;
+  },
+
+  getDeletePart: function() {
+    return deletePart;
   }
 });
 
@@ -44,8 +62,8 @@ AppDispatcher.register(function(action) {
       ProjectStore.emitChange();
       break;
 
-    case ProjectConstants.GET_COMPONENTS_COMPLETED:
-      components = action.components;
+    case ProjectConstants.GET_ACTIVE_PROJECT_PARTS_COMPLETED:
+      activeProjectParts = action.components;
       ProjectStore.emitChange();
       break;
 
@@ -58,6 +76,34 @@ AppDispatcher.register(function(action) {
       activeProject.name = action.values.name;
       activeProject.signaller = action.values.signaller;
       activeProject.room = action.values.room;
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.SET_ADD_PART_VALUES_COMPLETED:
+      addPart.title = action.values.title;
+      addPart.type = action.values.type;
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.SET_RENAME_PART_COMPLETED:
+      renamePart = assign({}, action.part);
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.SET_DELETE_PART_COMPLETED:
+      deletePart = assign({}, action.part);
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.SET_RENAME_PART_VALUE_COMPLETED:
+      renamePart.title = action.title;
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.ADD_PART_COMPLETED:
+    case ProjectConstants.RENAME_PART_COMPLETED:
+    case ProjectConstants.DELETE_PART_COMPLETED:
+      activeProjectParts = action.components;
       ProjectStore.emitChange();
       break;
 

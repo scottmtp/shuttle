@@ -29,14 +29,14 @@ export default class ProjectList extends React.Component {
 
   handleEditProject(project) {
     ProjectViewActions.setActiveProject(project);
-    ProjectViewActions.getComponents(project);
+    ProjectViewActions.getActiveProjectParts(project);
     this.refs.projectForm.show();
   }
 
   handleNewProject() {
     let newProject = {name: 'New Project'};
     ProjectViewActions.setActiveProject(newProject);
-    ProjectViewActions.getComponents(newProject);
+    ProjectViewActions.getActiveProjectParts(newProject);
     this.refs.projectForm.show();
   }
 

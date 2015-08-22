@@ -3,6 +3,7 @@ import nodeDebug from 'debug';
 let debug = nodeDebug('dbapi');
 
 import _ from 'lodash';
+import DbTypes from './DbTypes';
 
 window.PouchDB = pouchDB;
 let db;
@@ -10,7 +11,7 @@ let db;
 // Use the global database
 var selectGlobalDB = function() {
   debug('Switching to global database.');
-  db = pouchDB('shuttle_global');
+  db = pouchDB(DbTypes.GLOBAL_DB);
 };
 
 // Use a project database
@@ -75,22 +76,22 @@ var removeObject = function(collection, id) {
 //
 var getGroup = function(id) {
   selectGlobalDB();
-  return getObject('group', id);
+  return getObject(DbTypes.TYPE_GROUP, id);
 };
 
 var getAllGroups = function() {
   selectGlobalDB();
-  return getAllObjects('group');
+  return getAllObjects(DbTypes.TYPE_GROUP);
 };
 
 var updateGroup = function(obj) {
   selectGlobalDB();
-  return updateObject('group', obj);
+  return updateObject(DbTypes.TYPE_GROUP, obj);
 };
 
 var removeGroup = function(id) {
   selectGlobalDB();
-  return removeObject('group', id);
+  return removeObject(DbTypes.TYPE_GROUP, id);
 };
 
 //
@@ -98,22 +99,22 @@ var removeGroup = function(id) {
 //
 var getPreference = function(id) {
   selectGlobalDB();
-  return getObject('preference', id);
+  return getObject(DbTypes.TYPE_PREFERENCE, id);
 };
 
 var getAllPreferences = function() {
   selectGlobalDB();
-  return getAllObjects('preference');
+  return getAllObjects(DbTypes.TYPE_PREFERENCE);
 };
 
 var updatePreference = function(obj) {
   selectGlobalDB();
-  return updateObject('preference', obj);
+  return updateObject(DbTypes.TYPE_PREFERENCE, obj);
 };
 
 var removePreference = function(id) {
   selectGlobalDB();
-  return removeObject('preference', id);
+  return removeObject(DbTypes.TYPE_PREFERENCE, id);
 };
 
 //
@@ -121,22 +122,22 @@ var removePreference = function(id) {
 //
 var getSetting = function(project, id) {
   selectProjectDB(project.dbname);
-  return getObject('setting', id);
+  return getObject(DbTypes.TYPE_SETTING, id);
 };
 
 var getAllSettings = function(project) {
   selectProjectDB(project.dbname);
-  return getAllObjects('setting');
+  return getAllObjects(DbTypes.TYPE_SETTING);
 };
 
 var updateSetting = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject('setting', obj);
+  return updateObject(DbTypes.TYPE_SETTING, obj);
 };
 
 var removeSetting = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject('setting', id);
+  return removeObject(DbTypes.TYPE_SETTING, id);
 };
 
 //
@@ -144,22 +145,22 @@ var removeSetting = function(project, id) {
 //
 var getNote = function(project, id) {
   selectProjectDB(project.dbname);
-  return getObject('note', id);
+  return getObject(DbTypes.TYPE_NOTE, id);
 };
 
 var getAllNotes = function(project) {
   selectProjectDB(project.dbname);
-  return getAllObjects('note');
+  return getAllObjects(DbTypes.TYPE_NOTE);
 };
 
 var updateNote = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject('note', obj);
+  return updateObject(DbTypes.TYPE_NOTE, obj);
 };
 
 var removeNote = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject('note', id);
+  return removeObject(DbTypes.TYPE_NOTE, id);
 };
 
 //
@@ -167,22 +168,22 @@ var removeNote = function(project, id) {
 //
 var getList = function(project, id) {
   selectProjectDB(project.dbname);
-  return getObject('list', id);
+  return getObject(DbTypes.TYPE_LIST, id);
 };
 
 var getAllLists = function(project) {
   selectProjectDB(project.dbname);
-  return getAllObjects('list');
+  return getAllObjects(DbTypes.TYPE_LIST);
 };
 
 var updateList = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject('list', obj);
+  return updateObject(DbTypes.TYPE_LIST, obj);
 };
 
 var removeList = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject('list', id);
+  return removeObject(DbTypes.TYPE_LIST, id);
 };
 
 //
@@ -190,12 +191,12 @@ var removeList = function(project, id) {
 //
 var getListItem = function(project, id) {
   selectProjectDB(project.dbname);
-  return getObject('list-item', id);
+  return getObject(DbTypes.TYPE_LIST_ITEM, id);
 };
 
 var getAllListItems = function(project, listId) {
   selectProjectDB(project.dbname);
-  return getAllObjects('list-item')
+  return getAllObjects(DbTypes.TYPE_LIST_ITEM)
     .then(results => {
       var items = [];
       results.forEach(i => { if (i.listId === listId) items.push(i) })
@@ -206,12 +207,12 @@ var getAllListItems = function(project, listId) {
 
 var updateListItem = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject('list-item', obj);
+  return updateObject(DbTypes.TYPE_LIST_ITEM, obj);
 };
 
 var removeListItem = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject('list-item', id);
+  return removeObject(DbTypes.TYPE_LIST_ITEM, id);
 };
 
 // Component API
