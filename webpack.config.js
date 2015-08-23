@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var AppCachePlugin = require('appcache-webpack-plugin');
 
 module.exports = {
   context: __dirname + "/src/js",
@@ -9,6 +10,13 @@ module.exports = {
     filename: "bundle.js"
   },
 
+  plugins: [
+    new AppCachePlugin({
+      cache: ['bundle.js', 'index.html', 'quill.base.css', 'quill.snow.css'],
+      network: ['*']
+    })
+  ],
+  
   // plugins: [
   //   new webpack.optimize.UglifyJsPlugin(),
   //   new webpack.optimize.DedupePlugin()
