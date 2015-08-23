@@ -16,7 +16,7 @@ export default {
     let note1 = {
       _id: uuid.v4(),
       title: 'Notes',
-      html: '<h1>Welcome to Notes!</h1>'
+      html: '<div>Welcome to Notes! You can edit this text by clicking on the Edit tab.</div>'
     };
 
     let list1 = {
