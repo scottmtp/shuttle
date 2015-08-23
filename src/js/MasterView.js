@@ -2,8 +2,9 @@ import React from 'react';
 import Router from 'react-router';
 let RouteHandler = Router.RouteHandler;
 
-import { AppBar, AppCanvas, ClearFix, Styles } from 'material-ui';
+import { AppBar, AppCanvas, ClearFix, Dialog, IconButton, Styles } from 'material-ui';
 let ThemeManager = new Styles.ThemeManager();
+import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
 
 import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
@@ -13,6 +14,7 @@ export default class MasterView extends React.Component {
   constructor(props) {
     super(props);
     this.state = { menuItems: NavStore.getMenuItems() };
+    this._onHelp = this._onHelp.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
   }
@@ -22,26 +24,33 @@ export default class MasterView extends React.Component {
       muiTheme: ThemeManager.getCurrentTheme()
     };
   }
-  
+
   componentDidMount() {
     NavStore.addChangeListener(this._onChange);
     NavViewActions.update();
   }
-  
+
   componentWillUnmount() {
     NavStore.removeChangeListener(this._onChange);
   }
-  
+
   render() {
     var groupStyle = {
       marginTop: '66px'
     };
+
+    let helpIcon = <IconButton touch={true} tooltip='Help' onTouchTap={this._onHelp}>
+      <ActionHelpIcon />
+    </IconButton>;
+
+    let helpActions = [{ text: 'Got it!' }];
 
     return (
         <AppCanvas>
           <AppBar
             onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
             title='shuttle'
+            iconElementRight={helpIcon}
             zDepth={0}/>
 
           <AppLeftNav menuItems={this.state.menuItems} ref='leftNav'/>
@@ -52,6 +61,16 @@ export default class MasterView extends React.Component {
             </div>
           </ClearFix>
 
+          <Dialog ref='helpDialog' actions={helpActions}>
+            <p>
+              Shuttle is a Todo and Note taking app with a focus on privacy. Data
+              is stored locally and is always in your control.
+            </p>
+            <p>
+              You can access lists and notes from the top-left menu, and you can
+              customize Shuttle on the Projects page!
+            </p>
+          </Dialog>
         </AppCanvas>
     );
   }
@@ -59,9 +78,13 @@ export default class MasterView extends React.Component {
   _onLeftIconButtonTouchTap() {
     this.refs.leftNav.toggle();
   }
-  
+
   _onChange() {
     this.setState({ menuItems: NavStore.getMenuItems() });
+  }
+
+  _onHelp() {
+    this.refs.helpDialog.show();
   }
 }
 
