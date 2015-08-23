@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "classnames": "^2.1.3",
     "debug": "^2.2.0",
     "flux": "^2.0.3",
     "keymirror": "^0.1.1",
@@ -9,9 +8,9 @@
     "object-assign": "^3.0.0",
     "pouchdb": "^3.6.0",
     "react": "^0.13.3",
+    "react-quill": "^0.2.2",
     "react-router": "^0.13.3",
     "react-tap-event-plugin": "^0.1.7",
-    "squire-rte": "^1.2.0",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
@@ -26,8 +25,9 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "copy": "cp ./src/index.html dist/; cp ./node_modules/squire-rte/build/document.html dist/; cp ./node_modules/squire-rte/build/squire.js dist/",
-    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot"
+    "copy": "cp ./src/index.html dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.base.css dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.snow.css dist/",
+    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
+    "dist": "webpack"
   },
   "eslintConfig": {
     "ecmaFeatures": {
@@ -46,7 +46,10 @@
     "rules": {
       "no-trailing-spaces": 0,
       "no-underscore-dangle": 0,
-      "quotes": [1, "single"]
+      "quotes": [
+        1,
+        "single"
+      ]
     }
   },
   "license": "MIT"

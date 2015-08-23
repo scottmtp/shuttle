@@ -2,6 +2,8 @@ import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
 import _ from 'lodash';
 
+import ReactQuill from 'react-quill';
+
 import NavViewActions from '../NavViewActions';
 import NoteStore from './NoteStore';
 import NoteViewActions from './NoteViewActions';
@@ -15,7 +17,6 @@ export default class NoteView extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
 
-    this._onSquireLoad = this._onSquireLoad.bind(this);
     this._onChange = this._onChange.bind(this);
     this.handleDocumentChange = this.handleDocumentChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
@@ -54,17 +55,6 @@ export default class NoteView extends React.Component {
     // TODO: need solution for isMounted
     // see https://github.com/facebook/react/issues/3417
     this.setState({ note: NoteStore.getCurrentNote() });
-
-    if (this.editor) {
-      this.editor.setHTML(this.state.note.html);
-    }
-  }
-
-  _onSquireLoad() {
-    let squireFrame = React.findDOMNode(this.refs.squireFrame);
-    this.editor = squireFrame.contentWindow.editor;
-    this.editor.setHTML(this.state.note.html);
-    this.editor.addEventListener('input', this.handleDocumentChange);
   }
 
   handleTitleChange(e) {
@@ -78,12 +68,10 @@ export default class NoteView extends React.Component {
     _.delay(this.handleNavUpdate, 200);
   }
 
-  handleDocumentChange() {
-    var newHtml = this.editor.getHTML();
-
-    this.handleNewState(this.state.note.title, newHtml);
+  handleDocumentChange(value) {
+    this.handleNewState(this.state.note.title, value);
     this.handleDocUpdate(this.props.params.groupid, this.props.params.noteid,
-      this.state.note.title, newHtml);
+      this.state.note.title, value);
   }
 
   getStyles() {
@@ -127,7 +115,7 @@ export default class NoteView extends React.Component {
             floatingLabelText="Note Title"
             value={self.state.note.title}
             onChange={self.handleTitleChange} />
-          <iframe ref="squireFrame" onLoad={self._onSquireLoad} style={self.getStyles().squire} src="/document.html" />
+          <ReactQuill value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
         </Tab>
       </Tabs>
     );
