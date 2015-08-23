@@ -205,14 +205,14 @@ export default class AddItemView extends React.Component {
               </List>
               <RaisedButton label='Add' onTouchTap={this.showAddPartDialog.bind(this)}/>
             </Tab>
-            <Tab label='Other'>
+            <Tab label='Sharing'>
               <div>
                 <TextField ref='urlField' value={this.state.activeProject.signaller}
-                  onChange={this.onFormChange} floatingLabelText='Signaller URL'/>
+                  onChange={this.onFormChange} floatingLabelText='Server'/>
               </div>
               <div>
                 <TextField ref='roomField' value={this.state.activeProject.room}
-                  onChange={this.onFormChange} floatingLabelText='Room'/>
+                  onChange={this.onFormChange} floatingLabelText='Key'/>
               </div>
             </Tab>
           </Tabs>
