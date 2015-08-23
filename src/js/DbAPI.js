@@ -199,7 +199,11 @@ var getAllListItems = function(project, listId) {
   return getAllObjects(DbTypes.TYPE_LIST_ITEM)
     .then(results => {
       var items = [];
-      results.forEach(i => { if (i.listId === listId) items.push(i) })
+      results.forEach(i => {
+        if (i.listId === listId) {
+          items.push(i);
+        }
+      });
 
       return items;
     });

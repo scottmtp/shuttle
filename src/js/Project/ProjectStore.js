@@ -6,7 +6,7 @@ import DbTypes from '../DbTypes';
 import ProjectConstants from './ProjectConstants';
 
 let projects = [];
-let activeProject = {_id: '', name: '', url: '', room: ''}
+let activeProject = {_id: '', name: '', url: '', room: ''};
 let activeProjectParts = [];
 
 let addPart = {title: '', type: DbTypes.TYPE_NOTE};

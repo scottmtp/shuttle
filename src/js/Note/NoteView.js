@@ -137,4 +137,4 @@ export default class NoteView extends React.Component {
 NoteView.willTransitionTo = function(transition, params, query, callback) {
   NoteViewActions.getNote(params.groupid, params.noteid);
   callback();
-}
+};

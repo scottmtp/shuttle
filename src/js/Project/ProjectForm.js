@@ -173,7 +173,7 @@ export default class AddItemView extends React.Component {
       let listItem = <ListItem
         primaryText={comp.title}
         rightIconButton={rightIconMenu}
-        key={comp._id} />
+        key={comp._id} />;
 
       partsList.push(listItem);
     });
@@ -182,7 +182,7 @@ export default class AddItemView extends React.Component {
   }
 
   render() {
-    let showPartsList = !!this.state.activeProject._id ? true : false;
+    let showPartsList = this.state.activeProject._id ? true : false;
     let partsListStyle = showPartsList ? {} : {display: 'none'};
 
     return (

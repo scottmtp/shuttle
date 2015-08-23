@@ -14,7 +14,7 @@ let getNote = function(groupId, noteId) {
 let updateNote = function(groupId, noteId, title, markup) {
   let theGroup;
   let theNote;
-  
+
   dbApi.getGroup(groupId)
     .then(group => {
       theGroup = group;
@@ -27,7 +27,7 @@ let updateNote = function(groupId, noteId, title, markup) {
       return dbApi.updateNote(theGroup, theNote);
     })
     .then(res => {
-      theNote._rev = res._rev
+      theNote._rev = res._rev;
       NoteActions.updateCompleted(theNote);
     })
     .catch(e => {

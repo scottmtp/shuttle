@@ -3,12 +3,12 @@ import ProjectAPI from './ProjectAPI';
 import ProjectConstants from './ProjectConstants';
 
 export default {
-  getProjects: function(groupId, noteId) {
+  getProjects: function() {
     ProjectAPI.getProjects();
   },
 
   updateProject: function(project) {
-    if (!!project._id) {
+    if (project._id) {
       ProjectAPI.updateProject(project);
     } else {
       ProjectAPI.createProject(project.name, project.signaller, project.room);

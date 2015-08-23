@@ -74,11 +74,6 @@ let updateNotePart = function(project, note) {
     });
 };
 
-let addPart = function(project, part) {
-  part._id = uuid.v4();
-  updatePart(project, part);
-};
-
 let updatePart = function(project, part) {
   switch(part.type) {
     case dbTypes.TYPE_NOTE:
@@ -91,6 +86,11 @@ let updatePart = function(project, part) {
   }
 };
 
+let addPart = function(project, part) {
+  part._id = uuid.v4();
+  updatePart(project, part);
+};
+
 let deleteListPart = function(project, list) {
   dbApi.getAllListItems(project, list._id)
     .then(items => {
@@ -99,7 +99,7 @@ let deleteListPart = function(project, list) {
       });
     })
     .then(() => {
-      return dbApi.removeList(project, list._id)
+      return dbApi.removeList(project, list._id);
     })
     .then(() => {
       return dbApi.getComponents(project);
@@ -143,4 +143,4 @@ export default {
   addPart: addPart,
   updatePart: updatePart,
   deletePart: deletePart
-}
+};

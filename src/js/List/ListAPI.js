@@ -45,8 +45,12 @@ let addListItem = function(projectId, listId, text, status) {
   let item = createItem(listId, text, status);
 
   dbApi.getGroup(projectId)
-    .then(project => { return dbApi.updateListItem(project, item) })
-    .then(items => { ListActions.addItemCompleted(item) });
+    .then(project => {
+      return dbApi.updateListItem(project, item);
+    })
+    .then(items => {
+      ListActions.addItemCompleted(item);
+    });
 };
 
 let setChecked = function(projectId, listItemId, checked) {

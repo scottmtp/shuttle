@@ -73,7 +73,7 @@ export default class ListView extends React.Component {
       let listItem = <ListItem
         leftCheckbox={checkbox}
         primaryText={li.text}
-        key={li._id} />
+        key={li._id} />;
 
       allItems.push(listItem);
 
@@ -114,4 +114,4 @@ export default class ListView extends React.Component {
 ListView.willTransitionTo = function(transition, params, query, callback) {
   ListViewActions.getListItems(params.groupid, params.listid);
   callback();
-}
+};

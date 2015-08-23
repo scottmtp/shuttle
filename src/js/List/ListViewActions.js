@@ -1,7 +1,4 @@
-import AppDispatcher from '../AppDispatcher';
-
 import ListAPI from './ListAPI';
-import ListConstants from './ListConstants';
 
 export default {
   getListItems: function(groupId, listId) {
