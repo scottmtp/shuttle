@@ -5,7 +5,7 @@ import Router from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import routes from'./Routes';
-let historyLocation = Router.HistoryLocation;
+// let historyLocation = Router.HistoryLocation;
 
 window.React = React;
 injectTapEventPlugin();
@@ -13,7 +13,7 @@ injectTapEventPlugin();
 Router.create({
   routes: routes,
   scrollBehavior: Router.ScrollToTopBehavior,
-  location: historyLocation
+//  location: historyLocation
 })
 .run(function (Handler) {
   React.render(<Handler/>, document.body);
