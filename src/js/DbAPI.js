@@ -5,6 +5,8 @@ let debug = nodeDebug('dbapi');
 import _ from 'lodash';
 import DbTypes from './DbTypes';
 
+import Replicator from './Replicator';
+
 window.PouchDB = pouchDB;
 let db;
 
@@ -155,12 +157,18 @@ var getAllNotes = function(project) {
 
 var updateNote = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_NOTE, obj);
+  return updateObject(DbTypes.TYPE_NOTE, obj)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 var removeNote = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_NOTE, id);
+  return removeObject(DbTypes.TYPE_NOTE, id)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 //
@@ -178,12 +186,18 @@ var getAllLists = function(project) {
 
 var updateList = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_LIST, obj);
+  return updateObject(DbTypes.TYPE_LIST, obj)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 var removeList = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_LIST, id);
+  return removeObject(DbTypes.TYPE_LIST, id)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 //
@@ -211,12 +225,18 @@ var getAllListItems = function(project, listId) {
 
 var updateListItem = function(project, obj) {
   selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_LIST_ITEM, obj);
+  return updateObject(DbTypes.TYPE_LIST_ITEM, obj)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 var removeListItem = function(project, id) {
   selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_LIST_ITEM, id);
+  return removeObject(DbTypes.TYPE_LIST_ITEM, id)
+    .then(() => {
+      Replicator.updateForProject(project);
+    });
 };
 
 // Component API

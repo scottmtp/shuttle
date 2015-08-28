@@ -118,7 +118,7 @@ Replicator.updateForProjectById = function(projectId) {
 Replicator.updateForProject = function(project) {
   let repl = Replicator.getReplicator(project);
   if (repl) {
-    repl.sendPouchData();
+    repl.replicator.sendPouchData();
   } else {
     debug('Unable to update project: ' + JSON.stringify(project));
   }
