@@ -158,16 +158,18 @@ var getAllNotes = function(project) {
 var updateNote = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_NOTE, obj)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 
 var removeNote = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_NOTE, id)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 
@@ -187,16 +189,18 @@ var getAllLists = function(project) {
 var updateList = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_LIST, obj)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 
 var removeList = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_LIST, id)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 
@@ -226,16 +230,18 @@ var getAllListItems = function(project, listId) {
 var updateListItem = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_LIST_ITEM, obj)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 
 var removeListItem = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_LIST_ITEM, id)
-    .then(() => {
+    .then((res) => {
       Replicator.updateForProject(project);
+      return res;
     });
 };
 

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import SocketIoClient from 'socket.io-client';
 import PouchDB from 'pouchdb';
 import replicationStream from 'pouchdb-replication-stream';
@@ -9,9 +10,13 @@ let debug = Debug('shuttle');
 localStorage.debug='shuttle';
 
 import DbApi from './DbApi';
+import NavViewActions from './NavViewActions';
 import ProjectActions from './Project/ProjectActions';
+import ProjectViewActions from './Project/ProjectViewActions';
+import ListViewActions from './List/ListViewActions';
+import NoteViewActions from './Note/NoteViewActions';
 
-let host = 'http://localhost:3000';
+let host = 'http://10.0.0.2:3000';
 let replicationOptions = {batchSize: 1};
 
 export default class Replicator {
@@ -66,6 +71,7 @@ export default class Replicator {
     db.load(s, this.replicationOptions)
       .then(res => {
         ProjectActions.receivedData(this.project);
+        Replicator.updateUi(this.project);
       });
   }
 
@@ -107,6 +113,35 @@ Replicator.getReplicator = function(project) {
 
   return false;
 };
+
+Replicator._updateUi = function(project) {
+  // TODO: this is a big kludge, not sure of best way for updating UI
+  try {
+    let groupResult = window.location.hash.match(/group\/([a-zA-Z0-9\-]+)\//);
+    if (groupResult && groupResult[1] === project._id) {
+      let listResult = window.location.hash.match(/list\/([a-zA-Z0-9\-]+)/);
+      if (listResult) {
+        ListViewActions.getListItems(groupResult[1], listResult[1]);
+      } else {
+        // TODO: Disabling live note updates for now. We should probably
+        // investigate OT or CRDT algorithms instead of PouchDB replication
+
+        // let noteResult = window.location.hash.match(/note\/([a-zA-Z0-9\-]+)/);
+        // if (noteResult) {
+        //   NoteViewActions.getNote(groupResult[1], noteResult[1]);
+        // }
+      }
+    } else {
+      ProjectViewActions.getProjects();
+    }
+  } catch(err) {
+    console.log('error: ' + err);
+  }
+
+  NavViewActions.update();
+};
+
+Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);
 
 Replicator.updateForProjectById = function(projectId) {
   dbApi.getGroup(projectId)
