@@ -77,9 +77,8 @@ export default class AddItemView extends React.Component {
 
   onFormChange() {
     let name = this.refs.nameField.getValue();
-    let url = this.refs.urlField.getValue();
     let room = this.refs.roomField.getValue();
-    ProjectViewActions.setActiveProjectValues(name, url, room);
+    ProjectViewActions.setActiveProjectValues(name, room);
   }
 
   // Add Part Dialog
@@ -207,12 +206,8 @@ export default class AddItemView extends React.Component {
             </Tab>
             <Tab label='Sharing'>
               <div>
-                <TextField ref='urlField' value={this.state.activeProject.signaller}
-                  onChange={this.onFormChange} floatingLabelText='Server'/>
-              </div>
-              <div>
-                <TextField ref='roomField' value={this.state.activeProject.room}
-                  onChange={this.onFormChange} floatingLabelText='Key'/>
+                <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
+                  onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
               </div>
             </Tab>
           </Tabs>

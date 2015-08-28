@@ -74,7 +74,6 @@ AppDispatcher.register(function(action) {
 
     case ProjectConstants.SET_ACTIVE_PROJECT_VALUES_COMPLETED:
       activeProject.name = action.values.name;
-      activeProject.signaller = action.values.signaller;
       activeProject.room = action.values.room;
       ProjectStore.emitChange();
       break;

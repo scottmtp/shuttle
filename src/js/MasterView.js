@@ -10,7 +10,10 @@ import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
 import AppLeftNav from './AppLeftNav';
 
+import ProjectViewActions from './Project/ProjectViewActions';
+
 export default class MasterView extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = { menuItems: NavStore.getMenuItems() };
@@ -28,6 +31,7 @@ export default class MasterView extends React.Component {
   componentDidMount() {
     NavStore.addChangeListener(this._onChange);
     NavViewActions.update();
+    ProjectViewActions.updateReplicators();
   }
 
   componentWillUnmount() {
@@ -85,6 +89,7 @@ export default class MasterView extends React.Component {
 
   _onHelp() {
     this.refs.helpDialog.show();
+
   }
 }
 

@@ -8,7 +8,7 @@ export default {
       note: note
     });
   },
-  
+
   updateCompleted: function(note) {
     AppDispatcher.dispatch({
       actionType: NoteConstants.UPDATE_COMPLETED,

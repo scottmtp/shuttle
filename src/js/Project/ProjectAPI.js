@@ -3,6 +3,7 @@ import uuid from 'uuid';
 import dbApi from '../DbAPI';
 import dbTypes from '../DbTypes';
 import ProjectActions from './ProjectActions';
+import Replicator from '../Replicator';
 
 let getProjects = function() {
   dbApi.getAllGroups()
@@ -134,6 +135,13 @@ let deletePart = function(project, part) {
   }
 };
 
+let updateReplicators = function() {
+  dbApi.getAllGroups()
+    .then(projects => {
+      Replicator.update(projects);
+    });
+};
+
 export default {
   getProjects: getProjects,
   createProject: createProject,
@@ -142,5 +150,6 @@ export default {
   getActiveProjectParts: getActiveProjectParts,
   addPart: addPart,
   updatePart: updatePart,
-  deletePart: deletePart
+  deletePart: deletePart,
+  updateReplicators: updateReplicators
 };

@@ -52,7 +52,7 @@ export default class ProjectList extends React.Component {
       let listItem = <ListItem
         primaryText={project.name}
         key={project._id}
-        onTouchTap={self.handleEditProject.bind(self, project)}/>;
+        onTouchTap={self.handleEditProject.bind(self, project)} />;
 
       projects.push(listItem);
     });

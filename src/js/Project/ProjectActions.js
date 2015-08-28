@@ -49,5 +49,12 @@ export default {
       actionType: ProjectConstants.DELETE_PART_COMPLETED,
       components: components
     });
+  },
+
+  receivedData: function(project) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.RECEIVED_REPLICATION_DATA,
+      project: project
+    });
   }
 };

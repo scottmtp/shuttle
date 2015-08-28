@@ -14,11 +14,11 @@ let NoteStore = assign({}, EventEmitter.prototype, {
   getCurrentNote: function() {
     return currentNote;
   },
-  
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
-  
+
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
@@ -26,7 +26,7 @@ let NoteStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
-  
+
 });
 
 AppDispatcher.register(function(action) {

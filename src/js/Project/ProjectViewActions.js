@@ -26,10 +26,10 @@ export default {
     });
   },
 
-  setActiveProjectValues: function(name, url, room) {
+  setActiveProjectValues: function(name, room) {
     AppDispatcher.dispatch({
       actionType: ProjectConstants.SET_ACTIVE_PROJECT_VALUES_COMPLETED,
-      values: {name: name, signaller: url, room: room}
+      values: {name: name, room: room}
     });
   },
 
@@ -71,5 +71,9 @@ export default {
 
   deletePart: function(project, part) {
     ProjectAPI.deletePart(project, part);
+  },
+
+  updateReplicators() {
+    ProjectAPI.updateReplicators();
   }
 };
