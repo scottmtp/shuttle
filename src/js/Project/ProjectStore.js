@@ -13,6 +13,8 @@ let addPart = {title: '', type: DbTypes.TYPE_NOTE};
 let renamePart = {_id: '', title: ''};
 let deletePart = {_id: '', title: ''};
 
+let deleteProject = {_id: '', name: ''};
+
 let CHANGE_EVENT = 'change';
 
 let ProjectStore = assign({}, EventEmitter.prototype, {
@@ -50,6 +52,10 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
 
   getDeletePart: function() {
     return deletePart;
+  },
+
+  getDeleteProject: function() {
+    return deleteProject;
   }
 });
 
@@ -58,6 +64,7 @@ AppDispatcher.register(function(action) {
     case ProjectConstants.GET_COMPLETED:
     case ProjectConstants.CREATE_COMPLETED:
     case ProjectConstants.UPDATE_COMPLETED:
+    case ProjectConstants.DELETE_PROJECT_COMPLETED:
       projects = action.projects;
       ProjectStore.emitChange();
       break;
@@ -103,6 +110,11 @@ AppDispatcher.register(function(action) {
     case ProjectConstants.RENAME_PART_COMPLETED:
     case ProjectConstants.DELETE_PART_COMPLETED:
       activeProjectParts = action.components;
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.SET_DELETE_PROJECT_COMPLETED:
+      deleteProject = action.project;
       ProjectStore.emitChange();
       break;
 

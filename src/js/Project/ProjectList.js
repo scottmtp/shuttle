@@ -1,6 +1,10 @@
 import React from 'react';
-import { List, ListItem, RaisedButton } from 'material-ui';
+import { Dialog, IconButton, IconMenu, List, ListItem, MenuItem, RaisedButton,
+  Styles, TextField } from 'material-ui';
+import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
+let { Colors } = Styles;
 
+import NavViewActions from '../NavViewActions';
 import ProjectForm from './ProjectForm';
 import ProjectStore from './ProjectStore';
 import ProjectViewActions from './ProjectViewActions';
@@ -11,7 +15,12 @@ export default class ProjectList extends React.Component {
 
     this.render = this.render.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.state = { projects: ProjectStore.getProjects() };
+    this.saveDeleteProject = this.saveDeleteProject.bind(this);
+
+    this.state = {
+      projects: ProjectStore.getProjects(),
+      deleteProject: ProjectStore.getDeleteProject()
+    };
   }
 
   componentDidMount() {
@@ -24,7 +33,10 @@ export default class ProjectList extends React.Component {
   }
 
   onChange() {
-    this.setState({ projects: ProjectStore.getProjects() });
+    this.setState({
+      projects: ProjectStore.getProjects(),
+      deleteProject: ProjectStore.getDeleteProject()
+    });
   }
 
   handleEditProject(project) {
@@ -40,6 +52,26 @@ export default class ProjectList extends React.Component {
     this.refs.projectForm.show();
   }
 
+  // Delete Project
+
+  deleteProjectActions() {
+    return [
+      { text: 'Cancel' },
+      { text: 'OK', onTouchTap: this.saveDeleteProject }
+    ];
+  }
+
+  showDeleteProjectDialog(project) {
+    ProjectViewActions.setDeleteProject(project);
+    this.refs.deleteProjectDialog.show();
+  }
+
+  saveDeleteProject() {
+    ProjectViewActions.deleteProject(this.state.deleteProject);
+    NavViewActions.update();
+    this.refs.deleteProjectDialog.dismiss();
+  }
+
   render() {
     let self = this;
 
@@ -49,9 +81,22 @@ export default class ProjectList extends React.Component {
 
     let projects = [];
     self.state.projects.forEach((project) => {
+      let iconButton = (
+        <IconButton touch={true}>
+          <MoreVertIcon color={Colors.grey400} />
+        </IconButton>
+      );
+
+      let rightIconMenu = (
+        <IconMenu iconButtonElement={iconButton}>
+          <MenuItem index={0} onTouchTap={this.showDeleteProjectDialog.bind(this, project)}>Delete</MenuItem>
+        </IconMenu>
+      );
+
       let listItem = <ListItem
         primaryText={project.name}
         key={project._id}
+        rightIconButton={rightIconMenu}
         onTouchTap={self.handleEditProject.bind(self, project)} />;
 
       projects.push(listItem);
@@ -65,6 +110,11 @@ export default class ProjectList extends React.Component {
         </List>
         <RaisedButton label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>
         <ProjectForm ref='projectForm' />
+        <Dialog ref='deleteProjectDialog' actions={this.deleteProjectActions()}>
+          <div>
+            Delete {this.state.deleteProject.name}?
+          </div>
+        </Dialog>
       </div>
     );
   }

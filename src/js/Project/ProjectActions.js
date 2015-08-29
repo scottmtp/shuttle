@@ -16,6 +16,13 @@ export default {
     });
   },
 
+  deleteProjectCompleted: function(groups) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.DELETE_PROJECT_COMPLETED,
+      projects: groups
+    });
+  },
+
   createCompleted: function(groups) {
     AppDispatcher.dispatch({
       actionType: ProjectConstants.CREATE_COMPLETED,

@@ -73,6 +73,17 @@ export default {
     ProjectAPI.deletePart(project, part);
   },
 
+  setDeleteProject: function(project) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.SET_DELETE_PROJECT_COMPLETED,
+      project: project
+    });
+  },
+
+  deleteProject: function(project) {
+    ProjectAPI.deleteProject(project);
+  },
+
   updateReplicators() {
     ProjectAPI.updateReplicators();
   }

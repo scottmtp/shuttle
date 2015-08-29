@@ -9,7 +9,7 @@ import Debug from 'debug';
 let debug = Debug('shuttle');
 localStorage.debug='shuttle';
 
-import DbApi from './DbApi';
+import DbAPI from './DbAPI';
 import NavViewActions from './NavViewActions';
 import ProjectActions from './Project/ProjectActions';
 import ProjectViewActions from './Project/ProjectViewActions';

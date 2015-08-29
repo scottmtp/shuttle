@@ -26,6 +26,14 @@ var selectProjectDB = function(dbName) {
 // Generic API
 //
 
+// Destroy database
+var destroyDb = function(dbName) {
+  debug('destroyDb: ' + dbName);
+
+  let dbToDestroy = pouchDB(dbName);
+  return dbToDestroy.destroy();
+};
+
 // Find one object
 var getObject = function(collection, id) {
   debug('getObject: ' + collection + ', ' + id);
@@ -273,6 +281,7 @@ var getComponents = function(project) {
 };
 
 export default {
+  destroyDb: destroyDb,
   getGroup: getGroup,
   getAllGroups: getAllGroups,
   updateGroup: updateGroup,
