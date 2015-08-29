@@ -32,9 +32,9 @@
   "scripts": {
     "lint": "eslint src",
     "test": "jest --coverage",
-    "copy": "cp ./src/index.html dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.base.css dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.snow.css dist/",
+    "copy": "cp ./src/index.html dist/; cp ./src/images/* dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.base.css dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.snow.css dist/",
     "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
-    "dist": "webpack"
+    "dist": "npm run copy; webpack"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",

@@ -14,13 +14,10 @@ module.exports = {
     new AppCachePlugin({
       cache: ['bundle.js', 'index.html', 'quill.base.css', 'quill.snow.css'],
       network: ['*']
-    })
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.DedupePlugin()
   ],
-  
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin(),
-  //   new webpack.optimize.DedupePlugin()
-  // ],
 
   module: {
     loaders: [
