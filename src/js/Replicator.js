@@ -6,18 +6,17 @@ import stream from 'stream';
 import concat from 'concat-stream';
 
 import Debug from 'debug';
-let debug = Debug('shuttle');
-localStorage.debug='shuttle';
+let debug = new Debug('shuttle');
+localStorage.debug = 'shuttle';
 
-import DbAPI from './DbAPI';
+import dbApi from './DbAPI';
 import NavViewActions from './NavViewActions';
 import ProjectActions from './Project/ProjectActions';
 import ProjectViewActions from './Project/ProjectViewActions';
 import ListViewActions from './List/ListViewActions';
-import NoteViewActions from './Note/NoteViewActions';
 
-let host = 'http://10.0.0.2:3000';
-let replicationOptions = {batchSize: 1};
+let signallerHost = 'http://10.0.0.2:3000';
+let replicationOpts = {batchSize: 1};
 
 export default class Replicator {
   constructor(project, host, key, replicationOptions) {
@@ -104,6 +103,20 @@ export default class Replicator {
 
 let replicators = [];
 
+Replicator.getGroupId = function(hashUrl) {
+  let groupResult = hashUrl.match(/group\/([a-zA-Z0-9\-]+)\//);
+  if (groupResult) {
+    return groupResult[1];
+  }
+};
+
+Replicator.getListId = function(hashUrl) {
+  let listResult = hashUrl.match(/list\/([a-zA-Z0-9\-]+)/);
+  if (listResult) {
+    return listResult[1];
+  }
+};
+
 Replicator.getReplicator = function(project) {
   for (let x = 0; x < replicators.length; x++) {
     if (replicators[x].project.dbname === project.dbname) {
@@ -117,11 +130,11 @@ Replicator.getReplicator = function(project) {
 Replicator._updateUi = function(project) {
   // TODO: this is a big kludge, not sure of best way for updating UI
   try {
-    let groupResult = window.location.hash.match(/group\/([a-zA-Z0-9\-]+)\//);
-    if (groupResult && groupResult[1] === project._id) {
-      let listResult = window.location.hash.match(/list\/([a-zA-Z0-9\-]+)/);
+    let hashGroupId = Replicator.getGroupId(window.location.hash);
+    if (hashGroupId === project._id) {
+      let hashListId = Replicator.getListId(window.location.hash);
       if (listResult) {
-        ListViewActions.getListItems(groupResult[1], listResult[1]);
+        ListViewActions.getListItems(hashGroupId, hashListId);
       } else {
         // TODO: Disabling live note updates for now. We should probably
         // investigate OT or CRDT algorithms instead of PouchDB replication
@@ -164,7 +177,7 @@ Replicator.update = function(projects) {
     let p = projects[x];
     if (p && p.room && !Replicator.getReplicator(p)) {
       debug('adding project to replication: ' + JSON.stringify(p));
-      let rep = new Replicator(p, host, p.room, replicationOptions)
+      let rep = new Replicator(p, signallerHost, p.room, replicationOpts);
       rep.connect();
 
       replicators.push({
