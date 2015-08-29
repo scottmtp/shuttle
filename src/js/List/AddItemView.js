@@ -1,7 +1,7 @@
 import React from 'react';
 import { RaisedButton, TextField } from 'material-ui';
 
-import ListConstants from './ListConstants'
+import ListConstants from './ListConstants';
 import ListStore from './ListStore';
 import ListViewActions from './ListViewActions';
 

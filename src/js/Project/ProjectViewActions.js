@@ -84,7 +84,7 @@ export default {
     ProjectAPI.deleteProject(project);
   },
 
-  updateReplicators() {
+  updateReplicators: function() {
     ProjectAPI.updateReplicators();
   }
 };

@@ -48,7 +48,7 @@ let addListItem = function(projectId, listId, text, status) {
     .then(project => {
       return dbApi.updateListItem(project, item);
     })
-    .then(items => {
+    .then(() => {
       ListActions.addItemCompleted(item);
     });
 };
@@ -116,7 +116,7 @@ let clearList = function(groupId, listId) {
     })
     .then(items => {
       if (items && items.length) {
-        currentList.listItems = items.filter(item => item.status !== ListConstants.STATUS_COMPLETED)
+        currentList.listItems = items.filter(item => item.status !== ListConstants.STATUS_COMPLETED);
         items.filter(item => item.status === ListConstants.STATUS_COMPLETED)
           .forEach(item => {
             deletionPromises.push(dbApi.removeListItem(project, item._id));
