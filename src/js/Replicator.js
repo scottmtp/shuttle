@@ -133,7 +133,7 @@ Replicator._updateUi = function(project) {
     let hashGroupId = Replicator.getGroupId(window.location.hash);
     if (hashGroupId === project._id) {
       let hashListId = Replicator.getListId(window.location.hash);
-      if (listResult) {
+      if (hashListId) {
         ListViewActions.getListItems(hashGroupId, hashListId);
       } else {
         // TODO: Disabling live note updates for now. We should probably
