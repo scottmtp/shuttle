@@ -5,7 +5,7 @@
     "flux": "^2.0.3",
     "keymirror": "^0.1.1",
     "lodash": "^3.10.0",
-    "material-ui": "0.10.4",
+    "material-ui": "0.11.0",
     "object-assign": "^3.0.0",
     "pouchdb": "^3.6.0",
     "pouchdb-replication-stream": "^1.2.4",
