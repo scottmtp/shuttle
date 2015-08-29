@@ -7,7 +7,7 @@
     "lodash": "^3.10.0",
     "material-ui": "0.11.0",
     "object-assign": "^3.0.0",
-    "pouchdb": "^3.6.0",
+    "pouchdb": "4.0.0",
     "pouchdb-replication-stream": "^1.2.4",
     "react": "^0.13.3",
     "react-quill": "^0.2.2",
@@ -31,7 +31,7 @@
   },
   "scripts": {
     "lint": "eslint src",
-    "test": "jest",
+    "test": "jest --coverage",
     "copy": "cp ./src/index.html dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.base.css dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.snow.css dist/",
     "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
     "dist": "webpack"

@@ -1,6 +1,6 @@
 import pouchDB from 'pouchdb';
 import nodeDebug from 'debug';
-let debug = nodeDebug('dbapi');
+let debug = nodeDebug('shuttle:dbapi');
 
 import _ from 'lodash';
 import DbTypes from './DbTypes';
