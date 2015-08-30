@@ -37,10 +37,7 @@ let updateProject = function(project) {
 };
 
 let deleteProject = function(project) {
-  dbApi.destroyDb(project.dbname)
-    .then(() => {
-      return dbApi.removeGroup(project._id);
-    })
+  dbApi.removeGroup(project._id)
     .then(dbApi.getAllGroups)
     .then(groups => {
       ProjectActions.deleteProjectCompleted(groups);

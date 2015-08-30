@@ -167,7 +167,9 @@ var updateNote = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_NOTE, obj)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };
@@ -176,7 +178,9 @@ var removeNote = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_NOTE, id)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };
@@ -198,7 +202,9 @@ var updateList = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_LIST, obj)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };
@@ -207,7 +213,9 @@ var removeList = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_LIST, id)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };
@@ -239,7 +247,9 @@ var updateListItem = function(project, obj) {
   selectProjectDB(project.dbname);
   return updateObject(DbTypes.TYPE_LIST_ITEM, obj)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };
@@ -248,7 +258,9 @@ var removeListItem = function(project, id) {
   selectProjectDB(project.dbname);
   return removeObject(DbTypes.TYPE_LIST_ITEM, id)
     .then((res) => {
-      Replicator.updateForProject(project);
+      if (project.room) {
+        Replicator.updateForProject(project);
+      }
       return res;
     });
 };

@@ -156,13 +156,6 @@ Replicator._updateUi = function(project) {
 
 Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);
 
-Replicator.updateForProjectById = function(projectId) {
-  dbApi.getGroup(projectId)
-    .then(project => {
-      Replicator.updateForProject(project);
-    });
-};
-
 Replicator.updateForProject = function(project) {
   let repl = Replicator.getReplicator(project);
   if (repl) {
