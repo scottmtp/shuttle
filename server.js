@@ -1,12 +1,14 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
+var morgan = require('morgan');
 var io = require('socket.io')(http);
 
 var url = require('url');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
 
+app.use(morgan('combined'));
 app.use(express.static('dist'));
 
 var verifyClient = function(wsUrl, jwtSecret) {
@@ -50,5 +52,5 @@ io.on('connection', function(socket) {
 });
 
 http.listen(3000, function(){
-  console.log('listening on *:3000');
+  console.log('Listening on *:3000');
 });
