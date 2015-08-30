@@ -1,4 +1,13 @@
 {
+  "name": "shuttle",
+  "version": "0.0.1",
+  "description": "Shuttle is a Todo and Note taking app with a focus on privacy.",
+  "homepage": "https://github.com/scottmtp",
+  "author": {
+    "name": "Scott Dietrich",
+    "email": "scott@minutestopost.com",
+    "url": "https://github.com/scottmtp"
+  },
   "dependencies": {
     "concat-stream": "^1.5.0",
     "debug": "^2.2.0",
@@ -38,7 +47,8 @@
     "test": "jest --coverage",
     "copy": "cp ./src/index.html dist/; cp ./src/images/* dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.base.css dist/; cp node_modules/react-quill/node_modules/quill/dist/quill.snow.css dist/",
     "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
-    "dist": "npm run copy; webpack"
+    "dist": "npm run copy; webpack",
+    "server": "node ./server.js"
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
