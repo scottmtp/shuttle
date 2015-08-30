@@ -13,14 +13,15 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': '"development"',
-        'API_URL': '"http://10.0.0.2:3000"'
+        'NODE_ENV': '"production"',
+        'API_URL': '"https://app.tryshuttle.com/"'
       }
     }),
     new AppCachePlugin({
       cache: ['bundle.js', 'index.html', 'quill.base.css', 'quill.snow.css'],
       network: ['*']
     }),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.DedupePlugin()
   ],
 

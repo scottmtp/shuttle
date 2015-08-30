@@ -15,7 +15,7 @@ import ProjectActions from './Project/ProjectActions';
 import ProjectViewActions from './Project/ProjectViewActions';
 import ListViewActions from './List/ListViewActions';
 
-let signallerHost = 'http://10.0.0.2:3000';
+let signallerHost = process.env.API_URL;
 let replicationOpts = {batchSize: 1};
 
 export default class Replicator {
@@ -91,8 +91,9 @@ export default class Replicator {
   }
 
   connect() {
-    debug('connect...');
-    this.socket = SocketIoClient(this.host + '/?token=' + this.key);
+    let socketUrl = this.host + '/?token=' + this.key;
+    debug('connect...' + socketUrl);
+    this.socket = SocketIoClient(socketUrl);
     this.socket.on('connect', this.handleConnect);
     this.socket.on('error', this.handleError);
     this.socket.on('disconnect', this.handleDisconnect);
