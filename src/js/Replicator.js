@@ -166,18 +166,24 @@ Replicator.updateForProject = function(project) {
   }
 };
 
+Replicator.addProject = function(project) {
+  if (!Replicator.getReplicator(project)) {
+    let rep = new Replicator(project, signallerHost, project.room, replicationOpts);
+    rep.connect();
+
+    replicators.push({
+      project: project,
+      replicator: rep
+    });
+  }
+};
+
 Replicator.update = function(projects) {
   for (let x = 0; x < projects.length; x++) {
     let p = projects[x];
-    if (p && p.room && !Replicator.getReplicator(p)) {
+    if (p && p.room) {
       debug('adding project to replication: ' + JSON.stringify(p));
-      let rep = new Replicator(p, signallerHost, p.room, replicationOpts);
-      rep.connect();
-
-      replicators.push({
-        project: p,
-        replicator: rep
-      });
+      Replicator.addProject(p);
     }
   }
 };

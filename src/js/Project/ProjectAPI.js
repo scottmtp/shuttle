@@ -25,6 +25,12 @@ let createProject = function(name, signaller, room) {
     .then(dbApi.getAllGroups)
     .then(groups => {
       ProjectActions.createCompleted(groups);
+    })
+    .then(() => {
+      if (project.room) {
+        Replicator.addProject(project);
+        Replicator.updateForProject(project);
+      }
     });
 };
 
@@ -33,6 +39,12 @@ let updateProject = function(project) {
     .then(dbApi.getAllGroups)
     .then(groups => {
       ProjectActions.updateCompleted(groups);
+    })
+    .then(() => {
+      if (project.room) {
+        Replicator.addProject(project);
+        Replicator.updateForProject(project);
+      }
     });
 };
 
