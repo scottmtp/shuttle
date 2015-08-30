@@ -47,11 +47,15 @@ let buildMenu = function(projects) {
 let getMenuItems = function() {
   var promise = dbApi.getAllGroups()
     .then(function(results) {
-      if(results && results.length) {
+      if (results && results.length) {
         return buildMenu(results);
       } else {
+        if (global.localStorage.initialized) {
+          return [];
+        }
+
         // initialize template project
-        return newAccountApi.initializeNewAccount()
+        return newAccountApi.initializeNewAccount(global.localStorage)
           .then(getMenuItems);
       }
     });

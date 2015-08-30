@@ -5,8 +5,9 @@ import ProjectViewActions from './Project/ProjectViewActions';
 
 export default {
 
-  initializeNewAccount: function() {
+  initializeNewAccount: function($localStorage) {
     console.log('initializeNewAccount');
+    $localStorage.initialized = 1;
     let project = {
       _id: uuid.v4(),
       name: 'My Project',
