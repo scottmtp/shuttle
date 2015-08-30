@@ -123,6 +123,10 @@ export default class NoteView extends React.Component {
 }
 
 NoteView.willTransitionTo = function(transition, params, query, callback) {
+  global.localStorage.group = params.groupid;
+  global.localStorage.type = 'note';
+  global.localStorage.typeId = params.noteid;
+
   NoteViewActions.getNote(params.groupid, params.noteid);
   callback();
 };

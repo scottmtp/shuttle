@@ -1,19 +1,25 @@
 import React from 'react';
 
-import ProjectList from './Project/ProjectList';
-
-export default class MasterView extends React.Component {
+export default class HomeView extends React.Component {
   constructor(props) {
     super(props);
-    this.render = this.render.bind(this);
   }
 
   render() {
     return (
       <div>
-        <ProjectList />
       </div>
     );
   }
 
 }
+
+HomeView.willTransitionTo = function(transition, params, query, callback) {
+  if (global.localStorage.group) {
+    transition.redirect('/group/' + global.localStorage.group + '/' +
+      global.localStorage.type + '/' + global.localStorage.typeId);
+  }
+
+  transition.redirect('projects');
+  callback();
+};

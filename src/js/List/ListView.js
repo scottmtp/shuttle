@@ -112,6 +112,10 @@ export default class ListView extends React.Component {
 }
 
 ListView.willTransitionTo = function(transition, params, query, callback) {
+  global.localStorage.group = params.groupid;
+  global.localStorage.type = 'list';
+  global.localStorage.typeId = params.listid;
+
   ListViewActions.getListItems(params.groupid, params.listid);
   callback();
 };

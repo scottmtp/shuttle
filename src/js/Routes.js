@@ -5,11 +5,13 @@ let DefaultRoute = Router.DefaultRoute;
 
 import Master from './MasterView';
 import Home from './HomeView';
+import Project from './Project/ProjectList';
 import Note from './Note/NoteView';
 import List from './List/ListView';
 
 let AppRoutes = (
   <Route name="root" path="/" handler={Master}>
+    <Route name="projects" handler={Project} />
     <Route name="group/:groupid">
       <Route name="note/:noteid" handler={Note} />
       <Route name="list/:listid" handler={List} />

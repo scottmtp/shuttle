@@ -4,6 +4,10 @@ import NavActions from './NavActions';
 import dbApi from './DbAPI';
 import newAccountApi from './NewAccountAPI';
 
+let buildProjectsMenuItem = function() {
+  return { route: '/projects', text: 'Projects' };
+};
+
 let buildProjectMenuItem = function(project) {
   return { type: MenuItem.Types.SUBHEADER, text: project.name };
 };
@@ -23,7 +27,7 @@ let buildComponentsMenu = function(project, items) {
 
 let buildMenu = function(projects) {
   let promise = new Promise(function(resolve, reject) {
-    let menuItems = [];
+    let menuItems = [buildProjectsMenuItem()];
     let idx = 0;
 
     projects.forEach(function(p) {
@@ -51,7 +55,7 @@ let getMenuItems = function() {
         return buildMenu(results);
       } else {
         if (global.localStorage.initialized) {
-          return [];
+          return [buildProjectsMenuItem()];
         }
 
         // initialize template project
