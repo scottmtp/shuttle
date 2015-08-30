@@ -14,7 +14,10 @@
     "react-router": "^0.13.3",
     "react-tap-event-plugin": "^0.1.7",
     "socket.io-client": "^1.3.6",
-    "uuid": "^2.0.1"
+    "uuid": "^2.0.1",
+    "express": "^4.13.3",
+    "jwt-simple": "^0.3.0",
+    "socket.io": "^1.3.6"
   },
   "devDependencies": {
     "appcache-webpack-plugin": "^0.2.0",
