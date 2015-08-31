@@ -7,9 +7,10 @@ import concat from 'concat-stream';
 
 import Debug from 'debug';
 let debug = new Debug('shuttle');
-localStorage.debug = 'shuttle';
+if (process.env.NODE_ENV === 'development') {
+  localStorage.debug = 'shuttle*';
+}
 
-import dbApi from './DbAPI';
 import NavViewActions from './NavViewActions';
 import ProjectActions from './Project/ProjectActions';
 import ProjectViewActions from './Project/ProjectViewActions';
@@ -86,7 +87,7 @@ export default class Replicator {
     let self = this;
     db.dump(concatStream)
       .then(function() {
-        self.socket.emit('pouchrepl', {data: database})
+        self.socket.emit('pouchrepl', {data: database});
       });
   }
 
