@@ -14,7 +14,7 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': '"production"',
-        'API_URL': '"https://local.tryshuttle.com"'
+        'API_URL': '"https://www.tryshuttle.com"'
       }
     }),
     new AppCachePlugin({

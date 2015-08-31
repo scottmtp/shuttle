@@ -71,7 +71,12 @@ export default class MasterView extends React.Component {
               is stored locally and is always in your control.
             </p>
             <p>
-              You can access lists and notes from the top-left menu, and you can
+              Even when Sharing is enabled we do not store data on our servers.
+              Data will only sync when multiple devices with the same Sharing key
+              are online.
+            </p>
+            <p>
+              You can access Lists and Notes from the top-left menu, and you can
               customize Shuttle on the Projects page!
             </p>
           </Dialog>
