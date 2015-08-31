@@ -1,12 +1,35 @@
 var express = require('express');
 var app = express();
-var http = require('http').Server(app);
+var http = require('http');
+var https = require('https');
 var morgan = require('morgan');
 var io = require('socket.io')(http);
 
 var url = require('url');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
+
+// START CONFIGURATION
+var port = process.env.PORT || 3000;
+var sslPort = process.env.SSL_PORT || 8443;
+var sslPrefix = process.env.SSL_PREFIX || './keys/';
+var jwtToken = process.env.JWT_TOKEN || 'nosecret';
+// END CONFIGURATION
+
+var forceSSL = require('express-force-ssl');
+var fs = require('fs');
+
+var sslOptions = {
+  key: fs.readFileSync(sslPrefix + 'key.enc.pem', 'utf-8'),
+  cert: fs.readFileSync(sslPrefix + 'cert.pem', 'utf-8'),
+  ca: fs.readFileSync(sslPrefix + 'certchain.pem', 'utf-8'),
+  passphrase: fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
+};
+
+app.use(forceSSL);
+
+var server = http.createServer(app);
+var secureServer = https.createServer(sslOptions, app);
 
 app.use(morgan('combined'));
 app.use(express.static('dist'));
@@ -31,7 +54,7 @@ var verifyClient = function(wsUrl, jwtSecret) {
 };
 
 io.use(function(socket, next){
-  socket.token = verifyClient(socket.request.url, 'nosecret');
+  socket.token = verifyClient(socket.request.url, jwtToken);
   if (!socket.token) {
     next(new Error('Authentication error'));
   }
@@ -51,6 +74,10 @@ io.on('connection', function(socket) {
   io.to(socket.token.room).emit('count', { count: roomSize });
 });
 
-http.listen(3000, function(){
-  console.log('Listening on *:3000');
+server.listen(port, function(){
+  console.log('Listening on *:' + port);
+});
+
+secureServer.listen(sslPort, function(){
+  console.log('SSL Listening on *:' + sslPort);
 });
