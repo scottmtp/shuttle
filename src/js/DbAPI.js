@@ -270,7 +270,7 @@ var getComponents = function(project) {
   let components = [];
 
   let promise = new Promise(function(resolve, reject) {
-    getAllNotes(project)
+    getAllLists(project)
       .then(function(items) {
         items = _.sortBy(items, 'title');
         items.forEach(function(item) {
@@ -278,7 +278,7 @@ var getComponents = function(project) {
         });
       })
       .then(function() {
-        return getAllLists(project);
+        return getAllNotes(project);
       })
       .then(function(items) {
         items = _.sortBy(items, 'title');
