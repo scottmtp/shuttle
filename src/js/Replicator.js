@@ -94,7 +94,7 @@ export default class Replicator {
   connect() {
     let socketUrl = this.host + '/?token=' + this.key;
     debug('connect...' + socketUrl);
-    this.socket = SocketIoClient(socketUrl);
+    this.socket = SocketIoClient(socketUrl, {secure: true});
     this.socket.on('connect', this.handleConnect);
     this.socket.on('error', this.handleError);
     this.socket.on('disconnect', this.handleDisconnect);

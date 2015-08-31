@@ -3,17 +3,15 @@ var app = express();
 var http = require('http');
 var https = require('https');
 var morgan = require('morgan');
-var io = require('socket.io')(http);
 
 var url = require('url');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
 
 // START CONFIGURATION
-var port = process.env.PORT || 3000;
-var sslPort = process.env.SSL_PORT || 8443;
+var port = process.env.PORT || 80;
+var sslPort = process.env.SSL_PORT || 443;
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
-var jwtToken = process.env.JWT_TOKEN || 'nosecret';
 // END CONFIGURATION
 
 var forceSSL = require('express-force-ssl');
@@ -26,10 +24,13 @@ var sslOptions = {
   passphrase: fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
 };
 
+var jwtToken = sslOptions.passphrase;
+
 app.use(forceSSL);
 
 var server = http.createServer(app);
 var secureServer = https.createServer(sslOptions, app);
+var io = require('socket.io')(secureServer);
 
 app.use(morgan('combined'));
 app.use(express.static('dist'));
