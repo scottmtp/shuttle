@@ -6,6 +6,7 @@ var url = require('url');
 var express = require('express');
 var app = express();
 
+var helmet = require('helmet');
 var morgan = require('morgan');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
@@ -30,6 +31,7 @@ var secureServer = https.createServer(sslOptions, app);
 var io = require('socket.io')(server);
 var secureIo = require('socket.io')(secureServer);
 
+app.use(helmet());
 app.use(morgan('combined'));
 app.use(express.static('dist'));
 
