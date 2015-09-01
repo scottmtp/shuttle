@@ -36,9 +36,14 @@ module.exports = function (shipit) {
   });
 
   shipit.blTask('remotebuild', function (cb) {
-    var cmd = 'cd ' + shipit.releasePath + ' && /usr/local/iojs-v3.2.0-linux-x64/bin/npm ' +
-      'install socket.io@1.3.6 debug@2.2.0 express@4.13.3 helmet@0.10.0 jwt-simple@0.3.0 morgan@1.6.1';
+    var cmd = 'cd ' + shipit.releasePath + ' && cp shuttle-init.sh /etc/init.d/shuttle'
+      ' && /usr/local/iojs-v3.2.0-linux-x64/bin/npm' +
+      ' install socket.io@1.3.6 debug@2.2.0 express@4.13.3 helmet@0.10.0 jwt-simple@0.3.0 morgan@1.6.1';
+
     shipit.remote(cmd)
+      .then(function(res) {
+        return shipit.remote('service shuttle restart');
+      })
       .then(function(res) {
         cb();
       });
