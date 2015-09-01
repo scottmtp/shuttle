@@ -1,10 +1,12 @@
-var express = require('express');
-var app = express();
+var fs = require('fs');
 var http = require('http');
 var https = require('https');
-var morgan = require('morgan');
-
 var url = require('url');
+
+var express = require('express');
+var app = express();
+
+var morgan = require('morgan');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
 
@@ -13,9 +15,6 @@ var port = process.env.PORT || 80;
 var sslPort = process.env.SSL_PORT || 443;
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
 // END CONFIGURATION
-
-var forceSSL = require('express-force-ssl');
-var fs = require('fs');
 
 var sslOptions = {
   key: fs.readFileSync(sslPrefix + 'key.enc.pem', 'utf-8'),
@@ -26,11 +25,10 @@ var sslOptions = {
 
 var jwtToken = sslOptions.passphrase;
 
-app.use(forceSSL);
-
 var server = http.createServer(app);
 var secureServer = https.createServer(sslOptions, app);
-var io = require('socket.io')(secureServer);
+var io = require('socket.io')(server);
+var secureIo = require('socket.io')(secureServer);
 
 app.use(morgan('combined'));
 app.use(express.static('dist'));
@@ -54,26 +52,39 @@ var verifyClient = function(wsUrl, jwtSecret) {
   return decoded;
 };
 
-io.use(function(socket, next){
-  socket.token = verifyClient(socket.request.url, jwtToken);
-  if (!socket.token) {
-    next(new Error('Authentication error'));
+var socketIoUse = function(socket, next){
+  try {
+    socket.token = verifyClient(socket.request.url, jwtToken);
+    if (!socket.token) {
+      next(new Error('Authentication error'));
+    }
+  } catch (err) {
+    console.log('error: ' + err);
   }
-
   return next();
-});
+};
 
-io.on('connection', function(socket) {
-  socket.join(socket.token.room);
-  var objs = io.nsps['/'].adapter.rooms[socket.token.room];
-  var roomSize = Object.keys(objs).length;
+var socketIoOnConnection = function(localIo, socket) {
+  try {
+    socket.join(socket.token.room);
+    var objs = localIo.nsps['/'].adapter.rooms[socket.token.room];
+    var roomSize = Object.keys(objs).length;
 
-  socket.on('pouchrepl', function(data) {
-    socket.broadcast.to(socket.token.room).emit('pouchrepl', data);
-  });
+    socket.on('pouchrepl', function(data) {
+      socket.broadcast.to(socket.token.room).emit('pouchrepl', data);
+    });
 
-  io.to(socket.token.room).emit('count', { count: roomSize });
-});
+    localIo.to(socket.token.room).emit('count', { count: roomSize });
+  } catch (err) {
+    console.log('error: ' + err);
+  }
+};
+
+io.use(socketIoUse);
+secureIo.use(socketIoUse);
+
+io.on('connection', socketIoOnConnection.bind(this, io));
+secureIo.on('connection', socketIoOnConnection.bind(this, secureIo));
 
 server.listen(port, function(){
   console.log('Listening on *:' + port);
