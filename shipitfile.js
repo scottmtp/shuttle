@@ -42,7 +42,7 @@ module.exports = function (shipit) {
 
     shipit.remote(cmd)
       .then(function(res) {
-        return shipit.remote('service shuttle restart');
+        return shipit.remote('update-rc.d shuttle defaults && service shuttle restart');
       })
       .then(function(res) {
         cb();

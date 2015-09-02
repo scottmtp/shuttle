@@ -46,6 +46,12 @@ LOGFILE="/var/log/shuttle.log"
 MIN_UPTIME="5000"
 SPIN_SLEEP_TIME="2000"
 
+export SSL_PREFIX="/usr/local/shuttle/ssl/"
+export SSL_KEY_FILE="www.tryshuttle.com.key"
+export SSL_CERT_FILE="www.tryshuttle.com.crt"
+export SSL_CA_FILE="www.tryshuttle.com.chain.crt"
+export JWT_TOKEN_FILE="/usr/local/shuttle/ssl/jwttoken.txt"
+
 # Add node to the path for situations in which the environment is passed.
 PATH=$NODE_BIN_DIR:$PATH
 # Export all environment variables that must be visible for the Node.js

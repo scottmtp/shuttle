@@ -15,16 +15,20 @@ var jwt = require('jwt-simple');
 var port = process.env.PORT || 80;
 var sslPort = process.env.SSL_PORT || 443;
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
+var sslKeyFile = process.env.SSL_KEY_FILE || 'key.enc.pem';
+var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
+var sslCaFile = process.env.SSL_CA_FILE || 'certchain.pem';
+var jwtTokenFile = process.env.JWT_TOKEN_FILE;
 // END CONFIGURATION
 
 var sslOptions = {
-  key: fs.readFileSync(sslPrefix + 'key.enc.pem', 'utf-8'),
-  cert: fs.readFileSync(sslPrefix + 'cert.pem', 'utf-8'),
-  ca: fs.readFileSync(sslPrefix + 'certchain.pem', 'utf-8'),
+  key: fs.readFileSync(sslPrefix + sslKeyFile, 'utf-8'),
+  cert: fs.readFileSync(sslPrefix + sslCertFile, 'utf-8'),
+  ca: fs.readFileSync(sslPrefix + sslCaFile, 'utf-8'),
   passphrase: fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
 };
 
-var jwtToken = sslOptions.passphrase;
+var jwtToken = fs.readFileSync(jwtTokenFile, 'utf-8').trim()
 
 var server = http.createServer(app);
 var secureServer = https.createServer(sslOptions, app);
