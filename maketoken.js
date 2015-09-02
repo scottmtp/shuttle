@@ -3,12 +3,12 @@ var fs = require('fs');
 var uuid = require('uuid');
 
 // START CONFIGURATION
-var sslPrefix = process.env.SSL_PREFIX || './keys/';
+var jwtTokenFile = process.env.JWT_TOKEN_FILE;
 // END CONFIGURATION
 
 var jwt = require('jwt-simple');
 var payload = { user: process.argv[2], room: uuid.v4() };
-var secret = fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim();
+var secret = fs.readFileSync(jwtTokenFile, 'utf-8').trim();
 
 var token = jwt.encode(payload, secret);
 
