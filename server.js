@@ -14,6 +14,7 @@ var jwt = require('jwt-simple');
 // START CONFIGURATION
 var port = process.env.PORT || 80;
 var sslPort = process.env.SSL_PORT || 443;
+var publicHtml = process.env.WWW_DIR || './dist/';
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
 var sslKeyFile = process.env.SSL_KEY_FILE || 'key.enc.pem';
 var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
@@ -37,7 +38,7 @@ var secureIo = require('socket.io')(secureServer);
 
 app.use(helmet());
 app.use(morgan('combined'));
-app.use(express.static('dist'));
+app.use(express.static(publicHtml));
 
 var verifyClient = function(wsUrl, jwtSecret) {
   var parsed, decoded;
