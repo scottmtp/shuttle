@@ -9,6 +9,7 @@ import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
 import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
 import AppLeftNav from './AppLeftNav';
+import ShuttleTheme from './ShuttleTheme';
 
 import ProjectViewActions from './Project/ProjectViewActions';
 
@@ -26,6 +27,10 @@ export default class MasterView extends React.Component {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };
+  }
+
+  componentWillMount() {
+    ThemeManager.setTheme(new ShuttleTheme());
   }
 
   componentDidMount() {

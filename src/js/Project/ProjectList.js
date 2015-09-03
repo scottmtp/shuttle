@@ -108,7 +108,7 @@ export default class ProjectList extends React.Component {
         <List>
           {projects}
         </List>
-        <RaisedButton label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>
+        <RaisedButton id='newProject' label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>
         <ProjectForm ref='projectForm' />
         <Dialog ref='deleteProjectDialog' actions={this.deleteProjectActions()}>
           <div>

@@ -29,7 +29,7 @@ export default class AppLeftNav extends React.Component {
       color: Typography.textFullWhite,
       lineHeight: Spacing.desktopKeylineIncrement + 'px',
       fontWeight: Typography.fontWeightLight,
-      backgroundColor: Colors.cyan500,
+      backgroundColor: Colors.blueGrey500,
       paddingLeft: Spacing.desktopGutter,
       paddingTop: '0px',
       marginBottom: '0px'
