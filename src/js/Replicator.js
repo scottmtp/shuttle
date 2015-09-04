@@ -8,7 +8,7 @@ import concat from 'concat-stream';
 import Debug from 'debug';
 let debug = new Debug('shuttle');
 if (process.env.NODE_ENV === 'development') {
-  localStorage.debug = 'shuttle*';
+  localStorage.debug = 'shuttle';
 }
 
 import NavViewActions from './NavViewActions';
@@ -18,6 +18,7 @@ import ListViewActions from './List/ListViewActions';
 
 let signallerHost = process.env.API_URL;
 let replicationOpts = {batchSize: 1};
+let socketIoClientOpts = {multiplex: false};
 
 export default class Replicator {
   constructor(project, host, key, replicationOptions) {
@@ -94,7 +95,7 @@ export default class Replicator {
   connect() {
     let socketUrl = this.host + '/?token=' + this.key;
     debug('connect...' + socketUrl);
-    this.socket = SocketIoClient(socketUrl);
+    this.socket = SocketIoClient(socketUrl, socketIoClientOpts);
     this.socket.on('connect', this.handleConnect);
     this.socket.on('error', this.handleError);
     this.socket.on('disconnect', this.handleDisconnect);
@@ -159,6 +160,7 @@ Replicator._updateUi = function(project) {
 Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);
 
 Replicator.updateForProject = function(project) {
+  debug('Update for project: ' + JSON.stringify(project));
   let repl = Replicator.getReplicator(project);
   if (repl) {
     repl.replicator.sendPouchData();

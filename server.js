@@ -72,12 +72,14 @@ var socketIoUse = function(socket, next){
 };
 
 var socketIoOnConnection = function(localIo, socket) {
+  debug('connection to room: ' + socket.token.room);
   try {
     socket.join(socket.token.room);
     var objs = localIo.nsps['/'].adapter.rooms[socket.token.room];
     var roomSize = Object.keys(objs).length;
 
     socket.on('pouchrepl', function(data) {
+      debug('pouchrepl to room: ' + socket.token.room);
       socket.broadcast.to(socket.token.room).emit('pouchrepl', data);
     });
 
