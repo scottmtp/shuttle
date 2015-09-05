@@ -6,12 +6,17 @@ import NavConstants from './NavConstants';
 
 let menuItems = [];
 let CHANGE_EVENT = 'change';
+let REPLICATION_EVENT = 'replication';
 
 let NavStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
-  
+
+  emitReplicationChange: function() {
+    this.emit(REPLICATION_EVENT);
+  },
+
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
@@ -19,7 +24,15 @@ let NavStore = assign({}, EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-  
+
+  addReplicationChangeListener: function(callback) {
+    this.on(REPLICATION_EVENT, callback);
+  },
+
+  removeReplicationChangeListener: function(callback) {
+    this.removeListener(REPLICATION_EVENT, callback);
+  },
+
   getMenuItems: function() {
     return menuItems;
   },
@@ -34,6 +47,10 @@ AppDispatcher.register(function(action) {
     case NavConstants.RECEIVE_UPDATE:
       NavStore.receiveMenuItems(action.menuItems);
       NavStore.emitChange();
+      break;
+
+    case NavConstants.REPLICATION_UPDATE:
+      NavStore.emitReplicationChange();
       break;
 
     default:

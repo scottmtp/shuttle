@@ -7,7 +7,13 @@ export default {
     AppDispatcher.dispatch({
       'actionType': NavConstants.UPDATE
     });
-    
+
     NavAPI.updateMenuItems();
+  },
+
+  replicationUpdate: function() {
+    AppDispatcher.dispatch({
+      'actionType': NavConstants.REPLICATION_UPDATE
+    });
   }
 };

@@ -155,6 +155,7 @@ Replicator._updateUi = function(project) {
   }
 
   NavViewActions.update();
+  NavViewActions.replicationUpdate();
 };
 
 Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);

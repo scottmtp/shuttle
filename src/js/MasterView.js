@@ -2,7 +2,7 @@ import React from 'react';
 import Router from 'react-router';
 let RouteHandler = Router.RouteHandler;
 
-import { AppBar, AppCanvas, ClearFix, Dialog, IconButton, Styles } from 'material-ui';
+import { AppBar, AppCanvas, ClearFix, Dialog, IconButton, Snackbar, Styles } from 'material-ui';
 let ThemeManager = new Styles.ThemeManager();
 import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
 
@@ -20,6 +20,7 @@ export default class MasterView extends React.Component {
     this.state = { menuItems: NavStore.getMenuItems() };
     this._onHelp = this._onHelp.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onReplication = this._onReplication.bind(this);
     this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
   }
 
@@ -35,12 +36,14 @@ export default class MasterView extends React.Component {
 
   componentDidMount() {
     NavStore.addChangeListener(this._onChange);
+    NavStore.addReplicationChangeListener(this._onReplication);
     NavViewActions.update();
     ProjectViewActions.updateReplicators();
   }
 
   componentWillUnmount() {
     NavStore.removeChangeListener(this._onChange);
+    NavStore.removeReplicationChangeListener(this._onReplication);
   }
 
   render() {
@@ -70,6 +73,11 @@ export default class MasterView extends React.Component {
             </div>
           </ClearFix>
 
+          <Snackbar
+            ref='replSnackbar'
+            message={'Sync...'}
+            autoHideDuration={5000} />
+
           <Dialog ref='helpDialog' actions={helpActions}>
             <p>
               Shuttle is a Todo and Note taking app with a focus on privacy. Data
@@ -95,6 +103,10 @@ export default class MasterView extends React.Component {
 
   _onChange() {
     this.setState({ menuItems: NavStore.getMenuItems() });
+  }
+
+  _onReplication() {
+    this.refs.replSnackbar.show();
   }
 
   _onHelp() {
