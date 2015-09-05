@@ -121,7 +121,8 @@ export default class ListView extends React.Component {
           <List>
             {activeItems}
           </List>
-          <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid} />
+          <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
+            order={self.state.list.listItems.length + 1} />
         </Tab>
         <Tab label='Completed' style={self.getStyles().tab}>
           <h1 style={self.getStyles().title}>{self.state.list.title}</h1>

@@ -6,12 +6,15 @@ import ListConstants from './ListConstants';
 import ListActions from './ListActions';
 import dbApi from '../DbAPI';
 
-let createItem = function(listId, text, status) {
+let listSort = (a, b) => a.order > b.order ? 1 : -1;
+
+let createItem = function(listId, text, status, order) {
   return {
     _id: uuid.v4(),
     listId: listId,
     text: text,
-    status: status
+    status: status,
+    order: order
   };
 };
 
@@ -34,7 +37,7 @@ let getListItems = function(projectId, listId) {
     })
     .then(items => {
       if (items && items.length) {
-        currentList.listItems = items;
+        currentList.listItems = items.sort(listSort);
       }
     })
     .then(() => {
@@ -46,8 +49,8 @@ let getListItems = function(projectId, listId) {
     });
 };
 
-let addListItem = function(projectId, listId, text, status) {
-  let item = createItem(listId, text, status);
+let addListItem = function(projectId, listId, text, status, order) {
+  let item = createItem(listId, text, status, order);
 
   dbApi.getGroup(projectId)
     .then(project => {
@@ -84,7 +87,7 @@ let updateListItem = function(projectId, editItem) {
     })
     .then(items => {
       if (items && items.length) {
-        currentList.listItems = items;
+        currentList.listItems = items.sort(listSort);
       }
     })
     .then(() => {
@@ -117,7 +120,8 @@ let clearList = function(groupId, listId) {
     })
     .then(items => {
       if (items && items.length) {
-        currentList.listItems = items.filter(item => item.status !== ListConstants.STATUS_COMPLETED);
+        currentList.listItems = items.filter(item => item.status !== ListConstants.STATUS_COMPLETED)
+          .sort(listSort);
         items.filter(item => item.status === ListConstants.STATUS_COMPLETED)
           .forEach(item => {
             deletionPromises.push(dbApi.removeListItem(project, item._id));

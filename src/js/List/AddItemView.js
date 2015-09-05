@@ -31,7 +31,8 @@ export default class AddItemView extends React.Component {
       return;
     }
 
-    ListViewActions.addListItem(this.props.groupId, this.props.listId, value, ListConstants.STATUS_ACTIVE);
+    ListViewActions.addListItem(this.props.groupId, this.props.listId, value,
+      ListConstants.STATUS_ACTIVE, this.props.order);
     this.handleSetState('', ListConstants.STATUS_ACTIVE);
   }
 

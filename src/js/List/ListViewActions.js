@@ -7,8 +7,8 @@ export default {
     ListAPI.getListItems(groupId, listId);
   },
 
-  addListItem: function(groupId, listId, text, status) {
-    ListAPI.addListItem(groupId, listId, text, status);
+  addListItem: function(groupId, listId, text, status, order) {
+    ListAPI.addListItem(groupId, listId, text, status, order);
   },
 
   setChecked: function(groupId, listItem, checked) {
