@@ -1,5 +1,6 @@
 import React from 'react';
 import { Checkbox, List, ListItem, RaisedButton, Styles, Tab, Tabs, TextField } from 'material-ui';
+import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 
 import AddItemView from './AddItemView';
 import ListConstants from './ListConstants';
@@ -47,33 +48,62 @@ export default class ListView extends React.Component {
     };
   }
 
-  handleCheck(listItemId, e, checked) {
-    ListViewActions.setChecked(this.props.params.groupid, listItemId, checked);
+  handleCheck(listItem, e, checked) {
+    ListViewActions.setChecked(this.props.params.groupid, listItem, checked);
   }
 
   handleClearList() {
     ListViewActions.clearList(this.props.params.groupid, this.props.params.listid);
   }
 
+  handleStartEditItem(li) {
+    ListViewActions.setEditItem(li);
+  }
+
+  handleChangeEditItemValue(li, e) {
+    li.text = e.target.value;
+    ListViewActions.changeEditItemValue(li);
+  }
+
+  handleUpdateEditItem(li) {
+    ListViewActions.updateEditItem(this.props.params.groupid, li);
+  }
+
   render() {
     let self = this;
 
     if (!self.state.list) {
-      return (<div></div>);
+      return false;
     }
 
     let allItems = [];
     let activeItems = [];
     let completedItems = [];
     self.state.list.listItems.forEach((li) => {
-      let checkbox = <Checkbox
-        checked={li.status === ListConstants.STATUS_COMPLETED}
-        onCheck={self.handleCheck.bind(self, li._id)} />;
+      let listItem;
 
-      let listItem = <ListItem
-        leftCheckbox={checkbox}
-        primaryText={li.text}
-        key={li._id} />;
+      if (self.state.list.editItem._id === li._id) {
+        listItem = (<div key={'d_' + li._id}>
+          <TextField
+            ref='editItem'
+            onChange={self.handleChangeEditItemValue.bind(self, li)}
+            value={li.text}
+            key={li._id} />
+          <RaisedButton key={'b_' + li._id} label='Done' onTouchTap={self.handleUpdateEditItem.bind(self, li)} />
+        </div>);
+      } else {
+        let checkbox = <Checkbox
+          checked={li.status === ListConstants.STATUS_COMPLETED}
+          disableTouchRipple={false}
+          onCheck={self.handleCheck.bind(self, li)} />;
+
+        listItem = <ListItem
+          leftIcon={checkbox}
+          primaryText={li.text}
+          disableTouchRipple={true}
+          rightIconButton={<ModeEditIcon onTouchTap={self.handleStartEditItem.bind(self, li)} />}
+          key={li._id} />;
+      }
 
       allItems.push(listItem);
 

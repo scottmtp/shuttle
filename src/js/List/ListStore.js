@@ -7,7 +7,8 @@ let CHANGE_EVENT = 'change';
 
 let currentList = {
   title: '',
-  listItems: []
+  listItems: [],
+  editItem: {}
 };
 
 let ListStore = assign({}, EventEmitter.prototype, {
@@ -39,6 +40,11 @@ AppDispatcher.register(function(action) {
 
     case ListConstants.ADD_LIST_ITEM_COMPLETED:
       currentList.listItems = currentList.listItems.concat(action.item);
+      ListStore.emitChange();
+      break;
+
+    case ListConstants.SET_EDIT_ITEM_COMPLETED:
+      currentList.editItem = action.item;
       ListStore.emitChange();
       break;
 

@@ -10,5 +10,7 @@ module.exports = keyMirror({
   ADD_LIST_ITEM: null,
   ADD_LIST_ITEM_COMPLETED: null,
 
-  CLEAR_LIST_COMPLETED: null
+  CLEAR_LIST_COMPLETED: null,
+
+  SET_EDIT_ITEM_COMPLETED: null
 });
