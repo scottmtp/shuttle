@@ -76,7 +76,7 @@ export default class ProjectList extends React.Component {
     let self = this;
 
     if (!self.state.projects) {
-      return (<div></div>);
+      return false;
     }
 
     let projects = [];

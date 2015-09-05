@@ -101,7 +101,7 @@ export default class NoteView extends React.Component {
     var self = this;
 
     if (!self.state.note) {
-      return (<div></div>);
+      false;
     }
 
     return (
