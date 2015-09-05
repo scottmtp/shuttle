@@ -29,9 +29,6 @@ let updateNote = function(groupId, noteId, title, markup) {
     .then(res => {
       theNote._rev = res._rev;
       NoteActions.updateCompleted(theNote);
-    })
-    .catch(e => {
-      console.log('Error: ' + e);
     });
 };
 

@@ -61,11 +61,6 @@ let addListItem = function(projectId, listId, text, status, order) {
     });
 };
 
-let setChecked = function(projectId, editItem, checked) {
-  editItem.status = checked ? ListConstants.STATUS_COMPLETED : ListConstants.STATUS_ACTIVE;
-  updateListItem(projectId, editItem);
-};
-
 let updateListItem = function(projectId, editItem) {
   let project;
   let listItem;
@@ -98,6 +93,11 @@ let updateListItem = function(projectId, editItem) {
       currentList.editItem = {};
       ListActions.getListItemsCompleted(currentList);
     });
+};
+
+let setChecked = function(projectId, editItem, checked) {
+  editItem.status = checked ? ListConstants.STATUS_COMPLETED : ListConstants.STATUS_ACTIVE;
+  updateListItem(projectId, editItem);
 };
 
 let clearList = function(groupId, listId) {

@@ -1,4 +1,4 @@
-import pouchDB from 'pouchdb';
+import PouchDB from 'pouchdb';
 import nodeDebug from 'debug';
 let debug = nodeDebug('shuttle:dbapi');
 
@@ -7,19 +7,19 @@ import DbTypes from './DbTypes';
 
 import Replicator from './Replicator';
 
-window.PouchDB = pouchDB;
+window.PouchDB = PouchDB;
 let db;
 
 // Use the global database
 var selectGlobalDB = function() {
   debug('Switching to global database.');
-  db = pouchDB(DbTypes.GLOBAL_DB);
+  db = new PouchDB(DbTypes.GLOBAL_DB);
 };
 
 // Use a project database
 var selectProjectDB = function(dbName) {
   debug('selectProjectDB db: ' + dbName);
-  db = pouchDB(dbName);
+  db = new PouchDB(dbName);
 };
 
 //
@@ -30,7 +30,7 @@ var selectProjectDB = function(dbName) {
 var destroyDb = function(dbName) {
   debug('destroyDb: ' + dbName);
 
-  let dbToDestroy = pouchDB(dbName);
+  let dbToDestroy = new PouchDB(dbName);
   return dbToDestroy.destroy();
 };
 

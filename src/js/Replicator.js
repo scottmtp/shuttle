@@ -66,7 +66,7 @@ export default class Replicator {
 
   handleReceivePouchData(data) {
     debug('handleReceivePouchData...');
-    let db = PouchDB(this.project.dbname);
+    let db = new PouchDB(this.project.dbname);
     let s = this._createStream(data.data);
 
     db.load(s, this.replicationOptions)
@@ -83,7 +83,7 @@ export default class Replicator {
       database += line;
     });
 
-    let db = PouchDB(this.project.dbname);
+    let db = new PouchDB(this.project.dbname);
 
     let self = this;
     db.dump(concatStream)
@@ -95,7 +95,7 @@ export default class Replicator {
   connect() {
     let socketUrl = this.host + '/?token=' + this.key;
     debug('connect...' + socketUrl);
-    this.socket = SocketIoClient(socketUrl, socketIoClientOpts);
+    this.socket = new SocketIoClient(socketUrl, socketIoClientOpts);
     this.socket.on('connect', this.handleConnect);
     this.socket.on('error', this.handleError);
     this.socket.on('disconnect', this.handleDisconnect);
@@ -151,7 +151,7 @@ Replicator._updateUi = function(project) {
       ProjectViewActions.getProjects();
     }
   } catch(err) {
-    console.log('error: ' + err);
+    console.log('Error: ' + err);
   }
 
   NavViewActions.update();
