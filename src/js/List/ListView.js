@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox, List, ListItem, RaisedButton, Styles, Tab, Tabs, TextField } from 'material-ui';
+import { Checkbox, List, ListItem, RaisedButton, Snackbar, Styles, Tab, Tabs,
+  TextField } from 'material-ui';
 import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
 
 import AddItemView from './AddItemView';
@@ -49,7 +50,21 @@ export default class ListView extends React.Component {
   }
 
   handleCheck(listItem, e, checked) {
-    ListViewActions.setChecked(this.props.params.groupid, listItem, checked);
+    let groupId = this.props.params.groupid;
+    ListViewActions.setChecked(groupId, listItem, checked);
+
+    this.refs.checkboxSnackbar.undoFunction = function() {
+      ListViewActions.setChecked(groupId, listItem, !checked);
+    };
+
+    this.refs.checkboxSnackbar.show();
+  }
+
+  checkboxUndo() {
+    let snackbar = this.refs.checkboxSnackbar;
+    if (snackbar && snackbar.undoFunction) {
+      snackbar.undoFunction();
+    }
   }
 
   handleClearList() {
@@ -123,6 +138,12 @@ export default class ListView extends React.Component {
           </List>
           <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
             order={self.state.list.listItems.length + 1} />
+          <Snackbar
+            ref='checkboxSnackbar'
+            message={'Item updated'}
+            action='undo'
+            autoHideDuration={5000}
+            onActionTouchTap={self.checkboxUndo.bind(self)} />
         </Tab>
         <Tab label='Completed' style={self.getStyles().tab}>
           <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
