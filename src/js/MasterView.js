@@ -20,6 +20,7 @@ export default class MasterView extends React.Component {
     this.state = { menuItems: NavStore.getMenuItems() };
     this._onHelp = this._onHelp.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdateReady = this._onUpdateReady.bind(this);
     this._onReplication = this._onReplication.bind(this);
     this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
   }
@@ -30,8 +31,21 @@ export default class MasterView extends React.Component {
     };
   }
 
+  _onUpdateReady() {
+    this.refs.appUpdateSnackbar.show();
+  }
+
+  _appRefresh() {
+    document.location.reload(true);
+  }
+
   componentWillMount() {
     ThemeManager.setTheme(new ShuttleTheme());
+
+    window.applicationCache.addEventListener('updateready', this._onUpdateReady);
+    if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
+      this._onUpdateReady();
+    }
   }
 
   componentDidMount() {
@@ -77,6 +91,13 @@ export default class MasterView extends React.Component {
             ref='replSnackbar'
             message={'Sync...'}
             autoHideDuration={5000} />
+
+          <Snackbar
+            ref='appUpdateSnackbar'
+            message={'Update ready'}
+            action='refresh'
+            onActionTouchTap={this._appRefresh}
+            />
 
           <Dialog ref='helpDialog' actions={helpActions}>
             <p>
