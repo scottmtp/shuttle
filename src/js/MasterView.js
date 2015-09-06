@@ -23,6 +23,7 @@ export default class MasterView extends React.Component {
     this._onUpdateReady = this._onUpdateReady.bind(this);
     this._onReplication = this._onReplication.bind(this);
     this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
+    this.showAppUpdateSnackbar = false;
   }
 
   getChildContext() {
@@ -32,7 +33,7 @@ export default class MasterView extends React.Component {
   }
 
   _onUpdateReady() {
-    this.refs.appUpdateSnackbar.show();
+    this.showAppUpdateSnackbar = true;
   }
 
   _appRefresh() {
@@ -52,6 +53,11 @@ export default class MasterView extends React.Component {
     NavStore.addChangeListener(this._onChange);
     NavStore.addReplicationChangeListener(this._onReplication);
     NavViewActions.update();
+
+    if (this.showAppUpdateSnackbar) {
+      this.refs.appUpdateSnackbar.show();
+    }
+
     ProjectViewActions.updateReplicators();
   }
 
