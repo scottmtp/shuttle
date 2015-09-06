@@ -119,6 +119,11 @@ export default class MasterView extends React.Component {
               You can access Lists and Notes from the top-left menu, and you can
               customize Shuttle on the Projects page!
             </p>
+            <p>
+              Also, if you have any feedback or comments about Shuttle, we
+              would <a href='mailto:info@tryshuttle.com?subject=Shuttle feedback'>love
+              to hear from you!</a>
+            </p>
           </Dialog>
         </AppCanvas>
     );
