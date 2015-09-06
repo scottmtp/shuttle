@@ -82,6 +82,10 @@ let updateListPart = function(project, list) {
 };
 
 let updateNotePart = function(project, note) {
+  if (!note.html) {
+    note.html = '';
+  }
+
   dbApi.updateNote(project, note)
     .then(() => {
       return dbApi.getComponents(project);
