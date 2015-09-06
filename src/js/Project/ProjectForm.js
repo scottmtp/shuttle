@@ -30,7 +30,8 @@ export default class AddItemView extends React.Component {
     this.onRenamePartFormChange = this.onRenamePartFormChange.bind(this);
     this.saveRenamePart = this.saveRenamePart.bind(this);
 
-    this.onAddPartFormChange = this.onAddPartFormChange.bind(this);
+    this.onAddPartTitleChange = this.onAddPartTitleChange.bind(this);
+    this.onAddPartTypeChange = this.onAddPartTypeChange.bind(this);
     this.saveAddPart = this.saveAddPart.bind(this);
 
     this.saveDeletePart = this.saveDeletePart.bind(this);
@@ -100,10 +101,17 @@ export default class AddItemView extends React.Component {
     this.refs.addPartDialog.dismiss();
   }
 
-  onAddPartFormChange() {
+  onAddPartTitleChange(e) {
     let title = this.refs.addPartTitleField.getValue();
     let type = this.refs.addPartTypeField.getInputNode().value;
+
     ProjectViewActions.setAddPartValues(title, type);
+  }
+
+  onAddPartTypeChange(e, selectedIndex, menuItem) {
+    let title = this.refs.addPartTitleField.getValue();
+
+    ProjectViewActions.setAddPartValues(title, menuItem.payload);
   }
 
   // Rename Part Dialog
@@ -216,11 +224,11 @@ export default class AddItemView extends React.Component {
         <Dialog title='Add Part' ref='addPartDialog' actions={this.addPartActions()}>
           <div>
             <TextField ref='addPartTitleField' value={this.state.addPart.title}
-              onChange={this.onAddPartFormChange} floatingLabelText='Title'/>
+              onChange={this.onAddPartTitleChange} floatingLabelText='Title'/>
           </div>
           <div>
             <label>Type</label>
-            <DropDownMenu onChange={this.onAddPartFormChange} ref='addPartTypeField' menuItems={[
+            <DropDownMenu onChange={this.onAddPartTypeChange} ref='addPartTypeField' menuItems={[
               {payload: DbTypes.TYPE_LIST, text: DbTypes.TYPE_LIST},
               {payload: DbTypes.TYPE_NOTE, text: DbTypes.TYPE_NOTE}
             ]} />
