@@ -4,6 +4,8 @@ import NavActions from './NavActions';
 import dbApi from './DbAPI';
 import newAccountApi from './NewAccountAPI';
 
+let projectSort = (a, b) => a.name > b.name ? 1 : -1;
+
 let buildProjectsMenuItem = function() {
   return { route: '/projects', text: 'Projects' };
 };
@@ -28,21 +30,34 @@ let buildComponentsMenu = function(project, items) {
 let buildMenu = function(projects) {
   let promise = new Promise(function(resolve, reject) {
     let menuItems = [buildProjectsMenuItem()];
-    let idx = 0;
+    let projectMap = [];
 
+    // function to create menu after project outline is retrieved below
+    let constructMenu = function() {
+      projects.sort(projectSort).forEach(function(p) {
+        let items = projectMap[p._id];
+        menuItems = menuItems.concat(buildProjectMenuItem(p));
+        if (items.length) {
+          menuItems = menuItems.concat(buildComponentsMenu(p, items));
+        }
+      });
+
+      resolve(menuItems);
+    }
+
+    // get project outline from pouchdb
+    let done = 0;
     projects.forEach(function(p) {
       dbApi.getComponents(p)
       .then(function(items) {
-        menuItems = menuItems.concat(buildProjectMenuItem(p));
-        menuItems = menuItems.concat(buildComponentsMenu(p, items));
+        projectMap[p._id] = items;
 
-        idx++;
-        if (idx === projects.length) {
-          resolve(menuItems);
+        done++;
+        if (done === projects.length) {
+          constructMenu();
         }
       });
     });
-
   });
 
   return promise;

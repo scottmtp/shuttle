@@ -9,6 +9,8 @@ import ProjectForm from './ProjectForm';
 import ProjectStore from './ProjectStore';
 import ProjectViewActions from './ProjectViewActions';
 
+let projectSort = (a, b) => a.name > b.name ? 1 : -1;
+
 export default class ProjectList extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +82,7 @@ export default class ProjectList extends React.Component {
     }
 
     let projects = [];
-    self.state.projects.forEach((project) => {
+    self.state.projects.sort(projectSort).forEach((project) => {
       let iconButton = (
         <IconButton touch={true}>
           <MoreVertIcon color={Colors.grey400} />
