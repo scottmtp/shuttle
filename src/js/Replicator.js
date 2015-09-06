@@ -18,6 +18,8 @@ import ListViewActions from './List/ListViewActions';
 
 let signallerHost = process.env.API_URL;
 let replicationOpts = {batchSize: 1};
+const OPT_SINCE = 5;
+
 let socketIoClientOpts = {multiplex: false};
 
 export default class Replicator {
@@ -76,7 +78,9 @@ export default class Replicator {
       });
   }
 
-  sendPouchData() {
+  // TODO: Revisit API, currently sinceRev is just a boolean and doesn't
+  // determine which rev to use.
+  sendPouchData(sinceRev) {
     debug('sendPouchData...');
     let database = '';
     let concatStream = concat({encoding: 'string'}, function (line) {
@@ -86,8 +90,18 @@ export default class Replicator {
     let db = new PouchDB(this.project.dbname);
 
     let self = this;
-    db.dump(concatStream)
-      .then(function() {
+    let opts = {};
+
+    db.info()
+      .then((res) => {
+        if (sinceRev && res.update_seq > OPT_SINCE) {
+          opts.since = res.update_seq - OPT_SINCE;
+        }
+
+        debug('replication opts: ' + JSON.stringify(opts));
+        return db.dump(concatStream, opts)
+      })
+      .then((res) => {
         self.socket.emit('pouchrepl', {data: database});
       });
   }
@@ -160,11 +174,11 @@ Replicator._updateUi = function(project) {
 
 Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);
 
-Replicator.updateForProject = function(project) {
+Replicator.updateForProject = function(project, sinceRev) {
   debug('Update for project: ' + JSON.stringify(project));
   let repl = Replicator.getReplicator(project);
   if (repl) {
-    repl.replicator.sendPouchData();
+    repl.replicator.sendPouchData(sinceRev);
   } else {
     debug('Unable to update project: ' + JSON.stringify(project));
   }

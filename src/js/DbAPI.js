@@ -6,7 +6,6 @@ import _ from 'lodash';
 import FastMap from 'collections/fast-map';
 
 import DbTypes from './DbTypes';
-
 import Replicator from './Replicator';
 
 window.PouchDB = PouchDB;
@@ -186,7 +185,7 @@ var updateNote = function(project, obj) {
   return updateObject(db, DbTypes.TYPE_NOTE, obj)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
@@ -197,7 +196,7 @@ var removeNote = function(project, id) {
   return removeObject(db, DbTypes.TYPE_NOTE, id)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
@@ -221,7 +220,7 @@ var updateList = function(project, obj) {
   return updateObject(db, DbTypes.TYPE_LIST, obj)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
@@ -232,7 +231,7 @@ var removeList = function(project, id) {
   return removeObject(db, DbTypes.TYPE_LIST, id)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
@@ -266,7 +265,7 @@ var updateListItem = function(project, obj) {
   return updateObject(db, DbTypes.TYPE_LIST_ITEM, obj)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
@@ -277,7 +276,7 @@ var removeListItem = function(project, id) {
   return removeObject(db, DbTypes.TYPE_LIST_ITEM, id)
     .then((res) => {
       if (project.room) {
-        Replicator.updateForProject(project);
+        Replicator.updateForProject(project, 1);
       }
       return res;
     });
