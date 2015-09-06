@@ -3,23 +3,41 @@ import nodeDebug from 'debug';
 let debug = nodeDebug('shuttle:dbapi');
 
 import _ from 'lodash';
+import FastMap from 'collections/fast-map';
+
 import DbTypes from './DbTypes';
 
 import Replicator from './Replicator';
 
 window.PouchDB = PouchDB;
-let db;
+let dbs = new FastMap();
 
 // Use the global database
 var selectGlobalDB = function() {
-  debug('Switching to global database.');
-  db = new PouchDB(DbTypes.GLOBAL_DB);
+  debug('Selecting global database.');
+
+  if (dbs.has(DbTypes.GLOBAL_DB)) {
+    return dbs.get(DbTypes.GLOBAL_DB);
+  }
+
+  var db = new PouchDB(DbTypes.GLOBAL_DB);
+  dbs.set(DbTypes.GLOBAL_DB, db);
+
+  return db;
 };
 
 // Use a project database
 var selectProjectDB = function(dbName) {
   debug('selectProjectDB db: ' + dbName);
-  db = new PouchDB(dbName);
+
+  if (dbs.has(dbName)) {
+    return dbs.get(dbName);
+  }
+
+  var db = new PouchDB(dbName);
+  dbs.set(dbName, db);
+
+  return db;
 };
 
 //
@@ -35,7 +53,7 @@ var destroyDb = function(dbName) {
 };
 
 // Find one object
-var getObject = function(collection, id) {
+var getObject = function(db, collection, id) {
   debug('getObject: ' + collection + ', ' + id);
   return db.get(id)
     .catch(function(err) {
@@ -46,7 +64,7 @@ var getObject = function(collection, id) {
 };
 
 // Get all objects
-var getAllObjects = function(collection) {
+var getAllObjects = function(db, collection) {
   debug('getAllObjects: ' + collection);
 
   return db.allDocs({
@@ -67,14 +85,14 @@ var getAllObjects = function(collection) {
 };
 
 // Update or insert object
-var updateObject = function(collection, obj) {
+var updateObject = function(db, collection, obj) {
   debug('updateObject: ' + collection + ', ' + JSON.stringify(obj));
   obj.type = collection;
   return db.put(obj);
 };
 
 // Delete object
-var removeObject = function(collection, id) {
+var removeObject = function(db, collection, id) {
   debug('removeObject: ' + collection + ', ' + id);
   return db.get(id).then(function(doc) {
     return db.remove(doc);
@@ -85,87 +103,87 @@ var removeObject = function(collection, id) {
 // Group API
 //
 var getGroup = function(id) {
-  selectGlobalDB();
-  return getObject(DbTypes.TYPE_GROUP, id);
+  var db = selectGlobalDB();
+  return getObject(db, DbTypes.TYPE_GROUP, id);
 };
 
 var getAllGroups = function() {
-  selectGlobalDB();
-  return getAllObjects(DbTypes.TYPE_GROUP);
+  var db = selectGlobalDB();
+  return getAllObjects(db, DbTypes.TYPE_GROUP);
 };
 
 var updateGroup = function(obj) {
-  selectGlobalDB();
-  return updateObject(DbTypes.TYPE_GROUP, obj);
+  var db = selectGlobalDB();
+  return updateObject(db, DbTypes.TYPE_GROUP, obj);
 };
 
 var removeGroup = function(id) {
-  selectGlobalDB();
-  return removeObject(DbTypes.TYPE_GROUP, id);
+  var db = selectGlobalDB();
+  return removeObject(db, DbTypes.TYPE_GROUP, id);
 };
 
 //
 // Preference API
 //
 var getPreference = function(id) {
-  selectGlobalDB();
-  return getObject(DbTypes.TYPE_PREFERENCE, id);
+  var db = selectGlobalDB();
+  return getObject(db, DbTypes.TYPE_PREFERENCE, id);
 };
 
 var getAllPreferences = function() {
-  selectGlobalDB();
-  return getAllObjects(DbTypes.TYPE_PREFERENCE);
+  var db = selectGlobalDB();
+  return getAllObjects(db, DbTypes.TYPE_PREFERENCE);
 };
 
 var updatePreference = function(obj) {
-  selectGlobalDB();
-  return updateObject(DbTypes.TYPE_PREFERENCE, obj);
+  var db = selectGlobalDB();
+  return updateObject(db, DbTypes.TYPE_PREFERENCE, obj);
 };
 
 var removePreference = function(id) {
-  selectGlobalDB();
-  return removeObject(DbTypes.TYPE_PREFERENCE, id);
+  var db = selectGlobalDB();
+  return removeObject(db, DbTypes.TYPE_PREFERENCE, id);
 };
 
 //
 // Settings API
 //
 var getSetting = function(project, id) {
-  selectProjectDB(project.dbname);
-  return getObject(DbTypes.TYPE_SETTING, id);
+  var db = selectProjectDB(project.dbname);
+  return getObject(db, DbTypes.TYPE_SETTING, id);
 };
 
 var getAllSettings = function(project) {
-  selectProjectDB(project.dbname);
-  return getAllObjects(DbTypes.TYPE_SETTING);
+  var db = selectProjectDB(project.dbname);
+  return getAllObjects(db, DbTypes.TYPE_SETTING);
 };
 
 var updateSetting = function(project, obj) {
-  selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_SETTING, obj);
+  var db = selectProjectDB(project.dbname);
+  return updateObject(db, DbTypes.TYPE_SETTING, obj);
 };
 
 var removeSetting = function(project, id) {
-  selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_SETTING, id);
+  var db = selectProjectDB(project.dbname);
+  return removeObject(db, DbTypes.TYPE_SETTING, id);
 };
 
 //
 // Note API
 //
 var getNote = function(project, id) {
-  selectProjectDB(project.dbname);
-  return getObject(DbTypes.TYPE_NOTE, id);
+  var db = selectProjectDB(project.dbname);
+  return getObject(db, DbTypes.TYPE_NOTE, id);
 };
 
 var getAllNotes = function(project) {
-  selectProjectDB(project.dbname);
-  return getAllObjects(DbTypes.TYPE_NOTE);
+  var db = selectProjectDB(project.dbname);
+  return getAllObjects(db, DbTypes.TYPE_NOTE);
 };
 
 var updateNote = function(project, obj) {
-  selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_NOTE, obj)
+  var db = selectProjectDB(project.dbname);
+  return updateObject(db, DbTypes.TYPE_NOTE, obj)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -175,8 +193,8 @@ var updateNote = function(project, obj) {
 };
 
 var removeNote = function(project, id) {
-  selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_NOTE, id)
+  var db = selectProjectDB(project.dbname);
+  return removeObject(db, DbTypes.TYPE_NOTE, id)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -189,18 +207,18 @@ var removeNote = function(project, id) {
 // List API
 //
 var getList = function(project, id) {
-  selectProjectDB(project.dbname);
-  return getObject(DbTypes.TYPE_LIST, id);
+  var db = selectProjectDB(project.dbname);
+  return getObject(db, DbTypes.TYPE_LIST, id);
 };
 
 var getAllLists = function(project) {
-  selectProjectDB(project.dbname);
-  return getAllObjects(DbTypes.TYPE_LIST);
+  var db = selectProjectDB(project.dbname);
+  return getAllObjects(db, DbTypes.TYPE_LIST);
 };
 
 var updateList = function(project, obj) {
-  selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_LIST, obj)
+  var db = selectProjectDB(project.dbname);
+  return updateObject(db, DbTypes.TYPE_LIST, obj)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -210,8 +228,8 @@ var updateList = function(project, obj) {
 };
 
 var removeList = function(project, id) {
-  selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_LIST, id)
+  var db = selectProjectDB(project.dbname);
+  return removeObject(db, DbTypes.TYPE_LIST, id)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -224,13 +242,13 @@ var removeList = function(project, id) {
 // List Item API
 //
 var getListItem = function(project, id) {
-  selectProjectDB(project.dbname);
-  return getObject(DbTypes.TYPE_LIST_ITEM, id);
+  var db = selectProjectDB(project.dbname);
+  return getObject(db, DbTypes.TYPE_LIST_ITEM, id);
 };
 
 var getAllListItems = function(project, listId) {
-  selectProjectDB(project.dbname);
-  return getAllObjects(DbTypes.TYPE_LIST_ITEM)
+  var db = selectProjectDB(project.dbname);
+  return getAllObjects(db, DbTypes.TYPE_LIST_ITEM)
     .then(results => {
       var items = [];
       results.forEach(i => {
@@ -244,8 +262,8 @@ var getAllListItems = function(project, listId) {
 };
 
 var updateListItem = function(project, obj) {
-  selectProjectDB(project.dbname);
-  return updateObject(DbTypes.TYPE_LIST_ITEM, obj)
+  var db = selectProjectDB(project.dbname);
+  return updateObject(db, DbTypes.TYPE_LIST_ITEM, obj)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -255,8 +273,8 @@ var updateListItem = function(project, obj) {
 };
 
 var removeListItem = function(project, id) {
-  selectProjectDB(project.dbname);
-  return removeObject(DbTypes.TYPE_LIST_ITEM, id)
+  var db = selectProjectDB(project.dbname);
+  return removeObject(db, DbTypes.TYPE_LIST_ITEM, id)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project);
@@ -292,8 +310,24 @@ var getComponents = function(project) {
   return promise;
 };
 
+var compactAll = function() {
+  debug('running database compaction...');
+
+  var db = selectGlobalDB();
+  db.compact();
+
+  getAllGroups()
+    .then((groups) => {
+      groups.forEach((group) => {
+        var groupDb = selectProjectDB(group.dbname);
+        groupDb.compact();
+      });
+    });
+};
+
 export default {
   destroyDb: destroyDb,
+  compactAll: compactAll,
   getGroup: getGroup,
   getAllGroups: getAllGroups,
   updateGroup: updateGroup,

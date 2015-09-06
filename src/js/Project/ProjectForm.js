@@ -4,6 +4,7 @@ import { Dialog, DropDownMenu, IconButton, IconMenu, List, ListItem, MenuItem,
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 let { Colors } = Styles;
 
+import dbApi from '../DbAPI';
 import DbTypes from '../DbTypes';
 import NavViewActions from '../NavViewActions';
 import ProjectStore from './ProjectStore';
@@ -74,6 +75,9 @@ export default class AddItemView extends React.Component {
     ProjectViewActions.updateProject(this.state.activeProject);
     NavViewActions.update();
     this.refs.projectDialog.dismiss();
+
+    // TODO: adding compaction run here, may want to re-evaluate
+    dbApi.compactAll();
   }
 
   onFormChange() {
