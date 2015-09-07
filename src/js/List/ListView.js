@@ -76,12 +76,19 @@ export default class ListView extends React.Component {
   }
 
   handleChangeEditItemValue(li, e) {
-    li.text = e.target.value;
-    ListViewActions.changeEditItemValue(li);
+    if (e.target.value !== li.text) {
+      li.text = e.target.value;
+      li.dirty = true;
+      ListViewActions.changeEditItemValue(li);
+    }
   }
 
   handleUpdateEditItem(li) {
-    ListViewActions.updateEditItem(this.props.params.groupid, li);
+    if (li.dirty) {
+      ListViewActions.updateEditItem(this.props.params.groupid, li);
+    } else {
+      ListViewActions.setEditItem({});
+    }
   }
 
   render() {
