@@ -44,8 +44,8 @@ export default class AppLeftNav extends React.Component {
     );
 
     return (
-      <LeftNav
-        ref="leftNav"
+      <LeftNav id={this.props.id}
+        ref='leftNav'
         header={header}
         docked={false}
         isInitiallyOpen={true}

@@ -62,8 +62,8 @@ export default class AddItemView extends React.Component {
 
   standardActions() {
     return [
-      { text: 'Cancel' },
-      { text: 'Save', onTouchTap: this.save, ref: 'save' }
+      { id: 'projectCancel', text: 'Cancel' },
+      { id: 'projectSave', text: 'Save', onTouchTap: this.save, ref: 'save' }
     ];
   }
 
@@ -90,8 +90,8 @@ export default class AddItemView extends React.Component {
 
   addPartActions() {
     return [
-      { text: 'Cancel' },
-      { text: 'Save', onTouchTap: this.saveAddPart }
+      { id: 'addPartCancel', text: 'Cancel' },
+      { id: 'addPartSave', text: 'Save', onTouchTap: this.saveAddPart }
     ];
   }
 
@@ -204,19 +204,19 @@ export default class AddItemView extends React.Component {
           actionFocus='save'>
 
           <Tabs>
-            <Tab label='Details'>
+            <Tab id='projectDetailsTab' label='Details'>
               <div>
-                <TextField ref='nameField' value={this.state.activeProject.name}
+                <TextField id='projectNameField' ref='nameField' value={this.state.activeProject.name}
                   onChange={this.onFormChange} floatingLabelText='Project Name'/>
               </div>
             </Tab>
-            <Tab label='Parts' style={partsListStyle}>
+            <Tab id='projectPartsTab' label='Parts' style={partsListStyle}>
               <List>
                 {this.buildPartsList()}
               </List>
-              <RaisedButton label='Add' onTouchTap={this.showAddPartDialog.bind(this)}/>
+              <RaisedButton id='addProjectPartButton' label='Add' onTouchTap={this.showAddPartDialog.bind(this)}/>
             </Tab>
-            <Tab label='Sharing'>
+            <Tab id='projectSharingTab' label='Sharing'>
               <div>
                 <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
                   onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
@@ -227,12 +227,12 @@ export default class AddItemView extends React.Component {
 
         <Dialog title='Add Part' ref='addPartDialog' actions={this.addPartActions()}>
           <div>
-            <TextField ref='addPartTitleField' value={this.state.addPart.title}
+            <TextField id='addPartTitleField' ref='addPartTitleField' value={this.state.addPart.title}
               onChange={this.onAddPartTitleChange} floatingLabelText='Title'/>
           </div>
           <div>
             <label>Type</label>
-            <DropDownMenu onChange={this.onAddPartTypeChange} ref='addPartTypeField' menuItems={[
+            <DropDownMenu id='addPartTypeField' onChange={this.onAddPartTypeChange} ref='addPartTypeField' menuItems={[
               {payload: DbTypes.TYPE_LIST, text: DbTypes.TYPE_LIST},
               {payload: DbTypes.TYPE_NOTE, text: DbTypes.TYPE_NOTE}
             ]} />

@@ -71,21 +71,21 @@ export default class MasterView extends React.Component {
       marginTop: '66px'
     };
 
-    let helpIcon = <IconButton touch={true} tooltip='Help' onTouchTap={this._onHelp}>
+    let helpIcon = <IconButton id='helpIcon' touch={true} tooltip='Help' onTouchTap={this._onHelp}>
       <ActionHelpIcon />
     </IconButton>;
 
-    let helpActions = [{ text: 'Got it!' }];
+    let helpActions = [{ id: 'helpOk', text: 'Got it!' }];
 
     return (
         <AppCanvas>
-          <AppBar
+          <AppBar id='appBar'
             onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
             title='shuttle'
             iconElementRight={helpIcon}
             zDepth={0}/>
 
-          <AppLeftNav menuItems={this.state.menuItems} ref='leftNav'/>
+          <AppLeftNav id='appLeftNav' menuItems={this.state.menuItems} ref='leftNav'/>
 
           <ClearFix>
             <div style={groupStyle}>
@@ -93,19 +93,19 @@ export default class MasterView extends React.Component {
             </div>
           </ClearFix>
 
-          <Snackbar
+          <Snackbar id='replSnackbar'
             ref='replSnackbar'
             message={'Sync...'}
             autoHideDuration={5000} />
 
-          <Snackbar
+          <Snackbar id='appUpdateSnackbar'
             ref='appUpdateSnackbar'
             message={'Update ready'}
             action='refresh'
             onActionTouchTap={this._appRefresh}
             />
 
-          <Dialog ref='helpDialog' actions={helpActions}>
+          <Dialog id='helpDialog' ref='helpDialog' actions={helpActions}>
             <p>
               Shuttle is a Todo and Note taking app with a focus on privacy. Data
               is stored locally and is always in your control.

@@ -106,16 +106,17 @@ export default class NoteView extends React.Component {
 
     return (
       <Tabs style={self.getStyles().tabs} tabItemContainerStyle={self.getStyles().tabItem}>
-        <Tab label="View" style={self.getStyles().tab}>
+        <Tab id='noteViewTab' label="View" style={self.getStyles().tab}>
           <h1 style={this.getStyles().title}>{self.state.note.title}</h1>
-          <div dangerouslySetInnerHTML={{__html: self.state.note.html}} />
+          <div id='noteContainer' dangerouslySetInnerHTML={{__html: self.state.note.html}} />
         </Tab>
-        <Tab label="Edit" style={self.getStyles().tab}>
+        <Tab id='noteEditTab' label="Edit" style={self.getStyles().tab}>
           <TextField
+            id='noteEditTitleField'
             floatingLabelText="Note Title"
             value={self.state.note.title}
             onChange={self.handleTitleChange} />
-          <ReactQuill value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
+          <ReactQuill id='noteEditArea' value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
         </Tab>
       </Tabs>
     );

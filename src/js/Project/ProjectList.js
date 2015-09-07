@@ -107,7 +107,7 @@ export default class ProjectList extends React.Component {
     return (
       <div>
         <h2>Projects:</h2>
-        <List>
+        <List id='projectList'>
           {projects}
         </List>
         <RaisedButton id='newProject' label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>

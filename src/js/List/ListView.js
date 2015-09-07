@@ -146,6 +146,7 @@ export default class ListView extends React.Component {
           <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
             order={self.state.list.listItems.length + 1} />
           <Snackbar
+            id='checkboxSnackbar'
             ref='checkboxSnackbar'
             message={'Item updated'}
             action='undo'
