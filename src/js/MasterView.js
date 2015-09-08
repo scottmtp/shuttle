@@ -111,7 +111,7 @@ export default class MasterView extends React.Component {
               is stored locally and is always in your control.
             </p>
             <p>
-              Even when Sharing is enabled we do not store data on our servers.
+              We do not store your data on our servers, even when Sharing is enabled.
               Data will only sync when multiple devices with the same Sharing key
               are online.
             </p>
