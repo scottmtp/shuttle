@@ -52,6 +52,7 @@ export SSL_KEY_FILE="www.tryshuttle.com.key"
 export SSL_CERT_FILE="www.tryshuttle.com.crt"
 export SSL_CA_FILE="www.tryshuttle.com.chain.crt"
 export JWT_TOKEN_FILE="/usr/local/shuttle/ssl/jwttoken.txt"
+export EMAIL_TOKEN_FILE="/usr/local/shuttle/ssl/emailtoken.txt"
 
 # Add node to the path for situations in which the environment is passed.
 PATH=$NODE_BIN_DIR:$PATH

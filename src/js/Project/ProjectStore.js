@@ -15,6 +15,8 @@ let deletePart = {_id: '', title: ''};
 
 let deleteProject = {_id: '', name: ''};
 
+let tokenRequestEmail = {email: ''};
+
 let CHANGE_EVENT = 'change';
 
 let ProjectStore = assign({}, EventEmitter.prototype, {
@@ -56,6 +58,10 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
 
   getDeleteProject: function() {
     return deleteProject;
+  },
+
+  getTokenRequestEmail: function() {
+    return tokenRequestEmail;
   }
 });
 
@@ -115,6 +121,11 @@ AppDispatcher.register(function(action) {
 
     case ProjectConstants.SET_DELETE_PROJECT_COMPLETED:
       deleteProject = action.project;
+      ProjectStore.emitChange();
+      break;
+
+    case ProjectConstants.UPDATE_TOKEN_REQUEST_EMAIL_COMPLETED:
+      tokenRequestEmail.email = action.email;
       ProjectStore.emitChange();
       break;
 

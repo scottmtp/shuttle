@@ -10,6 +10,13 @@ module.exports = {
     filename: "bundle.js"
   },
 
+  node: {
+    console: true,
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {

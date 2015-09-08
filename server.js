@@ -2,6 +2,9 @@ var fs = require('fs');
 var http = require('http');
 var https = require('https');
 var url = require('url');
+var validator = require('email-validator');
+var uuid = require('uuid');
+var async = require('async');
 
 var express = require('express');
 var app = express();
@@ -10,6 +13,7 @@ var helmet = require('helmet');
 var morgan = require('morgan');
 var debug = require('debug')('shuttle-server');
 var jwt = require('jwt-simple');
+var emailer = require('./emailer');
 
 // START CONFIGURATION
 var port = process.env.PORT || 80;
@@ -20,6 +24,7 @@ var sslKeyFile = process.env.SSL_KEY_FILE || 'key.enc.pem';
 var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
 var sslCaFile = process.env.SSL_CA_FILE || 'certchain.pem';
 var jwtTokenFile = process.env.JWT_TOKEN_FILE;
+var emailTokenFile = process.env.EMAIL_TOKEN_FILE;
 // END CONFIGURATION
 
 var sslOptions = {
@@ -29,7 +34,12 @@ var sslOptions = {
   passphrase: fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
 };
 
-var jwtToken = fs.readFileSync(jwtTokenFile, 'utf-8').trim()
+var jwtToken = fs.readFileSync(jwtTokenFile, 'utf-8').trim();
+
+var emailApiToken;
+if (emailTokenFile) {
+  emailApiToken = fs.readFileSync(emailTokenFile, 'utf-8').trim()
+}
 
 var server = http.createServer(app);
 var secureServer = https.createServer(sslOptions, app);
@@ -39,6 +49,49 @@ var secureIo = require('socket.io')(secureServer);
 app.use(helmet());
 app.use(morgan('combined'));
 app.use(express.static(publicHtml));
+
+var sendEmail = function(emailToken, emailAddress, shuttleToken) {
+  try {
+    emailer.send(emailToken, emailAddress, shuttleToken);
+  } catch(err) {
+    console.log('Error: ' + err);
+  }
+};
+
+var encodeToken = function(payload, token) {
+  try {
+    return jwt.encode(payload, token);
+  } catch (err) {
+    console.log('Encoding error: ' + err);
+  }
+};
+
+var q = async.queue(function (task, callback) {
+  var payload = { user: task.email, room: uuid.v4() };
+  var token = encodeToken(payload, jwtToken);
+
+  if (emailApiToken) {
+    sendEmail(emailApiToken, task.emailAddress, token);
+  } else {
+    console.log('token: ' + JSON.stringify(token));
+  }
+
+  callback();
+}, 1);
+
+app.get('/token', function (req, res) {
+  if (req.query.email && validator.validate(req.query.email)) {
+    q.push({emailAddress: req.query.email}, function (err) {
+      console.log('Finished processing: ' + req.query.email);
+    });
+
+    res.send({
+      'thanks': req.query.email,
+    });
+  } else {
+    res.status(403).send('403 Unauthorized').end();
+  }
+});
 
 var verifyClient = function(wsUrl, jwtSecret) {
   var parsed, decoded;

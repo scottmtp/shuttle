@@ -1,4 +1,5 @@
 import uuid from 'uuid';
+import request from 'request';
 
 import dbApi from '../DbAPI';
 import dbTypes from '../DbTypes';
@@ -162,6 +163,22 @@ let updateReplicators = function() {
     });
 };
 
+let sendTokenRequest = function(email) {
+  try {
+    request.get(process.env.API_URL + '/token?email=' + email)
+      .on('error', function(err) {
+        console.log('Error: ' + err)
+      })
+      .on('response', function(response) {
+        response.on('data', function (chunk) {
+          console.log('response: ' + chunk);
+        });
+      })
+  } catch(err) {
+    console.log('Error: ' + err);
+  }
+};
+
 export default {
   getProjects: getProjects,
   createProject: createProject,
@@ -171,5 +188,6 @@ export default {
   addPart: addPart,
   updatePart: updatePart,
   deletePart: deletePart,
-  updateReplicators: updateReplicators
+  updateReplicators: updateReplicators,
+  sendTokenRequest: sendTokenRequest
 };

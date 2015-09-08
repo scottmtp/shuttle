@@ -86,5 +86,16 @@ export default {
 
   updateReplicators: function() {
     ProjectAPI.updateReplicators();
+  },
+
+  updateTokenRequestEmail: function(emailAddress) {
+    AppDispatcher.dispatch({
+      actionType: ProjectConstants.UPDATE_TOKEN_REQUEST_EMAIL_COMPLETED,
+      email: emailAddress
+    });
+  },
+
+  sendTokenRequest: function(email) {
+    ProjectAPI.sendTokenRequest(email);
   }
 };

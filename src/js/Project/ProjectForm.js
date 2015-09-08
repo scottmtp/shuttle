@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DropDownMenu, IconButton, IconMenu, List, ListItem, MenuItem,
-  RaisedButton, Styles, Tab, Tabs, TextField } from 'material-ui';
+  RaisedButton, Snackbar, Styles, Tab, Tabs, TextField } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 let { Colors } = Styles;
 
@@ -19,7 +19,8 @@ export default class AddItemView extends React.Component {
       activeProjectParts: ProjectStore.getActiveProjectParts(),
       addPart: ProjectStore.getAddPart(),
       renamePart: ProjectStore.getRenamePart(),
-      deletePart: ProjectStore.getDeletePart()
+      deletePart: ProjectStore.getDeletePart(),
+      requestTokenEmail: ProjectStore.getTokenRequestEmail()
     };
 
     this.onStateChange = this.onStateChange.bind(this);
@@ -36,6 +37,9 @@ export default class AddItemView extends React.Component {
     this.saveAddPart = this.saveAddPart.bind(this);
 
     this.saveDeletePart = this.saveDeletePart.bind(this);
+
+    this.onRequestTokenFormChange = this.onRequestTokenFormChange.bind(this);
+    this.saveRequestToken = this.saveRequestToken.bind(this);
   }
 
   // React methods
@@ -54,7 +58,8 @@ export default class AddItemView extends React.Component {
       activeProjectParts: ProjectStore.getActiveProjectParts(),
       addPart: ProjectStore.getAddPart(),
       renamePart: ProjectStore.getRenamePart(),
-      deletePart: ProjectStore.getDeletePart()
+      deletePart: ProjectStore.getDeletePart(),
+      requestTokenEmail: ProjectStore.getTokenRequestEmail()
     });
   }
 
@@ -81,9 +86,12 @@ export default class AddItemView extends React.Component {
   }
 
   onFormChange() {
-    let name = this.refs.nameField.getValue();
-    let room = this.refs.roomField.getValue();
-    ProjectViewActions.setActiveProjectValues(name, room);
+    let name = this.refs.nameField.getValue().trim();
+    let room = this.refs.roomField.getValue().trim();
+
+    if (name && name.length) {
+      ProjectViewActions.setActiveProjectValues(name, room);
+    }
   }
 
   // Add Part Dialog
@@ -163,6 +171,32 @@ export default class AddItemView extends React.Component {
     this.refs.deletePartDialog.dismiss();
   }
 
+  // Request Token
+
+  requestTokenDialog() {
+    this.refs.requestTokenDialog.show();
+  }
+
+  onRequestTokenFormChange(e) {
+    ProjectViewActions.updateTokenRequestEmail(e.target.value);
+  }
+
+  requestTokenActions() {
+    return [
+      { text: 'Cancel' },
+      { text: 'Send Request', onTouchTap: this.saveRequestToken }
+    ];
+  }
+
+  saveRequestToken() {
+    let email = this.state.requestTokenEmail.email;
+    if (email && email.length) {
+      ProjectViewActions.sendTokenRequest(this.state.requestTokenEmail.email);
+      this.refs.requestTokenDialog.dismiss();
+      this.refs.tokenRequestSnackbar.show();
+    }
+  }
+
   // Render
 
   buildPartsList() {
@@ -220,6 +254,7 @@ export default class AddItemView extends React.Component {
               <div>
                 <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
                   onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
+                <RaisedButton id='requestTokenButton' label='Request Key' onTouchTap={this.requestTokenDialog.bind(this)}/>
               </div>
             </Tab>
           </Tabs>
@@ -251,6 +286,24 @@ export default class AddItemView extends React.Component {
             Delete {this.state.deletePart.title}?
           </div>
         </Dialog>
+
+        <Dialog ref='requestTokenDialog' actions={this.requestTokenActions()}>
+          <p>
+            A secure Sharing Key will be sent to the email below. Once you have
+            received a key, you will need to enter it in the Key field for each
+            device you want to sync with.
+          </p>
+          <div>
+            <TextField ref='requestTokenEmailField' value={this.state.requestTokenEmail.email}
+              onChange={this.onRequestTokenFormChange} floatingLabelText='Email Address'/>
+          </div>
+        </Dialog>
+
+        <Snackbar
+          id='tokenRequestSnackbar'
+          ref='tokenRequestSnackbar'
+          message={'Request sent'}
+          autoHideDuration={5000} />
       </div>
     );
   }
