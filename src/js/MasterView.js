@@ -58,6 +58,11 @@ export default class MasterView extends React.Component {
       this.refs.appUpdateSnackbar.show();
     }
 
+    if (!global.localStorage.helpViewed) {
+      global.localStorage.helpViewed = 1;
+      this.refs.helpDialog.show();
+    }
+
     ProjectViewActions.updateReplicators();
   }
 
@@ -135,7 +140,6 @@ export default class MasterView extends React.Component {
 
   _onHelp() {
     this.refs.helpDialog.show();
-
   }
 }
 

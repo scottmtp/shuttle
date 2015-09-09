@@ -57,9 +57,6 @@ customize Shuttle on the Projects page!</div>
       })
       .then(function() {
         ProjectViewActions.getProjects();
-        // $localStorage.group = project._id;
-        // $localStorage.type = DbTypes.TYPE_NOTE;
-        // $localStorage.typeId = note1._id;
       });
   }
 };
