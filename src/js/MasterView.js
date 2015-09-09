@@ -67,10 +67,6 @@ export default class MasterView extends React.Component {
   }
 
   render() {
-    var groupStyle = {
-      marginTop: '64px'
-    };
-
     let helpIcon = <IconButton id='helpIcon' touch={true} tooltip='Help' onTouchTap={this._onHelp}>
       <ActionHelpIcon />
     </IconButton>;
@@ -78,7 +74,7 @@ export default class MasterView extends React.Component {
     let helpActions = [{ id: 'helpOk', text: 'Got it!' }];
 
     return (
-        <AppCanvas>
+        <div>
           <AppBar id='appBar'
             onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
             title='shuttle'
@@ -87,11 +83,7 @@ export default class MasterView extends React.Component {
 
           <AppLeftNav id='appLeftNav' menuItems={this.state.menuItems} ref='leftNav'/>
 
-          <ClearFix>
-            <div style={groupStyle}>
-              <RouteHandler/>
-            </div>
-          </ClearFix>
+          <RouteHandler/>
 
           <Snackbar id='replSnackbar'
             ref='replSnackbar'
@@ -125,7 +117,7 @@ export default class MasterView extends React.Component {
               to hear from you!</a>
             </p>
           </Dialog>
-        </AppCanvas>
+        </div>
     );
   }
 
