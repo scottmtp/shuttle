@@ -46,6 +46,7 @@ LOGFILE="/var/log/shuttle.log"
 MIN_UPTIME="5000"
 SPIN_SLEEP_TIME="2000"
 
+export NODE_ENV="production"
 export WWW_DIR="/usr/local/shuttle/deploy/current/dist/"
 export SSL_PREFIX="/usr/local/shuttle/ssl/"
 export SSL_KEY_FILE="www.tryshuttle.com.key"

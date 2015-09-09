@@ -40,7 +40,7 @@ module.exports = function (shipit) {
       ' /usr/local/iojs-v3.2.0-linux-x64/bin/npm' +
       ' install socket.io@1.3.6 debug@2.2.0 express@4.13.3 helmet@0.10.0' +
       ' jwt-simple@0.3.0 morgan@1.6.1 email-validator@1.0.3 uuid@2.0.1 async@1.4.2' +
-      ' sendgrid@1.9.2';
+      ' sendgrid@1.9.2 express-force-ssl@0.2.13';
 
     shipit.remote(cmd)
       .then(function(res) {
