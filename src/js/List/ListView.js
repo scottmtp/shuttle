@@ -45,6 +45,10 @@ export default class ListView extends React.Component {
       tab: {
         margin: '6px',
         color: Styles.Colors.black
+      },
+      tabContent: {
+        marginLeft: '6px',
+        marginRight: '6px'
       }
     };
   }
@@ -139,32 +143,38 @@ export default class ListView extends React.Component {
     return (
       <Tabs tabItemContainerStyle={self.getStyles().tabItem}>
         <Tab label='Active' style={self.getStyles().tab}>
-          <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
-          <List>
-            {activeItems}
-          </List>
-          <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
-            order={self.state.list.listItems.length + 1} />
-          <Snackbar
-            id='checkboxSnackbar'
-            ref='checkboxSnackbar'
-            message={'Item updated'}
-            action='undo'
-            autoHideDuration={5000}
-            onActionTouchTap={self.checkboxUndo.bind(self)} />
+          <div style={self.getStyles().tabContent}>
+            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            <List>
+              {activeItems}
+            </List>
+            <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
+              order={self.state.list.listItems.length + 1} />
+            <Snackbar
+              id='checkboxSnackbar'
+              ref='checkboxSnackbar'
+              message={'Item updated'}
+              action='undo'
+              autoHideDuration={5000}
+              onActionTouchTap={self.checkboxUndo.bind(self)} />
+          </div>
         </Tab>
         <Tab label='Completed' style={self.getStyles().tab}>
-          <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
-          <List>
-            {completedItems}
-          </List>
-          <RaisedButton label='Clear Completed' onTouchTap={self.handleClearList.bind(self)}/>
+          <div style={self.getStyles().tabContent}>
+            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            <List>
+              {completedItems}
+            </List>
+            <RaisedButton label='Clear Completed' onTouchTap={self.handleClearList.bind(self)}/>
+          </div>
         </Tab>
         <Tab label='All' style={self.getStyles().tab}>
-          <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
-          <List>
-            {allItems}
-          </List>
+          <div style={self.getStyles().tabContent}>
+            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            <List>
+              {allItems}
+            </List>
+          </div>
         </Tab>
       </Tabs>
     );

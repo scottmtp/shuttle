@@ -79,20 +79,15 @@ export default class NoteView extends React.Component {
       title: {
         marginBottom: '6px'
       },
-      tabs: {
-
-      },
       tabItem: {
         backgroundColor: Styles.Colors.grey300
       },
       tab: {
-        margin: '6px',
         color: Styles.Colors.black
       },
-      squire: {
-        width: '100%',
-        height: '300px',
-        border: '1px solid black'
+      tabContent: {
+        marginLeft: '6px',
+        marginRight: '6px'
       }
     };
   }
@@ -105,18 +100,22 @@ export default class NoteView extends React.Component {
     }
 
     return (
-      <Tabs style={self.getStyles().tabs} tabItemContainerStyle={self.getStyles().tabItem}>
+      <Tabs tabItemContainerStyle={self.getStyles().tabItem}>
         <Tab id='noteViewTab' label="View" style={self.getStyles().tab}>
-          <h1 style={this.getStyles().title}>{self.state.note.title}</h1>
-          <div id='noteContainer' dangerouslySetInnerHTML={{__html: self.state.note.html}} />
+          <div style={self.getStyles().tabContent}>
+            <h1 style={this.getStyles().title}>{self.state.note.title}</h1>
+            <div id='noteContainer' dangerouslySetInnerHTML={{__html: self.state.note.html}} />
+          </div>
         </Tab>
         <Tab id='noteEditTab' label="Edit" style={self.getStyles().tab}>
-          <TextField
-            id='noteEditTitleField'
-            floatingLabelText="Note Title"
-            value={self.state.note.title}
-            onChange={self.handleTitleChange} />
-          <ReactQuill id='noteEditArea' value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
+          <div style={self.getStyles().tabContent}>
+            <TextField
+              id='noteEditTitleField'
+              floatingLabelText="Note Title"
+              value={self.state.note.title}
+              onChange={self.handleTitleChange} />
+            <ReactQuill id='noteEditArea' style={{borderBottom: '1px solid #eee'}} value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
+          </div>
         </Tab>
       </Tabs>
     );

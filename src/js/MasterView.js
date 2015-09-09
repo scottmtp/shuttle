@@ -68,7 +68,7 @@ export default class MasterView extends React.Component {
 
   render() {
     var groupStyle = {
-      marginTop: '66px'
+      marginTop: '64px'
     };
 
     let helpIcon = <IconButton id='helpIcon' touch={true} tooltip='Help' onTouchTap={this._onHelp}>
