@@ -12,7 +12,6 @@ export default class AppLeftNav extends React.Component {
     this.toggle = this.toggle.bind(this);
     this._getSelectedIndex = this._getSelectedIndex.bind(this);
     this._onLeftNavChange = this._onLeftNavChange.bind(this);
-    this._onHeaderClick = this._onHeaderClick.bind(this);
   }
 
   getStyles() {
@@ -24,12 +23,11 @@ export default class AppLeftNav extends React.Component {
 
   getHeaderStyles() {
     return {
-      cursor: 'pointer',
       fontSize: '24px',
       color: Typography.textFullWhite,
       lineHeight: Spacing.desktopKeylineIncrement + 'px',
       fontWeight: Typography.fontWeightLight,
-      backgroundColor: Colors.blueGrey500,
+      backgroundColor: Colors.blue700,
       paddingLeft: Spacing.desktopGutter,
       paddingTop: '0px',
       marginBottom: '0px'
@@ -38,8 +36,8 @@ export default class AppLeftNav extends React.Component {
 
   render() {
     let header = (
-      <div style={this.getHeaderStyles()} onTouchTap={this._onHeaderClick}>
-        shuttle
+      <div style={this.getHeaderStyles()}>
+        Menu
       </div>
     );
 
@@ -47,7 +45,7 @@ export default class AppLeftNav extends React.Component {
       <LeftNav id={this.props.id}
         ref='leftNav'
         header={header}
-        docked={false}
+        docked={this.props.docked}
         isInitiallyOpen={true}
         menuItems={this.props.menuItems}
         selectedIndex={this._getSelectedIndex()}
@@ -73,12 +71,6 @@ export default class AppLeftNav extends React.Component {
   _onLeftNavChange(e, key, payload) {
     this.context.router.transitionTo(payload.route);
   }
-
-  _onHeaderClick() {
-    this.context.router.transitionTo('root');
-    this.refs.leftNav.close();
-  }
-
 }
 
 AppLeftNav.propTypes = {
