@@ -105,7 +105,7 @@ export default class ProjectList extends React.Component {
     });
 
     return (
-      <div>
+      <div style={{marginLeft: '4px', marginRight: '4px'}}>
         <h2>Projects:</h2>
         <List id='projectList'>
           {projects}
