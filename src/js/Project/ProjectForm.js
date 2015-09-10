@@ -228,6 +228,7 @@ export default class AddItemView extends React.Component {
       let listItem = <ListItem
         primaryText={comp.title}
         rightIconButton={rightIconMenu}
+        disableTouchRipple={true}
         key={comp._id} />;
 
       partsList.push(listItem);
