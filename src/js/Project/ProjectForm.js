@@ -23,6 +23,8 @@ export default class AddItemView extends React.Component {
       requestTokenEmail: ProjectStore.getTokenRequestEmail()
     };
 
+    this.onTabChange = this.onTabChange.bind(this);
+
     this.onStateChange = this.onStateChange.bind(this);
     this.render = this.render.bind(this);
 
@@ -40,6 +42,14 @@ export default class AddItemView extends React.Component {
 
     this.onRequestTokenFormChange = this.onRequestTokenFormChange.bind(this);
     this.saveRequestToken = this.saveRequestToken.bind(this);
+  }
+
+  onTabChange() {
+    // resize event will force dialog resize
+    setTimeout(function() {
+      window.dispatchEvent(new Event('resize'));
+    }, 0);
+
   }
 
   // React methods
@@ -240,7 +250,7 @@ export default class AddItemView extends React.Component {
           autoDetectWindowHeight={true}
           autoScrollBodyContent={true}>
 
-          <Tabs>
+          <Tabs onChange={this.onTabChange}>
             <Tab id='projectDetailsTab' label='Details'>
               <div>
                 <TextField id='projectNameField' ref='nameField' value={this.state.activeProject.name}
