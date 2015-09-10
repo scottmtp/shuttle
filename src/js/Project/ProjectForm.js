@@ -234,6 +234,7 @@ export default class AddItemView extends React.Component {
       <div>
         <Dialog
           ref='projectDialog'
+          contentStyle={{height: '80%'}}
           actions={this.standardActions()}
           actionFocus='save'
           autoDetectWindowHeight={true}
