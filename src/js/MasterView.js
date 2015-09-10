@@ -86,7 +86,10 @@ export default class MasterView extends React.Component {
             iconElementRight={helpIcon}
             zDepth={0}/>
 
-          <AppLeftNav id='appLeftNav' menuItems={this.state.menuItems} ref='leftNav'/>
+          <AppLeftNav id='appLeftNav'
+            menuItems={this.state.menuItems}
+            docked={false}
+            ref='appLeftNav'/>
 
           <RouteHandler/>
 
@@ -127,7 +130,7 @@ export default class MasterView extends React.Component {
   }
 
   _onLeftIconButtonTouchTap() {
-    this.refs.leftNav.toggle();
+    this.refs.appLeftNav.toggle();
   }
 
   _onChange() {
