@@ -100,7 +100,8 @@ export default class MasterView extends React.Component {
             onActionTouchTap={this._appRefresh}
             />
 
-          <Dialog id='helpDialog' ref='helpDialog' actions={helpActions}>
+          <Dialog id='helpDialog' ref='helpDialog' actions={helpActions}
+            autoDetectWindowHeight={true} autoScrollBodyContent={true}>
             <p>
               Shuttle is a Todo and Note taking app with a focus on privacy. Data
               is stored locally and is always in your control.

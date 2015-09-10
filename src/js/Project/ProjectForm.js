@@ -235,7 +235,9 @@ export default class AddItemView extends React.Component {
         <Dialog
           ref='projectDialog'
           actions={this.standardActions()}
-          actionFocus='save'>
+          actionFocus='save'
+          autoDetectWindowHeight={true}
+          autoScrollBodyContent={true}>
 
           <Tabs>
             <Tab id='projectDetailsTab' label='Details'>
