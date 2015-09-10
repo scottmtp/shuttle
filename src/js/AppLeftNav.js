@@ -14,13 +14,6 @@ export default class AppLeftNav extends React.Component {
     this._onLeftNavChange = this._onLeftNavChange.bind(this);
   }
 
-  getStyles() {
-    return {
-      fontSize: '14px',
-      lineHeight: '24px'
-    };
-  }
-
   getHeaderStyles() {
     return {
       fontSize: '24px',
@@ -46,7 +39,6 @@ export default class AppLeftNav extends React.Component {
         ref='leftNav'
         header={header}
         docked={this.props.docked}
-        isInitiallyOpen={true}
         menuItems={this.props.menuItems}
         selectedIndex={this._getSelectedIndex()}
         onChange={this._onLeftNavChange}/>
