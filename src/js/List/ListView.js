@@ -50,6 +50,9 @@ export default class ListView extends React.Component {
         marginLeft: '6px',
         marginRight: '6px',
         fontFamily: 'Source Sans Pro, sans-serif'
+      },
+      listItem: {
+        fontFamily: 'Source Sans Pro, sans-serif'
       }
     };
   }
@@ -128,6 +131,7 @@ export default class ListView extends React.Component {
           leftIcon={checkbox}
           primaryText={li.text}
           disableTouchRipple={true}
+          style={this.getStyles().listItem}
           rightIconButton={<ModeEditIcon onTouchTap={self.handleStartEditItem.bind(self, li)} />}
           key={li._id} />;
       }
