@@ -4,14 +4,14 @@ import NoteConstants from './NoteConstants';
 export default {
   getCompleted: function(note) {
     AppDispatcher.dispatch({
-      actionType: NoteConstants.GET_COMPLETED,
+      actionType: NoteConstants.GET_NOTE_COMPLETED,
       note: note
     });
   },
 
   updateCompleted: function(note) {
     AppDispatcher.dispatch({
-      actionType: NoteConstants.UPDATE_COMPLETED,
+      actionType: NoteConstants.UPDATE_NOTE_COMPLETED,
       note: note
     });
   }
