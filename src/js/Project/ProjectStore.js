@@ -67,9 +67,9 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
-    case ProjectConstants.GET_COMPLETED:
-    case ProjectConstants.CREATE_COMPLETED:
-    case ProjectConstants.UPDATE_COMPLETED:
+    case ProjectConstants.GET_PROJECT_COMPLETED:
+    case ProjectConstants.CREATE_PROJECT_COMPLETED:
+    case ProjectConstants.UPDATE_PROJECT_COMPLETED:
     case ProjectConstants.DELETE_PROJECT_COMPLETED:
       projects = action.projects;
       ProjectStore.emitChange();

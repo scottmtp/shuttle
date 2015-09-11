@@ -31,8 +31,8 @@ let NoteStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
-    case NoteConstants.GET_COMPLETED:
-      //case NoteConstants.UPDATE_COMPLETED:
+    case NoteConstants.GET_NOTE_COMPLETED:
+      //case NoteConstants.UPDATE_NOTE_COMPLETED:
       currentNote = action.note;
       NoteStore.emitChange();
       break;

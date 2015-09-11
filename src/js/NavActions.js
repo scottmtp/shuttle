@@ -4,7 +4,7 @@ import NavConstants from './NavConstants';
 export default {
   receiveUpdate: function(items) {
     AppDispatcher.dispatch({
-      'actionType': NavConstants.RECEIVE_UPDATE,
+      'actionType': NavConstants.NAV_RECEIVE_UPDATE,
       'menuItems': items
     });
   }

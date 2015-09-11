@@ -1,6 +1,6 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-  GET_COMPLETED: null,
-  UPDATE_COMPLETED: null
+  GET_NOTE_COMPLETED: null,
+  UPDATE_NOTE_COMPLETED: null
 });

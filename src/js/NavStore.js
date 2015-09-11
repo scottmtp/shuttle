@@ -44,7 +44,7 @@ let NavStore = assign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
-    case NavConstants.RECEIVE_UPDATE:
+    case NavConstants.NAV_RECEIVE_UPDATE:
       NavStore.receiveMenuItems(action.menuItems);
       NavStore.emitChange();
       break;

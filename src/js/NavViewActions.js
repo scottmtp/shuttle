@@ -5,7 +5,7 @@ import NavConstants from './NavConstants';
 export default {
   update: function() {
     AppDispatcher.dispatch({
-      'actionType': NavConstants.UPDATE
+      'actionType': NavConstants.NAV_UPDATE
     });
 
     NavAPI.updateMenuItems();

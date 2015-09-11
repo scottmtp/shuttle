@@ -1,7 +1,7 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-  UPDATE: null,
-  RECEIVE_UPDATE: null,
+  NAV_UPDATE: null,
+  NAV_RECEIVE_UPDATE: null,
   REPLICATION_UPDATE: null
 });
