@@ -99,7 +99,7 @@ export default class Replicator {
         }
 
         debug('replication opts: ' + JSON.stringify(opts));
-        return db.dump(concatStream, opts)
+        return db.dump(concatStream, opts);
       })
       .then((res) => {
         self.socket.emit('pouchrepl', {data: database});

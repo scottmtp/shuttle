@@ -43,7 +43,7 @@ let buildMenu = function(projects) {
       });
 
       resolve(menuItems);
-    }
+    };
 
     // get project outline from pouchdb
     let done = 0;

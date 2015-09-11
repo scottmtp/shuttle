@@ -167,13 +167,13 @@ let sendTokenRequest = function(email) {
   try {
     request.get(process.env.API_URL + '/token?email=' + email)
       .on('error', function(err) {
-        console.log('Error: ' + err)
+        console.log('Error: ' + err);
       })
       .on('response', function(response) {
         response.on('data', function (chunk) {
           console.log('response: ' + chunk);
         });
-      })
+      });
   } catch(err) {
     console.log('Error: ' + err);
   }
