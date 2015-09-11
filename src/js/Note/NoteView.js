@@ -87,7 +87,8 @@ export default class NoteView extends React.Component {
       },
       tabContent: {
         marginLeft: '6px',
-        marginRight: '6px'
+        marginRight: '6px',
+        fontFamily: 'Source Sans Pro, sans-serif'
       }
     };
   }

@@ -48,7 +48,8 @@ export default class ListView extends React.Component {
       },
       tabContent: {
         marginLeft: '6px',
-        marginRight: '6px'
+        marginRight: '6px',
+        fontFamily: 'Source Sans Pro, sans-serif'
       }
     };
   }
