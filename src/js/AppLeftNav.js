@@ -7,8 +7,8 @@ let { Colors, Spacing, Typography } = Styles;
 
 export default class AppLeftNav extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.toggle = this.toggle.bind(this);
     this._getSelectedIndex = this._getSelectedIndex.bind(this);
     this._onLeftNavChange = this._onLeftNavChange.bind(this);

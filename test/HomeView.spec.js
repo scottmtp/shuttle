@@ -12,7 +12,7 @@ describe('home view transition', function() {
      done();
    };
 
-   HomeView.willTransitionTo(transition, {}, {}, function() {})
+   HomeView.willTransitionTo(transition, {}, {}, function() {});
  });
 
  it('should check localStorage when redirecting', function(done) {
@@ -29,4 +29,11 @@ describe('home view transition', function() {
 
    HomeView.willTransitionTo(transition, {}, {}, function() {})
  });
+
+ it('should not render anything', function() {
+   var HomeView = require('../src/js/HomeView');
+   var view = new HomeView();
+
+   assert.equal(false, view.render());
+ })
 });
