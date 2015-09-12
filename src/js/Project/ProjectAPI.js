@@ -1,5 +1,4 @@
 import uuid from 'uuid';
-import request from 'request';
 
 import dbApi from '../DbAPI';
 import dbTypes from '../DbTypes';
@@ -165,15 +164,23 @@ let updateReplicators = function() {
 
 let sendTokenRequest = function(email) {
   try {
-    request.get(process.env.API_URL + '/token?email=' + email)
-      .on('error', function(err) {
-        console.log('Error: ' + err);
-      })
-      .on('response', function(response) {
-        response.on('data', function (chunk) {
-          console.log('response: ' + chunk);
-        });
-      });
+    let requestUrl = process.env.API_URL + '/token?email=' + email;
+    var request = new XMLHttpRequest();
+    request.open('GET', requestUrl, true);
+
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400) {
+        console.log('response: ' + request.responseText);
+      } else {
+        console.log('Server error: ' + request.status);
+      }
+    };
+
+    request.onerror = function() {
+      console.log('Error: ' + err);
+    };
+
+    request.send();
   } catch(err) {
     console.log('Error: ' + err);
   }
