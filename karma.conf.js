@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = function (config) {
   'use strict';
   config.set({
@@ -15,12 +17,21 @@ module.exports = function (config) {
       'karma-coverage'
     ],
     preprocessors: {
-      'tests.webpack.js': [ 'webpack', 'sourcemap', 'coverage' ]
+      'tests.webpack.js': [ 'webpack', 'coverage' ]
     },
     reporters: [ 'dots', 'coverage' ],
     singleRun: true,
     webpack: {
       devtool: 'inline-source-map',
+      plugins: [
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': '"production"',
+            'API_URL': '"https://www.tryshuttle.com"'
+          }
+        }),
+        new webpack.optimize.DedupePlugin()
+      ],
       module: {
         loaders: [
           {
@@ -30,7 +41,7 @@ module.exports = function (config) {
           },
           {
             test: /\.json$/,
-            loader: "json-loader"
+            loader: 'json-loader'
           }
         ],
       }
