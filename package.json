@@ -47,6 +47,7 @@
     "babel-loader": "^5.3.2",
     "chai": "^3.2.0",
     "eslint-plugin-react": "^2.7.1",
+    "inject-loader": "^2.0.1",
     "istanbul": "^0.3.19",
     "json-loader": "^0.5.2",
     "karma": "^0.13.9",

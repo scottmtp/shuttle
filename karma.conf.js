@@ -17,7 +17,7 @@ module.exports = function (config) {
       'karma-coverage'
     ],
     preprocessors: {
-      'tests.webpack.js': [ 'webpack', 'coverage' ]
+      'tests.webpack.js': [ 'webpack', 'sourcemap', 'coverage' ]
     },
     reporters: [ 'dots', 'coverage' ],
     singleRun: true,
