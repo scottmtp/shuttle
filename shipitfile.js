@@ -25,7 +25,7 @@ module.exports = function (shipit) {
   shipit.blTask('build', function (cb) {
     shipit.local('mkdir dist/', {cwd: shipit.config.workspace})
       .then(function(res) {
-        return shipit.local('npm install --production', {cwd: shipit.config.workspace});
+        return shipit.local('npm install', {cwd: shipit.config.workspace});
       })
       .then(function(res) {
         return shipit.local('npm run productiondist', {cwd: shipit.config.workspace});
