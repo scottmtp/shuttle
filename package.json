@@ -2,11 +2,15 @@
   "name": "shuttle",
   "version": "0.0.1",
   "description": "Shuttle is a Todo and Note taking app with a focus on privacy.",
-  "homepage": "https://github.com/scottmtp",
+  "homepage": "https://github.com/scottmtp/shuttle",
   "author": {
     "name": "Scott Dietrich",
     "email": "scott@minutestopost.com",
     "url": "https://github.com/scottmtp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/scottmtp/shuttle.git"
   },
   "dependencies": {
     "async": "^1.4.2",
