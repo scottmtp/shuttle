@@ -24,7 +24,7 @@
     "material-ui": "0.11.0",
     "morgan": "^1.6.1",
     "object-assign": "^3.0.0",
-    "pouchdb": "4.0.1",
+    "pouchdb": "4.0.2",
     "pouchdb-replication-stream": "^1.2.4",
     "react": "^0.13.3",
     "react-quill": "^0.2.2",
