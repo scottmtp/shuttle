@@ -91,7 +91,7 @@ export default class MasterView extends React.Component {
           <Snackbar id='replSnackbar'
             ref='replSnackbar'
             message={'Sync...'}
-            autoHideDuration={5000} />
+            autoHideDuration={2000} />
 
           <Snackbar id='appUpdateSnackbar'
             ref='appUpdateSnackbar'
