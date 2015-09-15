@@ -97,6 +97,7 @@ export default class ProjectList extends React.Component {
 
       let listItem = <ListItem
         primaryText={project.name}
+        secondaryText={'Sharing ' + (project.room ? 'On' : 'Off')}
         key={project._id}
         rightIconButton={rightIconMenu}
         onTouchTap={self.handleEditProject.bind(self, project)} />;
@@ -106,7 +107,11 @@ export default class ProjectList extends React.Component {
 
     return (
       <div style={{marginLeft: '4px', marginRight: '4px'}}>
-        <h2>Projects:</h2>
+        <h2>Projects</h2>
+        <div style={{color: Colors.grey600}}>
+          Tap or click items below to edit projects. Your Notes and
+          Lists are in the top-left menu.
+        </div>
         <List id='projectList'>
           {projects}
         </List>
