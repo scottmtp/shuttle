@@ -109,8 +109,8 @@ export default class ProjectList extends React.Component {
       <div style={{marginLeft: '4px', marginRight: '4px'}}>
         <h2>Projects</h2>
         <div style={{color: Colors.grey600}}>
-          Tap or click items below to edit projects. Your Notes and
-          Lists are in the top-left menu.
+          Tap or click items below to edit Projects and turn on Sharing. Your
+          Notes and Lists are in the top-left menu.
         </div>
         <List id='projectList'>
           {projects}

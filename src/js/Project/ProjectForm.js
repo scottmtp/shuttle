@@ -269,6 +269,11 @@ export default class AddItemView extends React.Component {
                 <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
                   onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
                 <RaisedButton id='requestTokenButton' label='Request Key' onTouchTap={this.requestTokenDialog.bind(this)}/>
+                <div style={{color: Colors.grey600, marginTop: '6px',
+                  display: this.state.activeProject.room ? 'none' : 'block'}}>
+                  You will need to request a Sharing Key to enable Sharing.
+                  Sharing tokens are free and completely private!
+                </div>
               </div>
             </Tab>
           </Tabs>
