@@ -4,7 +4,7 @@ module.exports = {
       .waitForElementVisible('#newProject', 2000);
 
     browser.expect.element('h1').text.to.contain('shuttle');
-    browser.expect.element('h2').text.to.contain('Projects:');
+    browser.expect.element('h2').text.to.contain('Projects');
     browser.expect.element('#projectList :nth-child(1) div[data-reactid*=primaryText]').text.to.equal('My Project');
   },
 
