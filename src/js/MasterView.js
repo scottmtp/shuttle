@@ -3,7 +3,7 @@ import Router from 'react-router';
 let RouteHandler = Router.RouteHandler;
 
 import { AppBar, AppCanvas, ClearFix, Dialog, IconButton, Snackbar, Styles } from 'material-ui';
-let ThemeManager = new Styles.ThemeManager();
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
 
 import NavViewActions from './NavViewActions';
@@ -28,7 +28,7 @@ export default class MasterView extends React.Component {
 
   getChildContext() {
     return {
-      muiTheme: ThemeManager.getCurrentTheme()
+      muiTheme: ThemeManager.getMuiTheme(ShuttleTheme)
     };
   }
 
@@ -41,8 +41,6 @@ export default class MasterView extends React.Component {
   }
 
   componentWillMount() {
-    ThemeManager.setTheme(new ShuttleTheme());
-
     window.applicationCache.addEventListener('updateready', this._onUpdateReady);
     if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
       this._onUpdateReady();

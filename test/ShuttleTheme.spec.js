@@ -6,8 +6,6 @@ var expect = chai.expect;
 describe('app theme', function() {
  it('should be blue', function() {
    var ShuttleTheme = require('../src/js/ShuttleTheme');
-   var theme = new ShuttleTheme();
-
-   assert.equal('#1976d2', theme.getPalette().primary1Color);
+   assert.equal('#1976d2', ShuttleTheme.palette.primary1Color);
  });
 });

@@ -11,6 +11,18 @@ import Replicator from './Replicator';
 window.PouchDB = PouchDB;
 let dbs = new FastMap();
 
+var isFirefox = function() {
+  return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+};
+
+var getPouchOpts = function() {
+  var opts = {};
+  if(process.env.NODE_ENV === 'production' && isFirefox()) {
+    opts.storage = 'persistent';
+  }
+  return opts;
+};
+
 // Use the global database
 var selectGlobalDB = function() {
   debug('Selecting global database.');
@@ -19,7 +31,8 @@ var selectGlobalDB = function() {
     return dbs.get(DbTypes.GLOBAL_DB);
   }
 
-  var db = new PouchDB(DbTypes.GLOBAL_DB);
+  var opts = getPouchOpts();
+  var db = new PouchDB(DbTypes.GLOBAL_DB, opts);
   dbs.set(DbTypes.GLOBAL_DB, db);
 
   return db;
@@ -33,7 +46,8 @@ var selectProjectDB = function(dbName) {
     return dbs.get(dbName);
   }
 
-  var db = new PouchDB(dbName);
+  var opts = getPouchOpts();
+  var db = new PouchDB(dbName, opts);
   dbs.set(dbName, db);
 
   return db;
