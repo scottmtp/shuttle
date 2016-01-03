@@ -55,7 +55,7 @@ export default class ProjectList extends React.Component {
       <FlatButton label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeDeleteProjectDialog} />,
       <FlatButton label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveDeleteProject} />,
+        onTouchTap={this.saveDeleteProject} />
     ];
     return actions;
   }

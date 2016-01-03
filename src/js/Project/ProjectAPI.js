@@ -176,7 +176,7 @@ let sendTokenRequest = function(email) {
       }
     };
 
-    request.onerror = function() {
+    request.onerror = function(err) {
       console.log('Error: ' + err);
     };
 

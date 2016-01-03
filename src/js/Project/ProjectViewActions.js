@@ -181,5 +181,5 @@ export default {
     AppDispatcher.dispatch({
       actionType: ProjectConstants.CLOSE_PROJECT_DIALOG
     });
-  },
+  }
 };

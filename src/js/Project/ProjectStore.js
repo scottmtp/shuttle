@@ -38,7 +38,7 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getState() {
+  getState: function() {
     return state;
   }
 });

@@ -41,7 +41,7 @@ export default class NoteView extends React.Component {
 
   handleTitleChange(e) {
     var newTitle = e.target.value;
-    if (newTitle != this.state.note.title) {
+    if (newTitle !== this.state.note.title) {
       NoteViewActions.localUpdateNote(newTitle, this.state.note.html);
       NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
         newTitle, this.state.note.html);
@@ -52,7 +52,7 @@ export default class NoteView extends React.Component {
   }
 
   handleDocumentChange(value) {
-    if (value != this.state.note.html) {
+    if (value !== this.state.note.html) {
       NoteViewActions.localUpdateNote(this.state.note.title, value);
       NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
         this.state.note.title, value);

@@ -63,5 +63,5 @@ export default {
     AppDispatcher.dispatch({
       'actionType': NavConstants.APP_REFRESH_INDICATOR_CLOSE
     });
-  },
+  }
 };

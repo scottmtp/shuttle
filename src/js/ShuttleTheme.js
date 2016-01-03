@@ -17,5 +17,5 @@ module.exports = {
     canvasColor: Colors.white,
     borderColor: Colors.grey300,
     disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3)
-  },
+  }
 };

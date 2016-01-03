@@ -66,7 +66,7 @@ export default class AddItemView extends React.Component {
       <FlatButton id='projectCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeProjectDialog} />,
       <FlatButton id='projectSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.save} />,
+        onTouchTap={this.save} />
     ];
     return actions;
   }
@@ -96,7 +96,7 @@ export default class AddItemView extends React.Component {
       <FlatButton id='addPartCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeAddPartDialog} />,
       <FlatButton id='addPartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveAddPart} />,
+        onTouchTap={this.saveAddPart} />
     ];
     return actions;
   }
@@ -107,7 +107,7 @@ export default class AddItemView extends React.Component {
     ProjectViewActions.closeAddPartDialog();
   }
 
-  onAddPartTitleChange(e) {
+  onAddPartTitleChange() {
     let title = this.refs.addPartTitleField.getValue();
     ProjectViewActions.setAddPartValues(title, this.state.addPart.type);
   }
@@ -123,7 +123,7 @@ export default class AddItemView extends React.Component {
       <FlatButton label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeRenamePartDialog} />,
       <FlatButton label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveRenamePart} />,
+        onTouchTap={this.saveRenamePart} />
     ];
     return actions;
   }
@@ -151,7 +151,7 @@ export default class AddItemView extends React.Component {
       <FlatButton id='deletePartCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeDeletePartDialog} />,
       <FlatButton id='deletePartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveDeletePart} />,
+        onTouchTap={this.saveDeletePart} />
     ];
     return actions;
   }
@@ -182,7 +182,7 @@ export default class AddItemView extends React.Component {
       <FlatButton id='requestTokenCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeRequestTokenDialog} />,
       <FlatButton id='requestTokenSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveRequestToken} />,
+        onTouchTap={this.saveRequestToken} />
     ];
     return actions;
   }

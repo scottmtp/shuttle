@@ -43,7 +43,7 @@ export default class MasterView extends React.Component {
     NavViewActions.replIndicatorOpen();
   }
 
-  _onNavRequestChange(open, reason) {
+  _onNavRequestChange(open) {
     if (open) {
       NavViewActions.navOpen();
     } else {

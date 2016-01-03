@@ -8,7 +8,7 @@ let CHANGE_EVENT = 'change';
 let state = {
   list: {
     title: '',
-    listItems: [],
+    listItems: []
   },
   editItem: {},
   listItemUpdatedIndicatorOpen: false

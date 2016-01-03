@@ -30,14 +30,14 @@ export default class AppLeftNav extends React.Component {
   _getProjectHeaderStyle() {
     return {
       color: ShuttleTheme.palette.primary1Color
-    }
+    };
   }
 
   _getActiveStyle() {
     return {
       color: ShuttleTheme.palette.accent1Color,
       marginLeft: 0
-    }
+    };
   }
 
   _getMenuHeader() {
@@ -89,7 +89,7 @@ export default class AppLeftNav extends React.Component {
     this.props.menuItems.forEach((elem, i) => {
       if (elem.route) {
         menuItems.push(this._getRouteMenuItem(elem, i));
-        if (i == 0) {
+        if (i === 0) {
           menuItems.push(<Divider key='d0' />);
         }
       } else {

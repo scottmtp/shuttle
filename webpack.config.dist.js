@@ -20,7 +20,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': '"development"',
+        'NODE_ENV': '"production"',
         'API_URL': '"https://local.tryshuttle.com"'
       }
     }),
@@ -35,6 +35,7 @@ module.exports = {
         'ms-icon-310x310.png','ms-icon-70x70.png','quill.base.css','quill.snow.css'],
       network: ['*']
     }),
+    new webpack.optimize.UglifyJsPlugin(),
     new webpack.optimize.DedupePlugin()
   ],
 

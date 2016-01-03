@@ -10,7 +10,7 @@ let state = {
     title: '',
     html: ''
   }
-}
+};
 
 let NoteStore = assign({}, EventEmitter.prototype, {
   getState: function() {

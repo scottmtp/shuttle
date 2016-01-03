@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import { render } from 'react-dom'
+import { render } from 'react-dom';
 
 import { hashHistory, IndexRoute, Router, Route } from 'react-router';
 
@@ -24,4 +24,4 @@ render((
       <IndexRoute component={Home} onEnter={Home.willTransitionTo}/>
     </Route>
   </Router>
-), document.getElementById('shuttle'))
+), document.getElementById('shuttle'));
