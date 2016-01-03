@@ -17,7 +17,8 @@ describe('list store events', function() {
     var list = {title: 'items', listItems: ['a', 'b', 'c'], editItem: {}};
 
     ListStore.addChangeListener(function() {
-      assert.equal(list, ListStore.getCurrentList());
+      var state =  ListStore.getState();
+      assert.equal(list, state.list);
       done();
     });
 
@@ -28,7 +29,8 @@ describe('list store events', function() {
     var item = {_id: 1234};
 
     ListStore.addChangeListener(function() {
-      assert.equal(item, ListStore.getCurrentList().editItem);
+      var state =  ListStore.getState();
+      assert.equal(item, state.editItem);
       done();
     });
 
@@ -39,7 +41,8 @@ describe('list store events', function() {
     var item = {_id: 2345};
 
     ListStore.addChangeListener(function() {
-      assert.equal(item, ListStore.getCurrentList().editItem);
+      var state =  ListStore.getState();
+      assert.equal(item, state.editItem);
       done();
     });
 
@@ -50,7 +53,8 @@ describe('list store events', function() {
     var item = {_id: 3456};
 
     ListStore.addChangeListener(function() {
-      assert.isTrue(ListStore.getCurrentList().listItems.indexOf(item) >= 0);
+      var state =  ListStore.getState();
+      assert.isTrue(state.list.listItems.indexOf(item) >= 0);
       done();
     });
 
@@ -61,7 +65,8 @@ describe('list store events', function() {
     var list = {title: 'list', listItems: ['d', 'e', 'f'], editItem: {}};
 
     ListStore.addChangeListener(function() {
-      assert.equal(list, ListStore.getCurrentList());
+      var state =  ListStore.getState();
+      assert.equal(list, state.list);
       done();
     });
 

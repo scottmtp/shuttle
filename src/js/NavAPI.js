@@ -1,4 +1,3 @@
-import { MenuItem } from 'material-ui';
 import NavActions from './NavActions';
 
 import dbApi from './DbAPI';
@@ -11,11 +10,12 @@ let buildProjectsMenuItem = function() {
 };
 
 let buildProjectMenuItem = function(project) {
-  return { type: MenuItem.Types.SUBHEADER, text: project.name };
+  return { text: project.name };
 };
 
 let buildComponentMenuItem = function(project, item) {
-  return { route: '/group/' + project._id + '/' + item.type + '/' + item._id, text: item.title };
+  return { route: '/group/' + project._id + '/' + item.type + '/' + item._id,
+    type: item.type, text: item.title };
 };
 
 let buildComponentsMenu = function(project, items) {

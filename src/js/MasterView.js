@@ -1,10 +1,13 @@
 import React from 'react';
-import Router from 'react-router';
-let RouteHandler = Router.RouteHandler;
 
-import { AppBar, AppCanvas, ClearFix, Dialog, IconButton, Snackbar, Styles } from 'material-ui';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
 import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
+import AppBar from 'material-ui/lib/app-bar';
+import Dialog from 'material-ui/lib/dialog';
+import FlatButton from 'material-ui/lib/flat-button';
+import IconButton from 'material-ui/lib/icon-button';
+import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu';
+import Snackbar from 'material-ui/lib/snackbar';
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
 
 import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
@@ -13,31 +16,53 @@ import ShuttleTheme from './ShuttleTheme';
 
 import ProjectViewActions from './Project/ProjectViewActions';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin(); // Needed for onTouchTap
+
 export default class MasterView extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { menuItems: NavStore.getMenuItems() };
-    this._onHelp = this._onHelp.bind(this);
+    this.state = NavStore.getState();
     this._onChange = this._onChange.bind(this);
-    this._onUpdateReady = this._onUpdateReady.bind(this);
-    this._onReplication = this._onReplication.bind(this);
-    this._onLeftIconButtonTouchTap = this._onLeftIconButtonTouchTap.bind(this);
-    this.showAppUpdateSnackbar = false;
+  }
+
+  _onUpdateReady() {
+    NavViewActions.appRefreshIndicatorOpen();
+  }
+
+  _appRefresh() {
+    document.location.reload(true);
+  }
+
+  _onChange() {
+    this.setState(NavStore.getState());
+  }
+
+  _onReplication() {
+    NavViewActions.replIndicatorOpen();
+  }
+
+  _onNavRequestChange(open, reason) {
+    if (open) {
+      NavViewActions.navOpen();
+    } else {
+      NavViewActions.navClose();
+    }
+  }
+
+  _onReplIndicatorRequestClose() {
+    NavViewActions.replIndicatorClose();
+  }
+
+  _onAppRefreshIndicatorRequestClose() {
+    NavViewActions.appRefreshIndicatorClose();
   }
 
   getChildContext() {
     return {
       muiTheme: ThemeManager.getMuiTheme(ShuttleTheme)
     };
-  }
-
-  _onUpdateReady() {
-    this.showAppUpdateSnackbar = true;
-  }
-
-  _appRefresh() {
-    document.location.reload(true);
   }
 
   componentWillMount() {
@@ -51,11 +76,6 @@ export default class MasterView extends React.Component {
     NavStore.addChangeListener(this._onChange);
     NavStore.addReplicationChangeListener(this._onReplication);
     NavViewActions.update();
-
-    if (this.showAppUpdateSnackbar) {
-      this.refs.appUpdateSnackbar.show();
-    }
-
     ProjectViewActions.updateReplicators();
   }
 
@@ -65,40 +85,50 @@ export default class MasterView extends React.Component {
   }
 
   render() {
-    let helpIcon = <IconButton id='helpIcon' touch={true} tooltip='Help' onTouchTap={this._onHelp}>
+    let menuIcon = <IconButton id='menuIcon' touch={true}
+      onTouchTap={NavViewActions.navOpen} tooltip='Menu'>
+      <MenuIcon />
+    </IconButton>;
+
+    let helpIcon = <IconButton id='helpIcon' touch={true}
+      onTouchTap={NavViewActions.helpOpen} tooltip='Help'>
       <ActionHelpIcon />
     </IconButton>;
 
-    let helpActions = [{ id: 'helpOk', text: 'Got it!' }];
+    let helpActions = <FlatButton id='helpOk' label='Got it!' onTouchTap={NavViewActions.helpClose}/>;
 
     return (
         <div>
           <AppBar id='appBar'
-            onLeftIconButtonTouchTap={this._onLeftIconButtonTouchTap}
             title='shuttle'
+            iconElementLeft={menuIcon}
             iconElementRight={helpIcon}
             zDepth={0}/>
 
           <AppLeftNav id='appLeftNav'
             menuItems={this.state.menuItems}
+            open={this.state.leftNavOpen}
+            onRequestChange={this._onNavRequestChange}
             docked={false}
             ref='appLeftNav'/>
 
-          <RouteHandler/>
+          <div id="children">
+            {this.props.children}
+          </div>
 
-          <Snackbar id='replSnackbar'
-            ref='replSnackbar'
+          <Snackbar id='replSnackbar' open={this.state.replIndicatorOpen}
+            ref='replSnackbar' onRequestClose={this._onReplIndicatorRequestClose}
             message={'Sync...'}
             autoHideDuration={2000} />
 
-          <Snackbar id='appUpdateSnackbar'
-            ref='appUpdateSnackbar'
+          <Snackbar id='appUpdateSnackbar' open={this.state.appRefreshIndicatorOpen}
+            ref='appUpdateSnackbar' onRequestClose={this._onAppRefreshIndicatorRequestClose}
             message={'Update ready'}
             action='refresh'
             onActionTouchTap={this._appRefresh}
             />
 
-          <Dialog id='helpDialog' ref='helpDialog' actions={helpActions}
+          <Dialog data-test='helpDialog' ref='helpDialog' open={this.state.helpDialogOpen} actions={helpActions}
             autoDetectWindowHeight={true} autoScrollBodyContent={true}>
             <p>
               Shuttle is a Todo and Note taking app with a focus on privacy. Data
@@ -121,22 +151,6 @@ export default class MasterView extends React.Component {
           </Dialog>
         </div>
     );
-  }
-
-  _onLeftIconButtonTouchTap() {
-    this.refs.appLeftNav.toggle();
-  }
-
-  _onChange() {
-    this.setState({ menuItems: NavStore.getMenuItems() });
-  }
-
-  _onReplication() {
-    this.refs.replSnackbar.show();
-  }
-
-  _onHelp() {
-    this.refs.helpDialog.show();
   }
 }
 

@@ -35,5 +35,17 @@ export default {
 
   updateEditItem: function(groupId, listItem) {
     ListAPI.updateListItem(groupId, listItem);
+  },
+
+  listItemUpdatedIndicatorOpen: function() {
+    AppDispatcher.dispatch({
+      'actionType': ListConstants.LIST_ITEM_UPDATED_INDICATOR_OPEN
+    });
+  },
+
+  listItemUpdatedIndicatorClose: function() {
+    AppDispatcher.dispatch({
+      'actionType': ListConstants.LIST_ITEM_UPDATED_INDICATOR_CLOSE
+    });
   }
 };

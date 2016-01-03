@@ -11,12 +11,14 @@ export default class HomeView extends React.Component {
 
 }
 
-HomeView.willTransitionTo = function(transition, params, query, callback) {
+HomeView.willTransitionTo = function(nextState, replaceState) {
   if (global.localStorage.group) {
-    transition.redirect('/group/' + global.localStorage.group + '/' +
-      global.localStorage.type + '/' + global.localStorage.typeId);
+    let path = '/group/' + global.localStorage.group + '/' +
+      global.localStorage.type + '/' + global.localStorage.typeId;
+
+    replaceState(null, path);
+    return;
   }
 
-  transition.redirect('projects');
-  callback();
+  replaceState(null, 'projects');
 };

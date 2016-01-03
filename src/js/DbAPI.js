@@ -66,7 +66,7 @@ var destroyDb = function(dbName) {
 };
 
 // Find one object
-var getObject = function(db, collection, id) {
+var getObject = function(db, collection, id, options) {
   debug('getObject: ' + collection + ', ' + id);
   return db.get(id)
     .catch(function(err) {
@@ -105,7 +105,7 @@ var updateObject = function(db, collection, obj) {
 };
 
 // Delete object
-var removeObject = function(db, collection, id) {
+var removeObject = function(db, collection, id, options) {
   debug('removeObject: ' + collection + ', ' + id);
   return db.get(id).then(function(doc) {
     return db.remove(doc);
@@ -184,9 +184,9 @@ var removeSetting = function(project, id) {
 //
 // Note API
 //
-var getNote = function(project, id) {
+var getNote = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return getObject(db, DbTypes.TYPE_NOTE, id);
+  return getObject(db, DbTypes.TYPE_NOTE, id, options);
 };
 
 var getAllNotes = function(project) {
@@ -205,9 +205,9 @@ var updateNote = function(project, obj) {
     });
 };
 
-var removeNote = function(project, id) {
+var removeNote = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return removeObject(db, DbTypes.TYPE_NOTE, id)
+  return removeObject(db, DbTypes.TYPE_NOTE, id, options)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project, 1);
@@ -219,9 +219,9 @@ var removeNote = function(project, id) {
 //
 // List API
 //
-var getList = function(project, id) {
+var getList = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return getObject(db, DbTypes.TYPE_LIST, id);
+  return getObject(db, DbTypes.TYPE_LIST, id, options);
 };
 
 var getAllLists = function(project) {
@@ -240,9 +240,9 @@ var updateList = function(project, obj) {
     });
 };
 
-var removeList = function(project, id) {
+var removeList = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return removeObject(db, DbTypes.TYPE_LIST, id)
+  return removeObject(db, DbTypes.TYPE_LIST, id, options)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project, 1);
@@ -254,9 +254,9 @@ var removeList = function(project, id) {
 //
 // List Item API
 //
-var getListItem = function(project, id) {
+var getListItem = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return getObject(db, DbTypes.TYPE_LIST_ITEM, id);
+  return getObject(db, DbTypes.TYPE_LIST_ITEM, id, options);
 };
 
 var getAllListItems = function(project, listId) {
@@ -285,9 +285,9 @@ var updateListItem = function(project, obj) {
     });
 };
 
-var removeListItem = function(project, id) {
+var removeListItem = function(project, id, options) {
   var db = selectProjectDB(project.dbname);
-  return removeObject(db, DbTypes.TYPE_LIST_ITEM, id)
+  return removeObject(db, DbTypes.TYPE_LIST_ITEM, id, options)
     .then((res) => {
       if (project.room) {
         Replicator.updateForProject(project, 1);

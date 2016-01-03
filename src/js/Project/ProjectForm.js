@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DropDownMenu, IconButton, IconMenu, List, ListItem, MenuItem,
+import { Dialog, DropDownMenu, FlatButton, IconButton, IconMenu, List, ListItem, MenuItem,
   RaisedButton, Snackbar, Styles, Tab, Tabs, TextField } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 let { Colors } = Styles;
@@ -14,14 +14,7 @@ export default class AddItemView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      activeProject: ProjectStore.getActiveProject(),
-      activeProjectParts: ProjectStore.getActiveProjectParts(),
-      addPart: ProjectStore.getAddPart(),
-      renamePart: ProjectStore.getRenamePart(),
-      deletePart: ProjectStore.getDeletePart(),
-      requestTokenEmail: ProjectStore.getTokenRequestEmail()
-    };
+    this.state = ProjectStore.getState();
 
     this.onTabChange = this.onTabChange.bind(this);
 
@@ -63,33 +56,25 @@ export default class AddItemView extends React.Component {
   }
 
   onStateChange() {
-    this.setState({
-      activeProject: ProjectStore.getActiveProject(),
-      activeProjectParts: ProjectStore.getActiveProjectParts(),
-      addPart: ProjectStore.getAddPart(),
-      renamePart: ProjectStore.getRenamePart(),
-      deletePart: ProjectStore.getDeletePart(),
-      requestTokenEmail: ProjectStore.getTokenRequestEmail()
-    });
+    this.setState(ProjectStore.getState());
   }
 
   // Main Dialog
 
   standardActions() {
-    return [
-      { id: 'projectCancel', text: 'Cancel' },
-      { id: 'projectSave', text: 'Save', onTouchTap: this.save, ref: 'save' }
+    const actions = [
+      <FlatButton id='projectCancel' label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeProjectDialog} />,
+      <FlatButton id='projectSave' label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.save} />,
     ];
-  }
-
-  show() {
-    this.refs.projectDialog.show();
+    return actions;
   }
 
   save() {
     ProjectViewActions.updateProject(this.state.activeProject);
     NavViewActions.update();
-    this.refs.projectDialog.dismiss();
+    ProjectViewActions.closeProjectDialog();
 
     // TODO: adding compaction run here, may want to re-evaluate
     dbApi.compactAll();
@@ -107,53 +92,51 @@ export default class AddItemView extends React.Component {
   // Add Part Dialog
 
   addPartActions() {
-    return [
-      { id: 'addPartCancel', text: 'Cancel' },
-      { id: 'addPartSave', text: 'Save', onTouchTap: this.saveAddPart }
+    const actions = [
+      <FlatButton id='addPartCancel' label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeAddPartDialog} />,
+      <FlatButton id='addPartSave' label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.saveAddPart} />,
     ];
-  }
-
-  showAddPartDialog() {
-    this.refs.addPartDialog.show();
+    return actions;
   }
 
   saveAddPart() {
     ProjectViewActions.addPart(this.state.activeProject, this.state.addPart);
     NavViewActions.update();
-    this.refs.addPartDialog.dismiss();
+    ProjectViewActions.closeAddPartDialog();
   }
 
   onAddPartTitleChange(e) {
     let title = this.refs.addPartTitleField.getValue();
-    let type = this.refs.addPartTypeField.getInputNode().value;
-
-    ProjectViewActions.setAddPartValues(title, type);
+    ProjectViewActions.setAddPartValues(title, this.state.addPart.type);
   }
 
-  onAddPartTypeChange(e, selectedIndex, menuItem) {
-    let title = this.refs.addPartTitleField.getValue();
-
-    ProjectViewActions.setAddPartValues(title, menuItem.payload);
+  onAddPartTypeChange(e, index, value) {
+    ProjectViewActions.setAddPartValues(this.state.addPart.title, value);
   }
 
   // Rename Part Dialog
 
   renamePartActions() {
-    return [
-      { text: 'Cancel' },
-      { text: 'Save', onTouchTap: this.saveRenamePart }
+    const actions = [
+      <FlatButton label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeRenamePartDialog} />,
+      <FlatButton label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.saveRenamePart} />,
     ];
+    return actions;
   }
 
   showRenamePartDialog(part) {
     ProjectViewActions.setRenamePart(part);
-    this.refs.renamePartDialog.show();
+    ProjectViewActions.openRenamePartDialog();
   }
 
   saveRenamePart() {
     ProjectViewActions.renamePart(this.state.activeProject, this.state.renamePart);
     NavViewActions.update();
-    this.refs.renamePartDialog.dismiss();
+    ProjectViewActions.closeRenamePartDialog();
   }
 
   onRenamePartFormChange() {
@@ -164,27 +147,30 @@ export default class AddItemView extends React.Component {
   // Delete Part
 
   deletePartActions() {
-    return [
-      { text: 'Cancel' },
-      { text: 'OK', onTouchTap: this.saveDeletePart }
+    const actions = [
+      <FlatButton id='deletePartCancel' label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeDeletePartDialog} />,
+      <FlatButton id='deletePartSave' label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.saveDeletePart} />,
     ];
+    return actions;
   }
 
   showDeletePartDialog(part) {
     ProjectViewActions.setDeletePart(part);
-    this.refs.deletePartDialog.show();
+    ProjectViewActions.openDeletePartDialog();
   }
 
   saveDeletePart() {
     ProjectViewActions.deletePart(this.state.activeProject, this.state.deletePart);
     NavViewActions.update();
-    this.refs.deletePartDialog.dismiss();
+    ProjectViewActions.closeDeletePartDialog();
   }
 
   // Request Token
 
   requestTokenDialog() {
-    this.refs.requestTokenDialog.show();
+    ProjectViewActions.openRequestTokenDialog();
   }
 
   onRequestTokenFormChange(e) {
@@ -192,18 +178,21 @@ export default class AddItemView extends React.Component {
   }
 
   requestTokenActions() {
-    return [
-      { text: 'Cancel' },
-      { text: 'Send Request', onTouchTap: this.saveRequestToken }
+    const actions = [
+      <FlatButton id='requestTokenCancel' label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeRequestTokenDialog} />,
+      <FlatButton id='requestTokenSave' label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.saveRequestToken} />,
     ];
+    return actions;
   }
 
   saveRequestToken() {
     let email = this.state.requestTokenEmail.email;
     if (email && email.length) {
       ProjectViewActions.sendTokenRequest(this.state.requestTokenEmail.email);
-      this.refs.requestTokenDialog.dismiss();
-      this.refs.tokenRequestSnackbar.show();
+      ProjectViewActions.closeRequestTokenDialog();
+      ProjectViewActions.openTokenRequestIndicator();
     }
   }
 
@@ -220,8 +209,8 @@ export default class AddItemView extends React.Component {
 
       let rightIconMenu = (
         <IconMenu iconButtonElement={iconButton}>
-          <MenuItem index={0} onTouchTap={this.showRenamePartDialog.bind(this, comp)}>Rename</MenuItem>
-          <MenuItem index={1} onTouchTap={this.showDeletePartDialog.bind(this, comp)}>Delete</MenuItem>
+          <MenuItem onTouchTap={this.showRenamePartDialog.bind(this, comp)}>Rename</MenuItem>
+          <MenuItem onTouchTap={this.showDeletePartDialog.bind(this, comp)}>Delete</MenuItem>
         </IconMenu>
       );
 
@@ -245,9 +234,10 @@ export default class AddItemView extends React.Component {
       <div>
         <Dialog
           ref='projectDialog'
+          open={this.state.projectDialogOpen}
+          onRequestClose={ProjectViewActions.closeProjectDialog}
           contentStyle={{height: '80%'}}
           actions={this.standardActions()}
-          actionFocus='save'
           autoDetectWindowHeight={true}
           autoScrollBodyContent={true}>
 
@@ -262,7 +252,7 @@ export default class AddItemView extends React.Component {
               <List>
                 {this.buildPartsList()}
               </List>
-              <RaisedButton id='addProjectPartButton' label='Add' onTouchTap={this.showAddPartDialog.bind(this)}/>
+              <RaisedButton id='addProjectPartButton' label='Add' onTouchTap={ProjectViewActions.openAddPartDialog}/>
             </Tab>
             <Tab id='projectSharingTab' label='Sharing'>
               <div>
@@ -279,41 +269,46 @@ export default class AddItemView extends React.Component {
           </Tabs>
         </Dialog>
 
-        <Dialog title='Add Part' ref='addPartDialog' actions={this.addPartActions()}>
+        <Dialog title='Add Part' ref='addPartDialog' open={this.state.addPartDialogOpen}
+          actions={this.addPartActions()} onRequestClose={ProjectViewActions.closeAddPartDialog}>
           <div>
             <TextField id='addPartTitleField' ref='addPartTitleField' value={this.state.addPart.title}
               onChange={this.onAddPartTitleChange} floatingLabelText='Title'/>
           </div>
           <div>
             <label>Type</label>
-            <DropDownMenu id='addPartTypeField' onChange={this.onAddPartTypeChange} ref='addPartTypeField' menuItems={[
-              {payload: DbTypes.TYPE_LIST, text: DbTypes.TYPE_LIST},
-              {payload: DbTypes.TYPE_NOTE, text: DbTypes.TYPE_NOTE}
-            ]} />
+            <DropDownMenu id='addPartTypeField' value={this.state.addPart.type}
+              onChange={this.onAddPartTypeChange} ref='addPartTypeField'>
+              <MenuItem primaryText={DbTypes.TYPE_LIST} value={DbTypes.TYPE_LIST}/>
+              <MenuItem primaryText={DbTypes.TYPE_NOTE} value={DbTypes.TYPE_NOTE}/>
+            </DropDownMenu>
           </div>
         </Dialog>
 
-        <Dialog ref='renamePartDialog' actions={this.renamePartActions()}>
+        <Dialog ref='renamePartDialog' open={this.state.renamePartDialogOpen}
+          actions={this.renamePartActions()} onRequestClose={ProjectViewActions.closeRenamePartDialog}>
           <div>
             <TextField ref='renamePartTitleField' value={this.state.renamePart.title}
               onChange={this.onRenamePartFormChange} floatingLabelText='Name'/>
           </div>
         </Dialog>
 
-        <Dialog ref='deletePartDialog' actions={this.deletePartActions()}>
+        <Dialog ref='deletePartDialog' open={this.state.deletePartDialogOpen}
+          actions={this.deletePartActions()} onRequestClose={ProjectViewActions.closeDeletePartDialog}>
           <div>
             Delete {this.state.deletePart.title}?
           </div>
         </Dialog>
 
-        <Dialog ref='requestTokenDialog' actions={this.requestTokenActions()}>
+        <Dialog ref='requestTokenDialog' open={this.state.requestTokenDialogOpen}
+          actions={this.requestTokenActions()} onRequestClose={ProjectViewActions.closeRequestTokenDialog}>
           <p>
             A secure Sharing Key will be sent to the email below. Once you have
             received a key, you will need to enter it in the Key field for each
             device you want to sync with.
           </p>
           <div>
-            <TextField ref='requestTokenEmailField' value={this.state.requestTokenEmail.email}
+            <TextField ref='requestTokenEmailField' value={this.state.tokenRequestEmail.email}
               onChange={this.onRequestTokenFormChange} floatingLabelText='Email Address'/>
           </div>
         </Dialog>
@@ -321,6 +316,8 @@ export default class AddItemView extends React.Component {
         <Snackbar
           id='tokenRequestSnackbar'
           ref='tokenRequestSnackbar'
+          open={this.state.tokenRequestIndicatorOpen}
+          onRequestClose={ProjectViewActions.closeRequestTokenDialog}
           message={'Request sent'}
           autoHideDuration={5000} />
       </div>
