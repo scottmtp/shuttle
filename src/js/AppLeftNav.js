@@ -1,67 +1,115 @@
 import React from 'react';
 let ReactPropTypes = React.PropTypes;
 
-import { LeftNav, RaisedButton, Styles } from 'material-ui';
-let { Colors, Spacing, Typography } = Styles;
+import LeftNav from 'material-ui/lib/left-nav';
+import Menu from 'material-ui/lib/menus/menu';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import Divider from 'material-ui/lib/divider';
+import Colors from 'material-ui/lib/styles/colors';
+// import ListIcon from 'material-ui/lib/svg-icons/editor/format-list-bulleted';
+// import NoteIcon from 'material-ui/lib/svg-icons/editor/insert-drive-file';
 
+import DbTypes from './DbTypes';
+import NavViewActions from './NavViewActions';
+import ShuttleTheme from './ShuttleTheme';
 
 export default class AppLeftNav extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this._getSelectedIndex = this._getSelectedIndex.bind(this);
-    this._onLeftNavChange = this._onLeftNavChange.bind(this);
   }
 
-  getHeaderStyles() {
+  _getSubHeaderStyle() {
     return {
-      fontSize: '24px',
-      color: Typography.textFullWhite,
-      lineHeight: Spacing.desktopKeylineIncrement + 'px',
-      fontWeight: Typography.fontWeightLight,
-      backgroundColor: Colors.blue700,
-      paddingLeft: Spacing.desktopGutter,
-      paddingTop: '0px',
-      marginBottom: '0px'
+      fontWeight: 'bold',
+      color: 'white',
+      backgroundColor: ShuttleTheme.palette.primary1Color
     };
   }
 
-  render() {
-    let header = (
-      <div style={this.getHeaderStyles()}>
-        Menu
-      </div>
-    );
-
-    return (
-      <LeftNav id={this.props.id}
-        ref='leftNav'
-        header={header}
-        docked={this.props.docked}
-        menuItems={this.props.menuItems}
-        selectedIndex={this._getSelectedIndex()}
-        onChange={this._onLeftNavChange}/>
-    );
-  }
-
-  toggle() {
-    this.refs.leftNav.toggle();
-  }
-
-  _getSelectedIndex() {
-    let currentItem;
-
-    for (let i = this.props.menuItems.length - 1; i >= 0; i--) {
-      currentItem = this.props.menuItems[i];
-      if (currentItem.route && this.context.router.isActive(currentItem.route)) {
-        return i;
-      }
+  _getProjectHeaderStyle() {
+    return {
+      color: ShuttleTheme.palette.primary1Color
     }
   }
 
-  _onLeftNavChange(e, key, payload) {
-    this.context.router.transitionTo(payload.route);
+  _getActiveStyle() {
+    return {
+      color: ShuttleTheme.palette.accent1Color,
+      marginLeft: 0
+    }
+  }
+
+  _getMenuHeader() {
+    let menuItem = <MenuItem key='m' style={this._getSubHeaderStyle()}
+      disabled={true}>Menu</MenuItem>;
+
+    return menuItem;
+  }
+
+  // _getLeftIcon(elem) {
+  //   let leftIcon;
+  //   if (elem.type === DbTypes.TYPE_LIST) {
+  //     leftIcon = <ListIcon />
+  //   } else if (elem.type === DbTypes.TYPE_NOTE) {
+  //     leftIcon = <NoteIcon />
+  //   }
+  //
+  //   return leftIcon;
+  // }
+
+  _getRouteMenuItem(elem, index) {
+    let self = this;
+    let basicStyle = {};
+
+    let ott = function() {
+      self.context.router.push(elem.route);
+      NavViewActions.navClose();
+    };
+
+    let style = self.context.router.isActive(elem.route) ? this._getActiveStyle() : basicStyle;
+    let menuItem = <MenuItem key={'mi_' + index} onTouchTap={ott}
+      style={style}>{elem.text}</MenuItem>;
+
+    return menuItem;
+  }
+
+  _getProjectMenuItem(elem, index) {
+    let menuItem = <MenuItem key={'mi_' + index} style={this._getProjectHeaderStyle()}
+      disabled={true}>{elem.text}</MenuItem>;
+
+    return menuItem;
+  }
+
+  _getMenuItems() {
+    let menuItems = [];
+    menuItems.push(this._getMenuHeader());
+    menuItems.push(<Divider key='d' />);
+
+    this.props.menuItems.forEach((elem, i) => {
+      if (elem.route) {
+        menuItems.push(this._getRouteMenuItem(elem, i));
+        if (i == 0) {
+          menuItems.push(<Divider key='d0' />);
+        }
+      } else {
+        menuItems.push(this._getProjectMenuItem(elem, i));
+      }
+
+    });
+
+    return menuItems;
+  }
+
+  render() {
+    let menuItems = this._getMenuItems();
+
+    return (
+      <LeftNav id={this.props.id} ref='leftNav' open={this.props.open}
+        onRequestChange={this.props.onRequestChange} docked={this.props.docked}>
+        {menuItems}
+      </LeftNav>
+    );
   }
 }
 
@@ -70,5 +118,5 @@ AppLeftNav.propTypes = {
 };
 
 AppLeftNav.contextTypes = {
-  router: React.PropTypes.func
+  router: React.PropTypes.object
 };

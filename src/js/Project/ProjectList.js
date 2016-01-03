@@ -1,6 +1,6 @@
 import React from 'react';
-import { Dialog, IconButton, IconMenu, List, ListItem, MenuItem, RaisedButton,
-  Styles, TextField } from 'material-ui';
+import { Dialog, FlatButton, IconButton, IconMenu, List, ListItem, MenuItem,
+  RaisedButton, Styles, TextField } from 'material-ui';
 import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
 let { Colors } = Styles;
 
@@ -19,10 +19,7 @@ export default class ProjectList extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.saveDeleteProject = this.saveDeleteProject.bind(this);
 
-    this.state = {
-      projects: ProjectStore.getProjects(),
-      deleteProject: ProjectStore.getDeleteProject()
-    };
+    this.state = ProjectStore.getState();
   }
 
   componentDidMount() {
@@ -35,43 +32,43 @@ export default class ProjectList extends React.Component {
   }
 
   onChange() {
-    this.setState({
-      projects: ProjectStore.getProjects(),
-      deleteProject: ProjectStore.getDeleteProject()
-    });
+    this.setState(ProjectStore.getState());
   }
 
   handleEditProject(project) {
     ProjectViewActions.setActiveProject(project);
     ProjectViewActions.getActiveProjectParts(project);
-    this.refs.projectForm.show();
+    ProjectViewActions.openProjectDialog();
   }
 
   handleNewProject() {
     let newProject = {name: 'New Project'};
     ProjectViewActions.setActiveProject(newProject);
     ProjectViewActions.getActiveProjectParts(newProject);
-    this.refs.projectForm.show();
+    ProjectViewActions.openProjectDialog();
   }
 
   // Delete Project
 
   deleteProjectActions() {
-    return [
-      { text: 'Cancel' },
-      { text: 'OK', onTouchTap: this.saveDeleteProject }
+    const actions = [
+      <FlatButton label='Cancel' secondary={true}
+        onTouchTap={ProjectViewActions.closeDeleteProjectDialog} />,
+      <FlatButton label='OK' primary={true} keyboardFocused={true}
+        onTouchTap={this.saveDeleteProject} />,
     ];
+    return actions;
   }
 
   showDeleteProjectDialog(project) {
     ProjectViewActions.setDeleteProject(project);
-    this.refs.deleteProjectDialog.show();
+    ProjectViewActions.openDeleteProjectDialog();
   }
 
   saveDeleteProject() {
     ProjectViewActions.deleteProject(this.state.deleteProject);
     NavViewActions.update();
-    this.refs.deleteProjectDialog.dismiss();
+    ProjectViewActions.closeDeleteProjectDialog();
   }
 
   render() {
@@ -117,7 +114,10 @@ export default class ProjectList extends React.Component {
         </List>
         <RaisedButton id='newProject' label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>
         <ProjectForm ref='projectForm' />
-        <Dialog ref='deleteProjectDialog' actions={this.deleteProjectActions()}>
+        <Dialog ref='deleteProjectDialog'
+          actions={this.deleteProjectActions()}
+          open={this.state.deleteProjectDialogOpen}
+          onRequestClose={ProjectViewActions.closeDeleteProjectDialog}>
           <div>
             Delete {this.state.deleteProject.name}?
           </div>

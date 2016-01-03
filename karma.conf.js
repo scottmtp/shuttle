@@ -26,7 +26,7 @@ module.exports = function (config) {
       plugins: [
         new webpack.DefinePlugin({
           'process.env': {
-            'NODE_ENV': '"production"',
+            'NODE_ENV': '"development"',
             'API_URL': '"https://www.tryshuttle.com"'
           }
         }),

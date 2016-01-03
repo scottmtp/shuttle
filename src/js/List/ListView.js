@@ -19,7 +19,7 @@ export default class ListView extends React.Component {
     this._onChange = this._onChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
 
-    this.state = { list: ListStore.getCurrentList() };
+    this.state = ListStore.getState();
   }
 
   componentDidMount() {
@@ -31,7 +31,11 @@ export default class ListView extends React.Component {
   }
 
   _onChange() {
-    this.setState({ list: ListStore.getCurrentList() });
+    this.setState(ListStore.getState());
+  }
+
+  _onListItemUpdatedIndicatorRequestClose() {
+    ListViewActions.listItemUpdatedIndicatorClose();
   }
 
   getStyles() {
@@ -60,12 +64,11 @@ export default class ListView extends React.Component {
   handleCheck(listItem, e, checked) {
     let groupId = this.props.params.groupid;
     ListViewActions.setChecked(groupId, listItem, checked);
+    ListViewActions.listItemUpdatedIndicatorOpen();
 
     this.refs.checkboxSnackbar.undoFunction = function() {
       ListViewActions.setChecked(groupId, listItem, !checked);
     };
-
-    this.refs.checkboxSnackbar.show();
   }
 
   checkboxUndo() {
@@ -112,7 +115,7 @@ export default class ListView extends React.Component {
     self.state.list.listItems.forEach((li) => {
       let listItem;
 
-      if (self.state.list.editItem._id === li._id) {
+      if (self.state.editItem._id === li._id) {
         listItem = (<div key={'d_' + li._id}>
           <TextField
             ref='editItem'
@@ -156,7 +159,8 @@ export default class ListView extends React.Component {
             <AddItemView groupId={self.props.params.groupid} listId={self.props.params.listid}
               order={self.state.list.listItems.length + 1} />
             <Snackbar
-              id='checkboxSnackbar'
+              open={this.state.listItemUpdatedIndicatorOpen}
+              id='checkboxSnackbar' onRequestClose={self._onListItemUpdatedIndicatorRequestClose}
               ref='checkboxSnackbar'
               message={'Item updated'}
               action='undo'
@@ -186,11 +190,10 @@ export default class ListView extends React.Component {
   }
 }
 
-ListView.willTransitionTo = function(transition, params, query, callback) {
-  global.localStorage.group = params.groupid;
+ListView.willTransitionTo = function(nextState, replaceState) {
+  global.localStorage.group = nextState.params.groupid;
   global.localStorage.type = 'list';
-  global.localStorage.typeId = params.listid;
+  global.localStorage.typeId = nextState.params.listid;
 
-  ListViewActions.getListItems(params.groupid, params.listid);
-  callback();
+  ListViewActions.getListItems(nextState.params.groupid, nextState.params.listid);
 };

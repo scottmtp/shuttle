@@ -5,14 +5,16 @@ import NoteConstants from './NoteConstants';
 import AppDispatcher from '../AppDispatcher';
 let CHANGE_EVENT = 'change';
 
-let currentNote = {
-  title: '',
-  html: ''
-};
+let state = {
+  note: {
+    title: '',
+    html: ''
+  }
+}
 
 let NoteStore = assign({}, EventEmitter.prototype, {
-  getCurrentNote: function() {
-    return currentNote;
+  getState: function() {
+    return state;
   },
 
   emitChange: function() {
@@ -32,11 +34,18 @@ let NoteStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case NoteConstants.GET_NOTE_COMPLETED:
-      //case NoteConstants.UPDATE_NOTE_COMPLETED:
-      currentNote = action.note;
+      state.note = action.note;
       NoteStore.emitChange();
       break;
 
+    case NoteConstants.LOCAL_UPDATE_NOTE_COMPLETED:
+      state.note.title = action.title;
+      state.note.html = action.html;
+      NoteStore.emitChange();
+      break;
+
+    // this indicates that the note has been updated on the backend
+    case NoteConstants.UPDATE_NOTE_COMPLETED:
     default:
       // no op
   }

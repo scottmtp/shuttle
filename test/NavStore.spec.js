@@ -29,7 +29,8 @@ describe('nav event dispatch', function() {
    var NavActions = require('../src/js/NavActions');
    var NavStore = require('../src/js/NavStore');
    NavStore.addChangeListener(function() {
-     assert.equal(menuItems, NavStore.getMenuItems());
+     var state = NavStore.getState();
+     assert.equal(menuItems, state.menuItems);
      done();
    });
 

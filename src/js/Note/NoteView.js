@@ -11,7 +11,7 @@ import NoteViewActions from './NoteViewActions';
 export default class NoteView extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { note: NoteStore.getCurrentNote() };
+    this.state = NoteStore.getState();
 
     this.render = this.render.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -20,9 +20,6 @@ export default class NoteView extends React.Component {
     this._onChange = this._onChange.bind(this);
     this.handleDocumentChange = this.handleDocumentChange.bind(this);
     this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleNewState = this.handleNewState.bind(this);
-
-    this.handleDocUpdate = _.throttle(this.handleDocUpdate.bind(this), 200);
     this.handleNavUpdate = _.throttle(this.handleNavUpdate.bind(this), 200);
   }
 
@@ -38,40 +35,28 @@ export default class NoteView extends React.Component {
     NavViewActions.update();
   }
 
-  handleDocUpdate(groupId, noteId, title, markup) {
-    NoteViewActions.updateNote(groupId, noteId, title, markup);
-  }
-
-  handleNewState(title, markup) {
-    this.setState({
-      note: {
-        html: markup,
-        title: title
-      }
-    });
-  }
-
   _onChange() {
-    // TODO: need solution for isMounted
-    // see https://github.com/facebook/react/issues/3417
-    this.setState({ note: NoteStore.getCurrentNote() });
+    this.setState(NoteStore.getState());
   }
 
   handleTitleChange(e) {
     var newTitle = e.target.value;
+    if (newTitle != this.state.note.title) {
+      NoteViewActions.localUpdateNote(newTitle, this.state.note.html);
+      NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
+        newTitle, this.state.note.html);
 
-    this.handleNewState(newTitle, this.state.note.html);
-    this.handleDocUpdate(this.props.params.groupid, this.props.params.noteid,
-      newTitle, this.state.note.html);
-
-    // delay update of left nav to ensure document was written
-    _.delay(this.handleNavUpdate, 200);
+      // delay update of left nav to ensure document was written
+      _.delay(this.handleNavUpdate, 200);
+    }
   }
 
   handleDocumentChange(value) {
-    this.handleNewState(this.state.note.title, value);
-    this.handleDocUpdate(this.props.params.groupid, this.props.params.noteid,
-      this.state.note.title, value);
+    if (value != this.state.note.html) {
+      NoteViewActions.localUpdateNote(this.state.note.title, value);
+      NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
+        this.state.note.title, value);
+    }
   }
 
   getStyles() {
@@ -115,7 +100,8 @@ export default class NoteView extends React.Component {
               floatingLabelText='Note Title'
               value={self.state.note.title}
               onChange={self.handleTitleChange} />
-            <ReactQuill id='noteEditArea' style={{borderBottom: '1px solid #eee'}} value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
+            <ReactQuill id='noteEditArea' style={{borderBottom: '1px solid #eee'}}
+              value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
           </div>
         </Tab>
       </Tabs>
@@ -123,11 +109,10 @@ export default class NoteView extends React.Component {
   }
 }
 
-NoteView.willTransitionTo = function(transition, params, query, callback) {
-  global.localStorage.group = params.groupid;
+NoteView.willTransitionTo = function(nextState, replaceState) {
+  global.localStorage.group = nextState.params.groupid;
   global.localStorage.type = 'note';
-  global.localStorage.typeId = params.noteid;
+  global.localStorage.typeId = nextState.params.noteid;
 
-  NoteViewActions.getNote(params.groupid, params.noteid);
-  callback();
+  NoteViewActions.getNote(nextState.params.groupid, nextState.params.noteid);
 };

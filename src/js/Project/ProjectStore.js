@@ -5,17 +5,23 @@ import AppDispatcher from '../AppDispatcher';
 import DbTypes from '../DbTypes';
 import ProjectConstants from './ProjectConstants';
 
-let projects = [];
-let activeProject = {_id: '', name: '', url: '', room: ''};
-let activeProjectParts = [];
-
-let addPart = {title: '', type: DbTypes.TYPE_NOTE};
-let renamePart = {_id: '', title: ''};
-let deletePart = {_id: '', title: ''};
-
-let deleteProject = {_id: '', name: ''};
-
-let tokenRequestEmail = {email: ''};
+let state = {
+  projects: [],
+  activeProject: {_id: '', name: '', url: '', room: ''},
+  activeProjectParts: [],
+  addPart: {title: '', type: DbTypes.TYPE_LIST},
+  renamePart: {_id: '', title: ''},
+  deletePart: {_id: '', title: ''},
+  deleteProject: {_id: '', name: ''},
+  tokenRequestEmail: {email: ''},
+  deleteProjectDialogOpen: false,
+  tokenRequestIndicatorOpen: false,
+  requestTokenDialogOpen: false,
+  deletePartDialogOpen: false,
+  renamePartDialogOpen: false,
+  addPartDialogOpen: false,
+  projectDialogOpen: false
+};
 
 let CHANGE_EVENT = 'change';
 
@@ -32,36 +38,8 @@ let ProjectStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getProjects: function() {
-    return projects;
-  },
-
-  getActiveProject: function() {
-    return activeProject;
-  },
-
-  getActiveProjectParts: function() {
-    return activeProjectParts;
-  },
-
-  getAddPart: function() {
-    return addPart;
-  },
-
-  getRenamePart: function() {
-    return renamePart;
-  },
-
-  getDeletePart: function() {
-    return deletePart;
-  },
-
-  getDeleteProject: function() {
-    return deleteProject;
-  },
-
-  getTokenRequestEmail: function() {
-    return tokenRequestEmail;
+  getState() {
+    return state;
   }
 });
 
@@ -71,63 +49,133 @@ AppDispatcher.register(function(action) {
     case ProjectConstants.CREATE_PROJECT_COMPLETED:
     case ProjectConstants.UPDATE_PROJECT_COMPLETED:
     case ProjectConstants.DELETE_PROJECT_COMPLETED:
-      projects = action.projects;
+      state.projects = action.projects;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.GET_ACTIVE_PROJECT_PARTS_COMPLETED:
-      activeProjectParts = action.components;
+      state.activeProjectParts = action.components;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_ACTIVE_PROJECT_COMPLETED:
-      activeProject = assign({}, action.activeProject);
+      state.activeProject = assign({}, action.activeProject);
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_ACTIVE_PROJECT_VALUES_COMPLETED:
-      activeProject.name = action.values.name;
-      activeProject.room = action.values.room;
+      state.activeProject.name = action.values.name;
+      state.activeProject.room = action.values.room;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_ADD_PART_VALUES_COMPLETED:
-      addPart.title = action.values.title;
-      addPart.type = action.values.type;
+      state.addPart.title = action.values.title;
+      state.addPart.type = action.values.type;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_RENAME_PART_COMPLETED:
-      renamePart = assign({}, action.part);
+      state.renamePart = assign({}, action.part);
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_DELETE_PART_COMPLETED:
-      deletePart = assign({}, action.part);
+      state.deletePart = assign({}, action.part);
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_RENAME_PART_VALUE_COMPLETED:
-      renamePart.title = action.title;
+      state.renamePart.title = action.title;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.ADD_PART_COMPLETED:
     case ProjectConstants.RENAME_PART_COMPLETED:
     case ProjectConstants.DELETE_PART_COMPLETED:
-      activeProjectParts = action.components;
+      state.activeProjectParts = action.components;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.SET_DELETE_PROJECT_COMPLETED:
-      deleteProject = action.project;
+      state.deleteProject = action.project;
       ProjectStore.emitChange();
-      break;
+    break;
 
     case ProjectConstants.UPDATE_TOKEN_REQUEST_EMAIL_COMPLETED:
-      tokenRequestEmail.email = action.email;
+      state.tokenRequestEmail.email = action.email;
       ProjectStore.emitChange();
-      break;
+    break;
+
+    case ProjectConstants.OPEN_DELETE_PROJECT_DIALOG:
+      state.deleteProjectDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_DELETE_PROJECT_DIALOG:
+      state.deleteProjectDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_REQUEST_TOKEN_INDICATOR:
+      state.tokenRequestIndicatorOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_REQUEST_TOKEN_INDICATOR:
+      state.tokenRequestIndicatorOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_REQUEST_TOKEN_DIALOG:
+      state.requestTokenDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_REQUEST_TOKEN_DIALOG:
+      state.requestTokenDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_DELETE_PART_DIALOG:
+      state.deletePartDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_DELETE_PART_DIALOG:
+      state.deletePartDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_RENAME_PART_DIALOG:
+      state.renamePartDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_RENAME_PART_DIALOG:
+      state.renamePartDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_ADD_PART_DIALOG:
+      state.addPartDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_ADD_PART_DIALOG:
+      state.addPartDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.OPEN_PROJECT_DIALOG:
+      state.projectDialogOpen = true;
+      ProjectStore.emitChange();
+    break;
+
+    case ProjectConstants.CLOSE_PROJECT_DIALOG:
+      state.projectDialogOpen = false;
+      ProjectStore.emitChange();
+    break;
 
     default:
       // no op

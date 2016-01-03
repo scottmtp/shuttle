@@ -5,17 +5,16 @@ import ListConstants from './ListConstants';
 import AppDispatcher from '../AppDispatcher';
 let CHANGE_EVENT = 'change';
 
-let currentList = {
-  title: '',
-  listItems: [],
-  editItem: {}
+let state = {
+  list: {
+    title: '',
+    listItems: [],
+  },
+  editItem: {},
+  listItemUpdatedIndicatorOpen: false
 };
 
 let ListStore = assign({}, EventEmitter.prototype, {
-  getCurrentList: function() {
-    return currentList;
-  },
-
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -26,28 +25,40 @@ let ListStore = assign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  }
+  },
 
+  getState: function() {
+    return state;
+  }
 });
 
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case ListConstants.CLEAR_LIST_COMPLETED:
     case ListConstants.GET_LIST_ITEMS_COMPLETED:
-      currentList = action.currentList;
+      state.list = action.currentList;
       ListStore.emitChange();
       break;
 
     case ListConstants.ADD_LIST_ITEM_COMPLETED:
-      currentList.listItems = currentList.listItems.concat(action.item);
+      state.list.listItems = state.list.listItems.concat(action.item);
       ListStore.emitChange();
       break;
 
     case ListConstants.SET_EDIT_ITEM_COMPLETED:
-      currentList.editItem = action.item;
+      state.editItem = action.item;
       ListStore.emitChange();
       break;
 
+    case ListConstants.LIST_ITEM_UPDATED_INDICATOR_OPEN:
+      state.listItemUpdatedIndicatorOpen = true;
+      ListStore.emitChange();
+      break;
+
+    case ListConstants.LIST_ITEM_UPDATED_INDICATOR_CLOSE:
+      state.listItemUpdatedIndicatorOpen = false;
+      ListStore.emitChange();
+      break;
     default:
       // no op
   }
