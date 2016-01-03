@@ -1,8 +1,9 @@
 import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
 import _ from 'lodash';
+import Quill from 'quill';
 
-import ReactQuill from 'react-quill';
+import Toolbar from './Toolbar';
 
 import NavViewActions from '../NavViewActions';
 import NoteStore from './NoteStore';
@@ -25,6 +26,16 @@ export default class NoteView extends React.Component {
 
   componentDidMount() {
     NoteStore.addChangeListener(this._onChange);
+    this.editor = new Quill(this.refs.editor, {
+      modules: {
+        'toolbar': { container: '#full-toolbar' },
+        'link-tooltip': true
+      },
+      theme: 'snow'
+    });
+
+    this.editor.setHTML(this.state.note.html);
+    this.editor.on('text-change', this.handleDocumentChange);
   }
 
   componentWillUnmount() {
@@ -35,12 +46,15 @@ export default class NoteView extends React.Component {
     NavViewActions.update();
   }
 
-  _onChange() {
+  _onChange(updateEditor) {
     this.setState(NoteStore.getState());
+    if (updateEditor) {
+      this.editor.setHTML(this.state.note.html);
+    }
   }
 
   handleTitleChange(e) {
-    var newTitle = e.target.value;
+    let newTitle = e.target.value;
     if (newTitle !== this.state.note.title) {
       NoteViewActions.localUpdateNote(newTitle, this.state.note.html);
       NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
@@ -51,11 +65,12 @@ export default class NoteView extends React.Component {
     }
   }
 
-  handleDocumentChange(value) {
-    if (value !== this.state.note.html) {
-      NoteViewActions.localUpdateNote(this.state.note.title, value);
+  handleDocumentChange(delta, source) {
+    let html = this.editor.getHTML();
+    if (source === 'user' && html !== this.state.note.html) {
+      NoteViewActions.localUpdateNote(this.state.note.title, html);
       NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
-        this.state.note.title, value);
+        this.state.note.title, html);
     }
   }
 
@@ -100,8 +115,8 @@ export default class NoteView extends React.Component {
               floatingLabelText='Note Title'
               value={self.state.note.title}
               onChange={self.handleTitleChange} />
-            <ReactQuill id='noteEditArea' style={{borderBottom: '1px solid #eee'}}
-              value={this.state.note.html} theme='snow' onChange={this.handleDocumentChange} />
+            <Toolbar />
+            <div id='editor' ref='editor' className='editor_content' style={{borderBottom: '1px solid #eee'}}></div>
           </div>
         </Tab>
       </Tabs>

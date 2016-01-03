@@ -17,8 +17,8 @@ let NoteStore = assign({}, EventEmitter.prototype, {
     return state;
   },
 
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+  emitChange: function(updateEditor) {
+    this.emit(CHANGE_EVENT, updateEditor);
   },
 
   addChangeListener: function(callback) {
@@ -34,17 +34,18 @@ let NoteStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case NoteConstants.GET_NOTE_COMPLETED:
-      state.note = action.note;
-      NoteStore.emitChange();
-      break;
+      state.note.title = action.note.title;
+      state.note.html = action.note.html;
+      NoteStore.emitChange(true);
+    break;
 
     case NoteConstants.LOCAL_UPDATE_NOTE_COMPLETED:
       state.note.title = action.title;
       state.note.html = action.html;
-      NoteStore.emitChange();
-      break;
+      NoteStore.emitChange(false);
+    break;
 
-    // this indicates that the note has been updated on the backend
+    // note update completed in pouchdb
     case NoteConstants.UPDATE_NOTE_COMPLETED:
     default:
       // no op

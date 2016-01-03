@@ -32,7 +32,7 @@ module.exports = {
         'apple-icon-72x72.png','apple-icon-76x76.png','apple-icon-precomposed.png','apple-icon.png',
         'browserconfig.xml','bundle.js','favicon-16x16.png','favicon-32x32.png','favicon-96x96.png',
         'favicon.ico','index.html','manifest.json','ms-icon-144x144.png','ms-icon-150x150.png',
-        'ms-icon-310x310.png','ms-icon-70x70.png','quill.base.css','quill.snow.css'],
+        'ms-icon-310x310.png','ms-icon-70x70.png'],
       network: ['*']
     }),
     new webpack.optimize.UglifyJsPlugin(),

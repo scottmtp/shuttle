@@ -115,12 +115,11 @@ module.exports = {
     var note = 'updatedNotes';
     browser.click('#noteEditTab')
       .waitForElementVisible('#noteEditTitleField', 500)
-      // .setValue('#ql-editor-1', note)
-      // .pause(500)
-      // .click('#noteViewTab')
-      // .pause(500)
-      // .waitForElementVisible('#noteContainer', 500)
-      
+      .setValue('#editor', note)
+      .pause(500)
+      .click('#noteViewTab');
+      // .waitForElementVisible('#noteContainer', 500);
+
     // TODO: investigate setValue on contenteditable div
     // browser.expect.element('#noteContainer').text.to.equal(note);
   },
