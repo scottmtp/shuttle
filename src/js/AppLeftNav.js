@@ -106,7 +106,8 @@ export default class AppLeftNav extends React.Component {
 
     return (
       <LeftNav id={this.props.id} ref='leftNav' open={this.props.open}
-        onRequestChange={this.props.onRequestChange} docked={this.props.docked}>
+        onRequestChange={this.props.onRequestChange} docked={this.props.docked}
+        style={{overflowY: 'scroll'}}>
         {menuItems}
       </LeftNav>
     );
