@@ -13,7 +13,7 @@
     "url": "https://github.com/scottmtp/shuttle.git"
   },
   "dependencies": {
-    "async": "^1.4.2",
+    "async": "1.5.1",
     "collections": "^1.2.4",
     "concat-stream": "^1.5.0",
     "debug": "^2.2.0",
@@ -31,8 +31,8 @@
     "pouchdb": "5.0.0",
     "pouchdb-replication-stream": "1.2.5",
     "quill": "0.20.1",
-    "react": "0.14.3",
-    "react-dom": "0.14.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0",
     "react-router": "2.0.0-rc4",
     "react-tap-event-plugin": "^0.2.1",
     "sendgrid": "^1.9.2",
