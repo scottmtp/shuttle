@@ -8,6 +8,8 @@ import FastMap from 'collections/fast-map';
 import DbTypes from './DbTypes';
 import Replicator from './Replicator';
 
+let componentSort = (a, b) => a.title > b.title ? 1 : -1;
+
 window.PouchDB = PouchDB;
 let dbs = new FastMap();
 
@@ -303,7 +305,6 @@ var getComponents = function(project) {
   let promise = new Promise(function(resolve, reject) {
     getAllLists(project)
       .then(function(items) {
-        items = _.sortBy(items, 'title');
         items.forEach(function(item) {
           components.push(item);
         });
@@ -312,11 +313,10 @@ var getComponents = function(project) {
         return getAllNotes(project);
       })
       .then(function(items) {
-        items = _.sortBy(items, 'title');
         items.forEach(function(item) {
           components.push(item);
         });
-        resolve(components);
+        resolve(components.sort(componentSort));
       });
   });
 

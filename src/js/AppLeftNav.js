@@ -6,8 +6,8 @@ import Menu from 'material-ui/lib/menus/menu';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Divider from 'material-ui/lib/divider';
 import Colors from 'material-ui/lib/styles/colors';
-// import ListIcon from 'material-ui/lib/svg-icons/editor/format-list-bulleted';
-// import NoteIcon from 'material-ui/lib/svg-icons/editor/insert-drive-file';
+import ListIcon from 'material-ui/lib/svg-icons/editor/format-list-bulleted';
+import NoteIcon from 'material-ui/lib/svg-icons/editor/insert-drive-file';
 
 import DbTypes from './DbTypes';
 import NavViewActions from './NavViewActions';
@@ -47,16 +47,16 @@ export default class AppLeftNav extends React.Component {
     return menuItem;
   }
 
-  // _getLeftIcon(elem) {
-  //   let leftIcon;
-  //   if (elem.type === DbTypes.TYPE_LIST) {
-  //     leftIcon = <ListIcon />
-  //   } else if (elem.type === DbTypes.TYPE_NOTE) {
-  //     leftIcon = <NoteIcon />
-  //   }
-  //
-  //   return leftIcon;
-  // }
+  _getLeftIcon(elem) {
+    let leftIcon;
+    if (elem.type === DbTypes.TYPE_LIST) {
+      leftIcon = <ListIcon style={{height: '16px', width: '16px'}}/>
+    } else if (elem.type === DbTypes.TYPE_NOTE) {
+      leftIcon = <NoteIcon style={{height: '16px', width: '16px'}}/>
+    }
+
+    return leftIcon;
+  }
 
   _getRouteMenuItem(elem, index) {
     let self = this;
@@ -68,7 +68,7 @@ export default class AppLeftNav extends React.Component {
     };
 
     let style = self.context.router.isActive(elem.route) ? this._getActiveStyle() : basicStyle;
-    let menuItem = <MenuItem key={'mi_' + index} onTouchTap={ott}
+    let menuItem = <MenuItem key={'mi_' + index} onTouchTap={ott} rightIcon={this._getLeftIcon(elem)}
       style={style}>{elem.text}</MenuItem>;
 
     return menuItem;
