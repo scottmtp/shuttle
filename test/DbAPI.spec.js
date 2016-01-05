@@ -108,9 +108,9 @@ describe('db api', function() {
     DbAPI.getComponents(project)
       .then(function(results) {
         assert.equal(3, results.length);
-        assert.equal('Shopping', results[0].title);
-        assert.equal('Todo', results[1].title);
-        assert.equal('Getting Started', results[2].title);
+        assert.equal('Getting Started', results[0].title);
+        assert.equal('Shopping', results[1].title);
+        assert.equal('Todo', results[2].title);
         done();
       });
   });

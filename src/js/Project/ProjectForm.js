@@ -216,7 +216,7 @@ export default class AddItemView extends React.Component {
 
       let listItem = <ListItem
         primaryText={comp.title}
-        secondaryText={comp.type}
+        secondaryText={'Type: ' + comp.type}
         rightIconButton={rightIconMenu}
         disableTouchRipple={true}
         key={comp._id} />;
