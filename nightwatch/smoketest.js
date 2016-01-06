@@ -21,7 +21,7 @@ module.exports = {
   },
 
   'Edit Project:': function(browser) {
-    browser.click('#projectList :nth-child(2) a')
+    browser.click('#projectList :nth-child(2) span')
       .waitForElementVisible('#projectSave', 2000)
 
       // append '2' to name field
