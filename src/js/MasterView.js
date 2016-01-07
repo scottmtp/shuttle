@@ -112,7 +112,7 @@ export default class MasterView extends React.Component {
     }
 
     let appBarPaddingLeft = (this.state.leftNavDocked ? navWidth + 8 : 8) + 'px';
-    let childrenPaddingLeft = (this.state.leftNavDocked ? navWidth : 8) + 'px';
+    let childrenPaddingLeft = (this.state.leftNavDocked ? navWidth : 0) + 'px';
     let showMenuIcon = !this.state.leftNavDocked;
 
     return (
