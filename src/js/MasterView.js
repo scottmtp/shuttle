@@ -66,6 +66,11 @@ export default class MasterView extends React.Component {
   }
 
   componentWillMount() {
+    window.addEventListener('resize', function() {
+      NavViewActions.handleResize(window.innerWidth);
+    });
+
+    NavViewActions.handleResize(window.innerWidth);
     window.applicationCache.addEventListener('updateready', this._onUpdateReady);
     if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
       this._onUpdateReady();
@@ -80,6 +85,10 @@ export default class MasterView extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener('resize', function() {
+      NavViewActions.handleResize(window.innerWidth);
+    });
+
     NavStore.removeChangeListener(this._onChange);
     NavStore.removeReplicationChangeListener(this._onReplication);
   }
@@ -97,22 +106,33 @@ export default class MasterView extends React.Component {
 
     let helpActions = <FlatButton id='helpOk' label='Got it!' onTouchTap={NavViewActions.helpClose}/>;
 
+    let navWidth = 0;
+    if (this.refs.appLeftNav) {
+      navWidth = this.refs.appLeftNav.getWidth();
+    }
+
+    let appBarPaddingLeft = (this.state.leftNavDocked ? navWidth + 8 : 8) + 'px';
+    let childrenPaddingLeft = (this.state.leftNavDocked ? navWidth : 8) + 'px';
+    let showMenuIcon = !this.state.leftNavDocked;
+
     return (
         <div>
           <AppBar id='appBar'
             title='shuttle'
             iconElementLeft={menuIcon}
             iconElementRight={helpIcon}
+            showMenuIconButton={showMenuIcon}
+            style={{paddingLeft: appBarPaddingLeft}}
             zDepth={0}/>
 
           <AppLeftNav id='appLeftNav'
             menuItems={this.state.menuItems}
             open={this.state.leftNavOpen}
             onRequestChange={this._onNavRequestChange}
-            docked={false}
+            docked={this.state.leftNavDocked}
             ref='appLeftNav'/>
 
-          <div id="children">
+          <div id="children" style={{paddingLeft: childrenPaddingLeft}}>
             {this.props.children}
           </div>
 

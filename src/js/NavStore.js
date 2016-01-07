@@ -11,6 +11,7 @@ let state = {
   menuItems: [],
   helpDialogOpen: false,
   leftNavOpen: false,
+  leftNavDocked: false,
   replIndicatorOpen: false,
   appRefreshIndicatorOpen: false
 };
@@ -93,6 +94,19 @@ AppDispatcher.register(function(action) {
 
     case NavConstants.APP_REFRESH_INDICATOR_CLOSE:
       state.appRefreshIndicatorOpen = false;
+      NavStore.emitChange();
+      break;
+
+    case NavConstants.WINDOW_RESIZE:
+      let windowSize = action.size;
+      if (windowSize > 800) {
+        state.leftNavDocked = true;
+        state.leftNavOpen = true;
+      } else {
+        state.leftNavDocked = false;
+        state.leftNavOpen = false;
+      }
+
       NavStore.emitChange();
       break;
 

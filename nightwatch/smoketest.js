@@ -66,12 +66,8 @@ module.exports = {
   },
 
   'Navigate to List': function(browser) {
-    // first button is app nav bar
-    browser.click('button')
-      .pause(500)
-
-      // navigate to list created in step above
-      .useXpath()
+    // navigate to list created in step above
+    browser.useXpath()
       .click('//span[text()=\'nightwatchList\']')
       .useCss()
       .pause(500);
@@ -100,12 +96,8 @@ module.exports = {
   },
 
   'Navigate to Note': function(browser) {
-    // re-open nav
-    browser.click('button')
-      .pause(500)
-
-      // navigate to note created in step above
-      .useXpath()
+    // navigate to note created in step above
+    browser.useXpath()
       .click('//span[text()=\'nightwatchNote\']')
       .useCss()
       .pause(500);

@@ -63,5 +63,12 @@ export default {
     AppDispatcher.dispatch({
       'actionType': NavConstants.APP_REFRESH_INDICATOR_CLOSE
     });
+  },
+
+  handleResize: function(newSize) {
+    AppDispatcher.dispatch({
+      'actionType': NavConstants.WINDOW_RESIZE,
+      'size': newSize
+    });
   }
 };

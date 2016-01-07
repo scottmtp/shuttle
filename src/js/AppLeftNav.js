@@ -64,7 +64,9 @@ export default class AppLeftNav extends React.Component {
 
     let ott = function() {
       self.context.router.push(elem.route);
-      NavViewActions.navClose();
+      if (!self.props.docked) {
+        NavViewActions.navClose();
+      }
     };
 
     let style = self.context.router.isActive(elem.route) ? this._getActiveStyle() : basicStyle;
@@ -83,8 +85,11 @@ export default class AppLeftNav extends React.Component {
 
   _getMenuItems() {
     let menuItems = [];
-    menuItems.push(this._getMenuHeader());
-    menuItems.push(<Divider key='d' />);
+
+    if (!this.props.docked) {
+      menuItems.push(this._getMenuHeader());
+      menuItems.push(<Divider key='d' />);
+    }
 
     this.props.menuItems.forEach((elem, i) => {
       if (elem.route) {
@@ -99,6 +104,11 @@ export default class AppLeftNav extends React.Component {
     });
 
     return menuItems;
+  }
+
+  getWidth() {
+    let width = this.refs.leftNav.getStyles().root.width;
+    return width;
   }
 
   render() {
