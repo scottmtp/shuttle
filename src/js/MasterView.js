@@ -95,7 +95,7 @@ export default class MasterView extends React.Component {
 
   render() {
     let menuIcon = <IconButton id='menuIcon' touch={true}
-      onTouchTap={NavViewActions.navOpen} tooltip='Menu'>
+      onTouchTap={NavViewActions.navOpen}>
       <MenuIcon />
     </IconButton>;
 
