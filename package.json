@@ -71,9 +71,8 @@
   "scripts": {
     "lint": "eslint src",
     "test": "karma start",
-    "copy": "cp ./src/index.html dist/; cp ./src/images/* dist/; cp node_modules/quill/dist/quill.base.css dist/; cp node_modules/quill/dist/quill.snow.css dist/",
     "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
-    "dist": "npm run copy; webpack --config webpack.config.dist.js",
+    "dist": "make copy; webpack --config webpack.config.dist.js",
     "productiondist": "npm run copy; webpack --config webpack.config.prod.js",
     "server": "node ./server.js"
   },

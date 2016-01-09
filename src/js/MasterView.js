@@ -24,6 +24,10 @@ export default class MasterView extends React.Component {
   constructor(props) {
     super(props);
     this.state = NavStore.getState();
+    this.componentWillMount = this.componentWillMount.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
+    this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
   }
 
@@ -40,7 +44,9 @@ export default class MasterView extends React.Component {
   }
 
   _onReplication() {
-    NavViewActions.replIndicatorOpen();
+    // Making this async to avoid invariant violation with dispatch from
+    //     replication -> ui update
+    window.setTimeout(NavViewActions.replIndicatorOpen, 100);
   }
 
   _onNavRequestChange(open) {
