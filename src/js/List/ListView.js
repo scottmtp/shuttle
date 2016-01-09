@@ -148,11 +148,13 @@ export default class ListView extends React.Component {
       }
     });
 
+    let title = <h1 style={self.getStyles().title}>{self.state.list.title}</h1>;
+
     return (
       <Tabs tabItemContainerStyle={self.getStyles().tabItem}>
         <Tab label='Active' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
-            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            {title}
             <List>
               {activeItems}
             </List>
@@ -170,7 +172,7 @@ export default class ListView extends React.Component {
         </Tab>
         <Tab label='Completed' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
-            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            {title}
             <List>
               {completedItems}
             </List>
@@ -179,7 +181,7 @@ export default class ListView extends React.Component {
         </Tab>
         <Tab label='All' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
-            <h1 style={self.getStyles().title}>{self.state.list.title}</h1>
+            {title}
             <List>
               {allItems}
             </List>

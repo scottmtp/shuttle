@@ -20,7 +20,6 @@ export default class NoteView extends React.Component {
 
     this._onChange = this._onChange.bind(this);
     this.handleDocumentChange = this.handleDocumentChange.bind(this);
-    this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleNavUpdate = _.throttle(this.handleNavUpdate.bind(this), 200);
   }
 
@@ -50,18 +49,6 @@ export default class NoteView extends React.Component {
     this.setState(NoteStore.getState());
     if (updateEditor) {
       this.editor.setHTML(this.state.note.html);
-    }
-  }
-
-  handleTitleChange(e) {
-    let newTitle = e.target.value;
-    if (newTitle !== this.state.note.title) {
-      NoteViewActions.localUpdateNote(newTitle, this.state.note.html);
-      NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
-        newTitle, this.state.note.html);
-
-      // delay update of left nav to ensure document was written
-      _.delay(this.handleNavUpdate, 200);
     }
   }
 
@@ -100,21 +87,18 @@ export default class NoteView extends React.Component {
       return false;
     }
 
+    let title = <h1 style={this.getStyles().title}>{self.state.note.title}</h1>;
     return (
       <Tabs tabItemContainerStyle={self.getStyles().tabItem}>
         <Tab id='noteViewTab' label='View' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
-            <h1 style={this.getStyles().title}>{self.state.note.title}</h1>
+            {title}
             <div id='noteContainer' dangerouslySetInnerHTML={{__html: self.state.note.html}} />
           </div>
         </Tab>
         <Tab id='noteEditTab' label='Edit' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
-            <TextField
-              id='noteEditTitleField'
-              floatingLabelText='Note Title'
-              value={self.state.note.title}
-              onChange={self.handleTitleChange} />
+            {title}
             <Toolbar />
             <div id='editor' ref='editor' className='editor_content' style={{borderBottom: '1px solid #eee'}}></div>
           </div>

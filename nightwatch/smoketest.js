@@ -106,7 +106,6 @@ module.exports = {
   'Add note text': function(browser) {
     var note = 'updatedNotes';
     browser.click('#noteEditTab')
-      .waitForElementVisible('#noteEditTitleField', 500)
       .setValue('#editor', note)
       .pause(500)
       .click('#noteViewTab');
