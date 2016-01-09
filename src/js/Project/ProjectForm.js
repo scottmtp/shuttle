@@ -20,19 +20,25 @@ export default class AddItemView extends React.Component {
 
     this.onStateChange = this.onStateChange.bind(this);
     this.render = this.render.bind(this);
+    this.buildPartsList = this.buildPartsList.bind(this);
 
     this.onFormChange = this.onFormChange.bind(this);
     this.save = this.save.bind(this);
 
+    this.standardActions = this.standardActions.bind(this);
     this.onRenamePartFormChange = this.onRenamePartFormChange.bind(this);
     this.saveRenamePart = this.saveRenamePart.bind(this);
 
+    this.addPartActions = this.addPartActions.bind(this);
     this.onAddPartTitleChange = this.onAddPartTitleChange.bind(this);
     this.onAddPartTypeChange = this.onAddPartTypeChange.bind(this);
     this.saveAddPart = this.saveAddPart.bind(this);
 
+    this.renamePartActions = this.renamePartActions.bind(this);
+    this.deletePartActions = this.deletePartActions.bind(this);
     this.saveDeletePart = this.saveDeletePart.bind(this);
 
+    this.requestTokenActions = this.requestTokenActions.bind(this);
     this.onRequestTokenFormChange = this.onRequestTokenFormChange.bind(this);
     this.saveRequestToken = this.saveRequestToken.bind(this);
   }
@@ -62,11 +68,12 @@ export default class AddItemView extends React.Component {
   // Main Dialog
 
   standardActions() {
+    let self = this;
     const actions = [
       <FlatButton id='projectCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeProjectDialog} />,
       <FlatButton id='projectSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.save} />
+        onTouchTap={self.save} />
     ];
     return actions;
   }
@@ -92,11 +99,12 @@ export default class AddItemView extends React.Component {
   // Add Part Dialog
 
   addPartActions() {
+    let self = this;
     const actions = [
       <FlatButton id='addPartCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeAddPartDialog} />,
       <FlatButton id='addPartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveAddPart} />
+        onTouchTap={self.saveAddPart} />
     ];
     return actions;
   }
@@ -119,11 +127,12 @@ export default class AddItemView extends React.Component {
   // Rename Part Dialog
 
   renamePartActions() {
+    let self = this;
     const actions = [
       <FlatButton label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeRenamePartDialog} />,
       <FlatButton label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveRenamePart} />
+        onTouchTap={self.saveRenamePart} />
     ];
     return actions;
   }
@@ -147,11 +156,12 @@ export default class AddItemView extends React.Component {
   // Delete Part
 
   deletePartActions() {
+    let self = this;
     const actions = [
       <FlatButton id='deletePartCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeDeletePartDialog} />,
       <FlatButton id='deletePartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveDeletePart} />
+        onTouchTap={self.saveDeletePart} />
     ];
     return actions;
   }
@@ -178,11 +188,12 @@ export default class AddItemView extends React.Component {
   }
 
   requestTokenActions() {
+    let self = this;
     const actions = [
       <FlatButton id='requestTokenCancel' label='Cancel' secondary={true}
         onTouchTap={ProjectViewActions.closeRequestTokenDialog} />,
       <FlatButton id='requestTokenSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveRequestToken} />
+        onTouchTap={self.saveRequestToken} />
     ];
     return actions;
   }
@@ -199,6 +210,7 @@ export default class AddItemView extends React.Component {
   // Render
 
   buildPartsList() {
+    let self = this;
     let partsList = [];
     this.state.activeProjectParts.forEach((comp) => {
       let iconButton = (
@@ -209,8 +221,8 @@ export default class AddItemView extends React.Component {
 
       let rightIconMenu = (
         <IconMenu iconButtonElement={iconButton}>
-          <MenuItem onTouchTap={this.showRenamePartDialog.bind(this, comp)}>Rename</MenuItem>
-          <MenuItem onTouchTap={this.showDeletePartDialog.bind(this, comp)}>Delete</MenuItem>
+          <MenuItem onTouchTap={self.showRenamePartDialog.bind(self, comp)}>Rename</MenuItem>
+          <MenuItem onTouchTap={self.showDeletePartDialog.bind(self, comp)}>Delete</MenuItem>
         </IconMenu>
       );
 
