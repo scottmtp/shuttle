@@ -135,6 +135,7 @@ export default class MasterView extends React.Component {
             zDepth={0}/>
 
           <AppLeftNav id='appLeftNav'
+            router={this.context.router}
             menuItems={this.state.menuItems}
             open={this.state.leftNavOpen}
             onRequestChange={this._onNavRequestChange}
@@ -182,6 +183,10 @@ export default class MasterView extends React.Component {
     );
   }
 }
+
+MasterView.contextTypes = {
+  router: React.PropTypes.object
+};
 
 MasterView.childContextTypes = {
   muiTheme: React.PropTypes.object
