@@ -57,9 +57,9 @@ export default class AppLeftNav extends React.Component {
   _getLeftIcon(elem) {
     let leftIcon;
     if (elem.type === DbTypes.TYPE_LIST) {
-      leftIcon = <ListIcon style={{height: '16px', width: '16px'}}/>
+      leftIcon = <ListIcon style={{height: '16px', width: '16px'}}/>;
     } else if (elem.type === DbTypes.TYPE_NOTE) {
-      leftIcon = <NoteIcon style={{height: '16px', width: '16px'}}/>
+      leftIcon = <NoteIcon style={{height: '16px', width: '16px'}}/>;
     }
 
     return leftIcon;
