@@ -17,6 +17,13 @@ export default class AppLeftNav extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this._getMenuHeader = this._getMenuHeader.bind(this);
+    this._getRouteMenuItem = this._getRouteMenuItem.bind(this);
+    this._getProjectMenuItem = this._getProjectMenuItem.bind(this);
+    this._getMenuItems = this._getMenuItems.bind(this);
+    this.getWidth = this.getWidth.bind(this);
+    this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
   }
 
   _getSubHeaderStyle() {
@@ -109,6 +116,28 @@ export default class AppLeftNav extends React.Component {
   getWidth() {
     let width = this.refs.leftNav.getStyles().root.width;
     return width;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.open !== nextProps.open) {
+      return true;
+    }
+
+    if (this.props.docked !== nextProps.docked) {
+      return true;
+    }
+
+    if (this.props.menuItems.length !== nextProps.menuItems.length) {
+      return true;
+    }
+
+    for (let i = 0; i < this.props.menuItems.length; i++) {
+      if (this.props.menuItems[i].text !== nextProps.menuItems[i].text) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   render() {
