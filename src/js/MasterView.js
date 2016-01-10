@@ -1,4 +1,5 @@
 import React from 'react';
+import FastClick from 'fastclick';
 
 import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
 import AppBar from 'material-ui/lib/app-bar';
@@ -81,6 +82,8 @@ export default class MasterView extends React.Component {
     if (window.applicationCache.status === window.applicationCache.UPDATEREADY) {
       this._onUpdateReady();
     }
+
+    FastClick.attach(document.body, {});
   }
 
   componentDidMount() {
@@ -132,6 +135,7 @@ export default class MasterView extends React.Component {
             zDepth={0}/>
 
           <AppLeftNav id='appLeftNav'
+            router={this.context.router}
             menuItems={this.state.menuItems}
             open={this.state.leftNavOpen}
             onRequestChange={this._onNavRequestChange}
@@ -179,6 +183,10 @@ export default class MasterView extends React.Component {
     );
   }
 }
+
+MasterView.contextTypes = {
+  router: React.PropTypes.object
+};
 
 MasterView.childContextTypes = {
   muiTheme: React.PropTypes.object
