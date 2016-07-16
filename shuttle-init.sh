@@ -38,8 +38,8 @@
 # SPIN_SLEEP_TIME="2000"
 
 NAME="shuttle"
-NODE_BIN_DIR="/usr/local/node-v4.1.2-linux-x64/bin/"
-NODE_PATH="/usr/local/node-v4.1.2-linux-x64/lib/node_modules/"
+NODE_BIN_DIR="/usr/local/node-v4.4.7-linux-x64/bin/"
+NODE_PATH="/usr/local/node-v4.4.7-linux-x64/lib/node_modules/"
 APPLICATION_PATH="/usr/local/shuttle/deploy/current/server.js"
 PIDFILE="/var/run/shuttle.pid"
 LOGFILE="/var/log/shuttle.log"
