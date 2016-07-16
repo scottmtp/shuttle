@@ -1,13 +1,14 @@
 import React from 'react';
 let ReactPropTypes = React.PropTypes;
 
-import LeftNav from 'material-ui/lib/left-nav';
-import Menu from 'material-ui/lib/menus/menu';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import Divider from 'material-ui/lib/divider';
-import Colors from 'material-ui/lib/styles/colors';
-import ListIcon from 'material-ui/lib/svg-icons/editor/format-list-bulleted';
-import NoteIcon from 'material-ui/lib/svg-icons/editor/insert-drive-file';
+import Drawer from 'material-ui/Drawer';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
+
+import Colors from 'material-ui/styles/colors';
+import ListIcon from 'material-ui/svg-icons/editor/format-list-bulleted';
+import NoteIcon from 'material-ui/svg-icons/editor/insert-drive-file';
 
 import DbTypes from './DbTypes';
 import NavViewActions from './NavViewActions';
@@ -121,11 +122,11 @@ export default class AppLeftNav extends React.Component {
     let menuItems = this._getMenuItems();
 
     return (
-      <LeftNav id={this.props.id} ref='leftNav' open={this.props.open}
+      <Drawer id={this.props.id} ref='leftNav' open={this.props.open}
         onRequestChange={this.props.onRequestChange} docked={this.props.docked}
         style={{overflowY: 'scroll', borderRight: '1px solid #e0e0e0', boxShadow: 'none'}}>
         {menuItems}
-      </LeftNav>
+      </Drawer>
     );
   }
 }

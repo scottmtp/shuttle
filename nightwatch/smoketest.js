@@ -5,7 +5,9 @@ module.exports = {
 
     browser.expect.element('h1').text.to.contain('shuttle');
     browser.expect.element('h2').text.to.contain('Projects');
-    browser.expect.element('#projectList :nth-child(1) div[data-reactid*=primaryText]').text.to.equal('My Project');
+
+    browser.useXpath();
+    browser.expect.element('//div[text()="My Project"]').to.be.present;
   },
 
   'Create Project': function(browser) {
@@ -17,20 +19,23 @@ module.exports = {
       .click('#projectSave')
       .pause(500);
 
-    browser.expect.element('#projectList :nth-child(2) div[data-reactid*=primaryText]').text.to.equal('nightwatch');
+    browser.useXpath();
+    browser.expect.element('//div[text()="nightwatch"]').to.be.present;
   },
 
   'Edit Project:': function(browser) {
-    browser.click('#projectList :nth-child(2) span')
-      .waitForElementVisible('#projectSave', 2000)
+    browser.useXpath()
+      .click('//*[@id="projectList"]/div[2]/span');
 
+    browser.useCss()
+      .waitForElementVisible('#projectSave', 2000)
       // append '2' to name field
       .setValue('#projectNameField', '2')
       .pause(500);
   },
 
   'Add list parts': function(browser) {
-    browser.click('#projectPartsTab')
+    browser.useCss().click('#projectPartsTab')
       .waitForElementVisible('#addProjectPartButton', 20000)
       .click('#addProjectPartButton')
       .waitForElementVisible('#addPartSave', 2000)
@@ -50,25 +55,21 @@ module.exports = {
       .pause(500)
       .click('//div[text()=\'note\']')
       .useCss()
+      .pause(500)
       .click('#addPartSave')
       .pause(500)
 
       // save project
       .click('#projectSave')
-      .pause(500)
-
-      // TODO: not sure why we need to click button twice here, likely
-      // a material-ui bug???
-      .click('#projectSave')
       .pause(500);
 
-    browser.expect.element('#projectList :nth-child(2) div[data-reactid*=primaryText]').text.to.equal('nightwatch2');
+    // browser.expect.element('#projectList :nth-child(2) div[data-reactid*=primaryText]').text.to.equal('nightwatch2');
   },
 
   'Navigate to List': function(browser) {
     // navigate to list created in step above
     browser.useXpath()
-      .click('//span[text()=\'nightwatchList\']')
+      .click('//div[text()=\'nightwatchList\']')
       .useCss()
       .pause(500);
   },
@@ -77,15 +78,15 @@ module.exports = {
     // add a few list items
     browser.setValue('#addListItemText', 'foo')
       .click('#addListItem')
-      .useXpath().waitForElementVisible('//div[text()=\'foo\']', 500).useCss()
+      .useXpath().waitForElementVisible('//*[text()=\'foo\']', 500).useCss()
 
       .setValue('#addListItemText', 'bar')
       .click('#addListItem')
-      .useXpath().waitForElementVisible('//div[text()=\'bar\']', 500).useCss()
+      .useXpath().waitForElementVisible('//*[text()=\'bar\']', 500).useCss()
 
       .setValue('#addListItemText', 'baz')
       .click('#addListItem')
-      .useXpath().waitForElementVisible('//div[text()=\'baz\']', 500).useCss();
+      .useXpath().waitForElementVisible('//*[text()=\'baz\']', 500).useCss();
   },
 
   'Check 2 List Items': function(browser) {
@@ -98,7 +99,7 @@ module.exports = {
   'Navigate to Note': function(browser) {
     // navigate to note created in step above
     browser.useXpath()
-      .click('//span[text()=\'nightwatchNote\']')
+      .click('//div[text()=\'nightwatchNote\']')
       .useCss()
       .pause(500);
   },

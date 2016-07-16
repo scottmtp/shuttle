@@ -1,5 +1,7 @@
 import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
+import { grey300, darkBlack } from 'material-ui/styles/colors';
+
 import _ from 'lodash';
 import Quill from 'quill';
 
@@ -67,10 +69,10 @@ export default class NoteView extends React.Component {
         marginBottom: '6px'
       },
       tabItem: {
-        backgroundColor: Styles.Colors.grey300
+        backgroundColor: grey300
       },
       tab: {
-        color: Styles.Colors.black
+        color: darkBlack
       },
       tabContent: {
         marginLeft: '6px',

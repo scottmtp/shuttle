@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dialog, DropDownMenu, FlatButton, IconButton, IconMenu, List, ListItem, MenuItem,
   RaisedButton, Snackbar, Styles, Tab, Tabs, TextField } from 'material-ui';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-let { Colors } = Styles;
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import { grey400, grey600 } from 'material-ui/styles/colors';
 
 import dbApi from '../DbAPI';
 import DbTypes from '../DbTypes';
@@ -215,7 +215,7 @@ export default class AddItemView extends React.Component {
     this.state.activeProjectParts.forEach((comp) => {
       let iconButton = (
         <IconButton touch={true}>
-          <MoreVertIcon color={Colors.grey400} />
+          <MoreVertIcon color={grey400} />
         </IconButton>
       );
 
@@ -272,7 +272,7 @@ export default class AddItemView extends React.Component {
                 <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
                   onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
                 <RaisedButton id='requestTokenButton' label='Request Key' onTouchTap={this.requestTokenDialog.bind(this)}/>
-                <div style={{color: Colors.grey600, marginTop: '6px',
+                <div style={{color: grey600, marginTop: '6px',
                   display: this.state.activeProject.room ? 'none' : 'block'}}>
                   You will need to request a Sharing Key to enable Sharing.
                   Sharing tokens are free and completely private!

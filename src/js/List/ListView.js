@@ -1,7 +1,8 @@
 import React from 'react';
 import { Checkbox, List, ListItem, RaisedButton, Snackbar, Styles, Tab, Tabs,
   TextField } from 'material-ui';
-import ModeEditIcon from 'material-ui/lib/svg-icons/editor/mode-edit';
+import ModeEditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import { grey300, darkBlack } from 'material-ui/styles/colors';
 
 import AddItemView from './AddItemView';
 import ListConstants from './ListConstants';
@@ -44,11 +45,11 @@ export default class ListView extends React.Component {
         marginBottom: '6px'
       },
       tabItem: {
-        backgroundColor: Styles.Colors.grey300
+        backgroundColor: grey300
       },
       tab: {
         margin: '6px',
-        color: Styles.Colors.black
+        color: darkBlack
       },
       tabContent: {
         marginLeft: '6px',

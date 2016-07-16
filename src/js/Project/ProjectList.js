@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dialog, FlatButton, IconButton, IconMenu, List, ListItem, MenuItem,
   RaisedButton, Styles, TextField } from 'material-ui';
-import MoreVertIcon from 'material-ui/lib/svg-icons/navigation/more-vert';
-let { Colors } = Styles;
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import { grey400, grey600 } from 'material-ui/styles/colors';
 
 import NavViewActions from '../NavViewActions';
 import ProjectForm from './ProjectForm';
@@ -82,7 +82,7 @@ export default class ProjectList extends React.Component {
     self.state.projects.sort(projectSort).forEach((project) => {
       let iconButton = (
         <IconButton touch={true}>
-          <MoreVertIcon color={Colors.grey400} />
+          <MoreVertIcon color={grey400} />
         </IconButton>
       );
 
@@ -105,7 +105,7 @@ export default class ProjectList extends React.Component {
     return (
       <div style={{marginLeft: '4px', marginRight: '4px'}}>
         <h2>Projects</h2>
-        <div style={{color: Colors.grey600}}>
+        <div style={{color: grey600}}>
           Tap or click items below to edit Projects and turn on Sharing. Your
           Notes and Lists are in the top-left menu.
         </div>

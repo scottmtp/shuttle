@@ -1,14 +1,15 @@
 import React from 'react';
 import FastClick from 'fastclick';
 
-import ActionHelpIcon from 'material-ui/lib/svg-icons/action/help-outline';
-import AppBar from 'material-ui/lib/app-bar';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
-import IconButton from 'material-ui/lib/icon-button';
-import MenuIcon from 'material-ui/lib/svg-icons/navigation/menu';
-import Snackbar from 'material-ui/lib/snackbar';
-import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import ActionHelpIcon from 'material-ui/svg-icons/action/help-outline';
+import AppBar from 'material-ui/AppBar';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import MenuIcon from 'material-ui/svg-icons/navigation/menu';
+import Snackbar from 'material-ui/Snackbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import NavViewActions from './NavViewActions';
 import NavStore from './NavStore';
@@ -66,12 +67,6 @@ export default class MasterView extends React.Component {
     NavViewActions.appRefreshIndicatorClose();
   }
 
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getMuiTheme(ShuttleTheme)
-    };
-  }
-
   componentWillMount() {
     window.addEventListener('resize', function() {
       NavViewActions.handleResize(window.innerWidth);
@@ -103,6 +98,8 @@ export default class MasterView extends React.Component {
   }
 
   render() {
+    const muiTheme = getMuiTheme(ShuttleTheme);
+
     let menuIcon = <IconButton id='menuIcon' touch={true}
       onTouchTap={NavViewActions.navOpen}>
       <MenuIcon />
@@ -125,7 +122,8 @@ export default class MasterView extends React.Component {
     let showMenuIcon = !this.state.leftNavDocked;
 
     return (
-        <div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+				<div>
           <AppBar id='appBar'
             title='shuttle'
             iconElementLeft={menuIcon}
@@ -179,7 +177,8 @@ export default class MasterView extends React.Component {
               to hear from you!</a>
             </p>
           </Dialog>
-        </div>
+				</div>
+      </MuiThemeProvider>
     );
   }
 }
@@ -188,6 +187,3 @@ MasterView.contextTypes = {
   router: React.PropTypes.object
 };
 
-MasterView.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
