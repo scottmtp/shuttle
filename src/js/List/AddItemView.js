@@ -25,7 +25,11 @@ export default class AddItemView extends React.Component {
     this.setState({ listItem: {text: itemText, status: itemStatus} });
   }
 
-  handleAddItem() {
+  handleAddItem(event) {
+    if (event.keyCode != 13) {
+      return;
+    }
+
     let value = this.refs.addItemField.getValue();
     if (value.length === 0) {
       return;
@@ -39,7 +43,7 @@ export default class AddItemView extends React.Component {
   render() {
     return (
       <div>
-        <TextField id='addListItemText' ref='addItemField' onEnterKeyDown={this.handleAddItem}
+        <TextField id='addListItemText' ref='addItemField' onKeyDown={this.handleAddItem}
           value={this.state.listItem.text} onChange={this.onChange} />
         <RaisedButton id='addListItem' label='Add' onTouchTap={this.handleAddItem} />
       </div>
