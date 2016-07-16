@@ -98,9 +98,9 @@ export default class ListView extends React.Component {
   handleUpdateEditItem(li) {
     if (li.dirty) {
       ListViewActions.updateEditItem(this.props.params.groupid, li);
-    } else {
-      ListViewActions.setEditItem({});
     }
+ 
+    ListViewActions.setEditItem({});
   }
 
   render() {
@@ -119,6 +119,7 @@ export default class ListView extends React.Component {
       if (self.state.editItem._id === li._id) {
         listItem = (<div key={'d_' + li._id}>
           <TextField
+            id='editItem'
             ref='editItem'
             onChange={self.handleChangeEditItemValue.bind(self, li)}
             value={li.text}

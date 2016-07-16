@@ -91,7 +91,10 @@ let updateListItem = function(projectId, editItem) {
     .then(list => {
       currentList.title = list.title;
       currentList.editItem = {};
-      ListActions.getListItemsCompleted(currentList);
+      return ListActions.getListItemsCompleted(currentList);
+    })
+    .catch(err => {
+      console.log('err: ' + JSON.stringify(err));
     });
 };
 
