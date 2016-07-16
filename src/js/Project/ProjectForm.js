@@ -88,7 +88,7 @@ export default class AddItemView extends React.Component {
   }
 
   onFormChange() {
-    let name = this.refs.nameField.getValue().trim();
+    let name = this.refs.nameField.getValue();
     let room = this.refs.roomField.getValue().trim();
 
     if (name && name.length) {
