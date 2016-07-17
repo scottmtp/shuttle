@@ -1,9 +1,9 @@
-import _ from 'lodash';
 import SocketIoClient from 'socket.io-client';
 import PouchDB from 'pouchdb';
 import replicationStream from 'pouchdb-replication-stream';
 import stream from 'stream';
 import concat from 'concat-stream';
+import { throttle } from 'lodash';
 
 import Debug from 'debug';
 let debug = new Debug('shuttle');
@@ -172,7 +172,7 @@ Replicator._updateUi = function(project) {
   NavViewActions.replicationUpdate();
 };
 
-Replicator.updateUi = _.throttle(Replicator._updateUi, 1000);
+Replicator.updateUi = throttle(Replicator._updateUi, 1000);
 
 Replicator.updateForProject = function(project, sinceRev) {
   debug('Update for project: ' + JSON.stringify(project));

@@ -2,7 +2,6 @@ import PouchDB from 'pouchdb';
 import nodeDebug from 'debug';
 let debug = nodeDebug('shuttle:dbapi');
 
-import _ from 'lodash';
 import FastMap from 'collections/fast-map';
 
 import DbTypes from './DbTypes';
@@ -87,12 +86,9 @@ var getAllObjects = function(db, collection) {
     attachments: true
   }).then(function (result) {
     debug('getAllObjects results: ' + JSON.stringify(result));
-    var docs = _.chain(result.rows)
-      .pluck('doc')
-      .filter(function(n) {
-        return n.type === collection;
-      })
-      .value();
+    var docs = result.rows
+      .map(it => it['doc'])
+      .filter(it => it.type === collection);
 
     debug('getAllObjects filtered: ' + JSON.stringify(docs));
     return docs;

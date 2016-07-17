@@ -2,7 +2,7 @@ import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
 import { grey300, darkBlack } from 'material-ui/styles/colors';
 
-import _ from 'lodash';
+import { throttle } from 'lodash';
 import Quill from 'quill';
 
 import Toolbar from './Toolbar';
@@ -22,7 +22,7 @@ export default class NoteView extends React.Component {
 
     this._onChange = this._onChange.bind(this);
     this.handleDocumentChange = this.handleDocumentChange.bind(this);
-    this.handleNavUpdate = _.throttle(this.handleNavUpdate.bind(this), 200);
+    this.handleNavUpdate = throttle(this.handleNavUpdate.bind(this), 200);
   }
 
   componentDidMount() {
