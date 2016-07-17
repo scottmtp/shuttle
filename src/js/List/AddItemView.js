@@ -14,6 +14,7 @@ export default class AddItemView extends React.Component {
     this.onChange = this.onChange.bind(this);
     this.handleAddItem = this.handleAddItem.bind(this);
     this.handleSetState = this.handleSetState.bind(this);
+    this.handleAddItemOnEnter = this.handleAddItemOnEnter.bind(this);
   }
 
   onChange() {
@@ -25,11 +26,13 @@ export default class AddItemView extends React.Component {
     this.setState({ listItem: {text: itemText, status: itemStatus} });
   }
 
-  handleAddItem(event) {
-    if (event.keyCode != 13) {
-      return;
+  handleAddItemOnEnter(event) {
+    if (event.keyCode === 13) {
+      this.handleAddItem(event);
     }
+  }
 
+  handleAddItem(event) {
     let value = this.refs.addItemField.getValue();
     if (value.length === 0) {
       return;
@@ -43,7 +46,7 @@ export default class AddItemView extends React.Component {
   render() {
     return (
       <div>
-        <TextField id='addListItemText' ref='addItemField' onKeyDown={this.handleAddItem}
+        <TextField id='addListItemText' ref='addItemField' onKeyDown={this.handleAddItemOnEnter}
           value={this.state.listItem.text} onChange={this.onChange} />
         <RaisedButton id='addListItem' label='Add' onTouchTap={this.handleAddItem} />
       </div>

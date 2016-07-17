@@ -127,6 +127,9 @@ let deleteListPart = function(project, list) {
     })
     .then(components => {
       ProjectActions.deletePartCompleted(components);
+    })
+    .catch(err => {
+      console.log('Error removing list: ' + JSON.stringify(err));
     });
 };
 
@@ -140,6 +143,9 @@ let deleteNotePart = function(project, note) {
     })
     .then(components => {
       ProjectActions.deletePartCompleted(components);
+    })
+    .catch(err => {
+      console.log('Error removing note: ' + JSON.stringify(err));
     });
 };
 

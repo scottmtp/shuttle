@@ -76,10 +76,12 @@ module.exports = {
 
   'Add List Items': function(browser) {
     // add a few list items
-    browser.setValue('#addListItemText', 'foo')
-      .click('#addListItem')
+ 
+    // add first item using newline
+    browser.setValue('#addListItemText', 'foo\n')
       .useXpath().waitForElementVisible('//*[text()=\'foo\']', 500).useCss()
 
+      // add remaining items with button
       .setValue('#addListItemText', 'bar')
       .click('#addListItem')
       .useXpath().waitForElementVisible('//*[text()=\'bar\']', 500).useCss()
