@@ -19,7 +19,7 @@ export default class NoteView extends React.Component {
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
 
     this.onChange = this.onChange.bind(this);
-    this.handleDocumentChange = this.handleDocumentChange.bind(this);
+    this.onLocalDocumentChange = this.onLocalDocumentChange.bind(this);
     this.handleNavUpdate = throttle(this.handleNavUpdate.bind(this), 200);
   }
 
@@ -50,7 +50,7 @@ export default class NoteView extends React.Component {
     });
 
     this.editor.pasteHTML(this.state.note.html);
-    this.editor.on('text-change', this.handleDocumentChange);
+    this.editor.on('text-change', this.onLocalDocumentChange);
   }
 
   componentWillUnmount() {
@@ -68,13 +68,9 @@ export default class NoteView extends React.Component {
     }
   }
 
-  handleDocumentChange(delta, oldContents, source) {
+  onLocalDocumentChange(delta, oldContents, source) {
     let html = this.refs.editor.innerHTML;
-    if (source === 'user' && html !== this.state.note.html) {
-      NoteViewActions.localUpdateNote(this.state.note.title, html);
-      NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
-        this.state.note.title, html);
-    }
+    NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid, this.state.note.title, html);
   }
 
   getStyles() {

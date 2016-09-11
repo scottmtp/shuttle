@@ -7,14 +7,6 @@ export default {
     NoteAPI.getNote(groupId, noteId);
   },
 
-  localUpdateNote: function(title, markup) {
-    AppDispatcher.dispatch({
-      actionType: NoteConstants.LOCAL_UPDATE_NOTE_COMPLETED,
-      title: title,
-      html: markup
-    });
-  },
-
   updateNote: function(groupId, noteId, title, markup) {
     NoteAPI.updateNote(groupId, noteId, title, markup);
   }

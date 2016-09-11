@@ -34,19 +34,16 @@ let NoteStore = assign({}, EventEmitter.prototype, {
 AppDispatcher.register(function(action) {
   switch(action.actionType) {
     case NoteConstants.GET_NOTE_COMPLETED:
-      state.note.title = action.note.title;
-      state.note.html = action.note.html;
+      state.note = action.note;
       NoteStore.emitChange(true);
-    break;
-
-    case NoteConstants.LOCAL_UPDATE_NOTE_COMPLETED:
-      state.note.title = action.title;
-      state.note.html = action.html;
-      NoteStore.emitChange(false);
     break;
 
     // note update completed in pouchdb
     case NoteConstants.UPDATE_NOTE_COMPLETED:
+      state.note = action.note;
+      NoteStore.emitChange(false);
+    break;
+
     default:
       // no op
   }
