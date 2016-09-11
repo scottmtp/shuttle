@@ -1,5 +1,4 @@
 import React from 'react';
-let ReactPropTypes = React.PropTypes;
 
 import Drawer from 'material-ui/Drawer';
 import Menu from 'material-ui/Menu';
@@ -131,6 +130,3 @@ export default class AppLeftNav extends React.Component {
   }
 }
 
-AppLeftNav.propTypes = {
-  menuItems: ReactPropTypes.array.isRequired
-};

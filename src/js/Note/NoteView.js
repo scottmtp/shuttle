@@ -5,7 +5,7 @@ import { grey300, darkBlack } from 'material-ui/styles/colors';
 import { throttle } from 'lodash';
 import Quill from 'quill';
 
-import Toolbar from './Toolbar';
+// import Toolbar from './Toolbar';
 
 import NavViewActions from '../NavViewActions';
 import NoteStore from './NoteStore';
@@ -27,15 +27,31 @@ export default class NoteView extends React.Component {
 
   componentDidMount() {
     NoteStore.addChangeListener(this._onChange);
-    this.editor = new Quill(this.refs.editor, {
+    let toolbarOpts = [
+      ['bold', 'italic', 'underline', 'strike'],
+      ['blockquote', 'code-block'],
+
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+
+      ['link'],
+      ['clean']
+    ];
+
+    this.editor = new Quill('#editor', {
       modules: {
-        'toolbar': { container: '#full-toolbar' },
-        'link-tooltip': true
+        'toolbar': toolbarOpts
       },
       theme: 'snow'
     });
 
-    this.editor.setHTML(this.state.note.html);
+    this.editor.pasteHTML(this.state.note.html);
     this.editor.on('text-change', this.handleDocumentChange);
   }
 
@@ -50,12 +66,12 @@ export default class NoteView extends React.Component {
   _onChange(updateEditor) {
     this.setState(NoteStore.getState());
     if (updateEditor) {
-      this.editor.setHTML(this.state.note.html);
+      this.editor.pasteHTML(this.state.note.html);
     }
   }
 
-  handleDocumentChange(delta, source) {
-    let html = this.editor.getHTML();
+  handleDocumentChange(delta, oldContents, source) {
+    let html = this.refs.editor.innerHTML;
     if (source === 'user' && html !== this.state.note.html) {
       NoteViewActions.localUpdateNote(this.state.note.title, html);
       NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid,
@@ -101,7 +117,6 @@ export default class NoteView extends React.Component {
         <Tab id='noteEditTab' label='Edit' style={self.getStyles().tab}>
           <div style={self.getStyles().tabContent}>
             {title}
-            <Toolbar />
             <div id='editor' ref='editor' className='editor_content' style={{borderBottom: '1px solid #eee'}}></div>
           </div>
         </Tab>

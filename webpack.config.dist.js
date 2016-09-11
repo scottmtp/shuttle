@@ -25,7 +25,7 @@ module.exports = {
       }
     }),
     new AppCachePlugin({
-      cache: ['bundle.js', 'index.html', 'quill.base.css', 'quill.snow.css','android-icon-144x144.png',
+      cache: ['bundle.js', 'index.html', 'quill.core.css', 'quill.snow.css','android-icon-144x144.png',
         'android-icon-192x192.png','android-icon-36x36.png','android-icon-48x48.png','android-icon-72x72.png',
         'android-icon-96x96.png','apple-icon-114x114.png','apple-icon-120x120.png','apple-icon-144x144.png',
         'apple-icon-152x152.png','apple-icon-180x180.png','apple-icon-57x57.png','apple-icon-60x60.png',

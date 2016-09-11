@@ -2,15 +2,13 @@ import PouchDB from 'pouchdb';
 import nodeDebug from 'debug';
 let debug = nodeDebug('shuttle:dbapi');
 
-import FastMap from 'collections/fast-map';
-
 import DbTypes from './DbTypes';
 import Replicator from './Replicator';
 
 let componentSort = (a, b) => a.title > b.title ? 1 : -1;
 
 window.PouchDB = PouchDB;
-let dbs = new FastMap();
+let dbs = new Map();
 
 var isFirefox = function() {
   return navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
