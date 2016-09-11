@@ -5,8 +5,6 @@ import { grey300, darkBlack } from 'material-ui/styles/colors';
 import { throttle } from 'lodash';
 import Quill from 'quill';
 
-// import Toolbar from './Toolbar';
-
 import NavViewActions from '../NavViewActions';
 import NoteStore from './NoteStore';
 import NoteViewActions from './NoteViewActions';
@@ -20,13 +18,13 @@ export default class NoteView extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
 
-    this._onChange = this._onChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.handleDocumentChange = this.handleDocumentChange.bind(this);
     this.handleNavUpdate = throttle(this.handleNavUpdate.bind(this), 200);
   }
 
   componentDidMount() {
-    NoteStore.addChangeListener(this._onChange);
+    NoteStore.addChangeListener(this.onChange);
     let toolbarOpts = [
       ['bold', 'italic', 'underline', 'strike'],
       ['blockquote', 'code-block'],
@@ -56,14 +54,14 @@ export default class NoteView extends React.Component {
   }
 
   componentWillUnmount() {
-    NoteStore.removeChangeListener(this._onChange);
+    NoteStore.removeChangeListener(this.onChange);
   }
 
   handleNavUpdate() {
     NavViewActions.update();
   }
 
-  _onChange(updateEditor) {
+  onChange(updateEditor) {
     this.setState(NoteStore.getState());
     if (updateEditor) {
       this.editor.pasteHTML(this.state.note.html);
