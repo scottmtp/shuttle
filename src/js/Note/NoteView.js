@@ -80,7 +80,7 @@ export default class NoteView extends React.Component {
       },
       editor: {
         borderBottom: '1px solid #eee',
-        fontSize: '110%',
+        fontSize: '100%',
         zIndex: '1000'
       }
     };
