@@ -76,18 +76,12 @@ export default class NoteView extends React.Component {
   getStyles() {
     return {
       title: {
-        marginBottom: '6px'
+        margin: '6px'
       },
-      tabItem: {
-        backgroundColor: grey300
-      },
-      tab: {
-        color: darkBlack
-      },
-      tabContent: {
-        marginLeft: '6px',
-        marginRight: '6px',
-        fontFamily: 'Source Sans Pro, sans-serif'
+      editor: {
+        borderBottom: '1px solid #eee',
+        fontSize: '110%',
+        zIndex: '1000'
       }
     };
   }
@@ -101,20 +95,10 @@ export default class NoteView extends React.Component {
 
     let title = <h1 style={this.getStyles().title}>{self.state.note.title}</h1>;
     return (
-      <Tabs tabItemContainerStyle={self.getStyles().tabItem}>
-        <Tab id='noteViewTab' label='View' style={self.getStyles().tab}>
-          <div style={self.getStyles().tabContent}>
-            {title}
-            <div id='noteContainer' dangerouslySetInnerHTML={{__html: self.state.note.html}} />
-          </div>
-        </Tab>
-        <Tab id='noteEditTab' label='Edit' style={self.getStyles().tab}>
-          <div style={self.getStyles().tabContent}>
-            {title}
-            <div id='editor' ref='editor' className='editor_content' style={{borderBottom: '1px solid #eee'}}></div>
-          </div>
-        </Tab>
-      </Tabs>
+      <div>
+        <span>{title}</span>
+        <div id='editor' ref='editor' className='editor_content' style={this.getStyles().editor}></div>
+      </div>
     );
   }
 }
