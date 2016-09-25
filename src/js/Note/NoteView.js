@@ -2,7 +2,7 @@ import React from 'react';
 import { Styles, Tab, Tabs, TextField } from 'material-ui';
 import { grey300, darkBlack } from 'material-ui/styles/colors';
 
-import { throttle } from 'lodash';
+import { debounce } from 'lodash';
 import Quill from 'quill';
 
 import NavViewActions from '../NavViewActions';
@@ -19,8 +19,7 @@ export default class NoteView extends React.Component {
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
 
     this.onChange = this.onChange.bind(this);
-    this.onLocalDocumentChange = this.onLocalDocumentChange.bind(this);
-    this.handleNavUpdate = throttle(this.handleNavUpdate.bind(this), 200);
+    this.onLocalDocumentChange = debounce(this.onLocalDocumentChange.bind(this), 1000);
   }
 
   componentDidMount() {
@@ -57,10 +56,6 @@ export default class NoteView extends React.Component {
     NoteStore.removeChangeListener(this.onChange);
   }
 
-  handleNavUpdate() {
-    NavViewActions.update();
-  }
-
   onChange(updateEditor) {
     this.setState(NoteStore.getState());
     if (updateEditor) {
@@ -71,6 +66,7 @@ export default class NoteView extends React.Component {
   onLocalDocumentChange(delta, oldContents, source) {
     let html = this.refs.editor.innerHTML;
     NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid, this.state.note.title, html);
+    console.log('updating note...');
   }
 
   getStyles() {
