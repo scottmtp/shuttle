@@ -66,7 +66,6 @@ export default class NoteView extends React.Component {
   onLocalDocumentChange(delta, oldContents, source) {
     let html = this.refs.editor.innerHTML;
     NoteViewActions.updateNote(this.props.params.groupid, this.props.params.noteid, this.state.note.title, html);
-    console.log('updating note...');
   }
 
   getStyles() {
