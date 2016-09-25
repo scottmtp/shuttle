@@ -19,7 +19,6 @@
     "email-validator": "^1.0.3",
     "express": "^4.13.3",
     "express-force-ssl": "^0.2.13",
-    "fastclick": "^1.0.6",
     "flux": "^2.0.3",
     "helmet": "^0.10.0",
     "jwt-simple": "^0.3.0",
