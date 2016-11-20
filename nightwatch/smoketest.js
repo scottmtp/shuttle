@@ -106,18 +106,6 @@ module.exports = {
       .pause(500);
   },
 
-  'Add note text': function(browser) {
-    var note = 'updatedNotes';
-    browser.click('#noteEditTab')
-      .setValue('#editor', note)
-      .pause(500)
-      .click('#noteViewTab');
-      // .waitForElementVisible('#noteContainer', 500);
-
-    // TODO: investigate setValue on contenteditable div
-    // browser.expect.element('#noteContainer').text.to.equal(note);
-  },
-
   'Help Dialog': function(browser) {
     browser.click('#helpIcon')
       .waitForElementVisible('#helpOk', 2000)
