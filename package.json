@@ -29,7 +29,7 @@
     "object-assign": "^3.0.0",
     "pouchdb": "6.0.7",
     "pouchdb-replication-stream": "1.2.9",
-    "quill": "1.0.3",
+    "quill": "1.1.5",
     "react": "15.4.0",
     "react-dom": "15.4.0",
     "react-router": "2.8.1",
