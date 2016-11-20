@@ -24,7 +24,7 @@
     "jwt-simple": "^0.3.0",
     "keymirror": "^0.1.1",
     "lodash.debounce": "^4.0.8",
-    "material-ui": "0.15.4",
+    "material-ui": "0.16.4",
     "morgan": "^1.6.1",
     "object-assign": "^3.0.0",
     "pouchdb": "6.0.7",
