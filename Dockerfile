@@ -12,8 +12,8 @@ ENV EMAIL_TOKEN_FILE "/usr/local/shuttle/data/ssl/emailtoken.txt"
 WORKDIR /usr/local/shuttle
 ADD data data
 RUN apk update \
-    && apk add --no-cache --virtual .build-deps gcc g++ git linux-headers libgcc libstdc++ make openssl python \
-    && apk add nodejs \
+    && apk add --no-cache --virtual .build-deps g++ gcc git make \
+    && apk add nodejs supervisor \
     && mkdir /usr/local/shuttle/dist \
     && npm install -g node-gyp webpack@1.13.3 \
     && git clone https://github.com/scottmtp/shuttle.git tmp/ \
@@ -27,5 +27,5 @@ RUN apk update \
 
 EXPOSE 80 443
 
-CMD node /usr/local/shuttle/server.js
+CMD supervisord -c /usr/local/shuttle/supervisord.conf
 
