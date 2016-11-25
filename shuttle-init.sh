@@ -38,8 +38,8 @@
 # SPIN_SLEEP_TIME="2000"
 
 NAME="shuttle"
-NODE_BIN_DIR="/usr/local/node-v4.4.7-linux-x64/bin/"
-NODE_PATH="/usr/local/node-v4.4.7-linux-x64/lib/node_modules/"
+NODE_BIN_DIR="/usr/local/node-v6.9.1-linux-x64/bin/"
+NODE_PATH="/usr/local/node-v6.9.1-linux-x64/lib/node_modules/"
 APPLICATION_PATH="/usr/local/shuttle/deploy/current/server.js"
 PIDFILE="/var/run/shuttle.pid"
 LOGFILE="/var/log/shuttle.log"
@@ -55,7 +55,7 @@ export SSL_CA_FILE="www.tryshuttle.com.chain.crt"
 export JWT_TOKEN_FILE="/usr/local/shuttle/ssl/jwttoken.txt"
 export EMAIL_TOKEN_FILE="/usr/local/shuttle/ssl/emailtoken.txt"
 
-export USE_LEX=1
+#export USE_LEX=1
 export LEX_SERVER="https://acme-v01.api.letsencrypt.org/directory"
 export LEX_DOMAIN="tryshuttle.com"
 
