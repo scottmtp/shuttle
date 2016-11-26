@@ -55,10 +55,6 @@ export SSL_CA_FILE="www.tryshuttle.com.chain.crt"
 export JWT_TOKEN_FILE="/usr/local/shuttle/ssl/jwttoken.txt"
 export EMAIL_TOKEN_FILE="/usr/local/shuttle/ssl/emailtoken.txt"
 
-#export USE_LEX=1
-export LEX_SERVER="https://acme-v01.api.letsencrypt.org/directory"
-export LEX_DOMAIN="tryshuttle.com"
-
 # Add node to the path for situations in which the environment is passed.
 PATH=$NODE_BIN_DIR:$PATH
 # Export all environment variables that must be visible for the Node.js

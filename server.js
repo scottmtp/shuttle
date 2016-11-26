@@ -25,34 +25,23 @@ var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
 var sslCaFile = process.env.SSL_CA_FILE || 'certchain.pem';
 var jwtTokenFile = process.env.JWT_TOKEN_FILE;
 var emailTokenFile = process.env.EMAIL_TOKEN_FILE;
-var useLex = process.env.USE_LEX;
-var lexServer = process.env.LEX_SERVER || 'staging';
-var lexDomain = process.env.LEX_DOMAIN;
 // END CONFIGURATION
 
 var sslOptions = {
   key: fs.readFileSync(sslPrefix + sslKeyFile, 'utf-8'),
   cert: fs.readFileSync(sslPrefix + sslCertFile, 'utf-8'),
   ca: fs.readFileSync(sslPrefix + sslCaFile, 'utf-8'),
-  passphrase: fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
 };
+
+var passphraseFile = sslPrefix + 'passphrase.txt';
+if (fs.existsSync(passphraseFile)) {
+  sslOptions.passphrase = fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
+}
 
 if (process.env.NODE_ENV === 'production') {
   console.log('Forcing ssl for production');
   var forceSSL = require('express-force-ssl');
   app.use(forceSSL);
-}
-
-if (useLex) {
-  var lex = require('letsencrypt-express').create({
-    server: lexServer,
-    approvedDomains: [lexDomain, 'www.' + lexDomain],
-    agreeTos: true,
-    email: 'info@' + lexDomain
-  });
-
-  sslOptions = lex.httpsOptions;
-  app.use(lex.middleware());
 }
 
 var jwtToken = fs.readFileSync(jwtTokenFile, 'utf-8').trim();
