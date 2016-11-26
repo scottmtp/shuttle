@@ -36,7 +36,7 @@ module.exports = function (shipit) {
   });
 
   shipit.blTask('remotebuild', function (cb) {
-    var cmd = 'cd ' + shipit.releasePath + '; cp shuttle-init.sh /etc/init.d/shuttle;' +
+    var cmd = 'source ~/.profile; cd ' + shipit.releasePath + '; cp shuttle-init.sh /etc/init.d/shuttle;' +
       ' /usr/local/node-v6.9.1-linux-x64/bin/npm --production' +
       ' install socket.io@1.3.6 debug@2.2.0 express@4.13.3 helmet@0.10.0 letsencrypt-express@2.0.5' +
       ' jwt-simple@0.3.0 morgan@1.6.1 email-validator@1.0.3 uuid@2.0.1 async@1.4.2' +
