@@ -12,7 +12,7 @@ WORKDIR /usr/local/shuttle
 ADD data data
 RUN apk update \
     && apk add --no-cache --virtual .build-deps g++ gcc git make \
-    && apk add nodejs supervisor \
+    && apk add certbot nodejs supervisor \
     && mkdir /usr/local/shuttle/dist \
     && npm install -g node-gyp webpack@1.13.3 \
     && git clone https://github.com/scottmtp/shuttle.git tmp/ \
