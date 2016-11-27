@@ -30,7 +30,7 @@ incr-version: prep-src-dir
 	npm version $(rel_type) -m "Releasing new shuttle version."; \
 	node -p -e "require('./package.json').version" > version; \
 	git rev-parse master >> version; \
-	git add version; git commit; git push; \
+	git add version; git commit -m "Shuttle release."; git push; \
 	popd
 
 docker-release-build: incr-version
