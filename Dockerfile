@@ -2,10 +2,9 @@ FROM alpine:3.4
 
 ENV NODE_ENV "production"
 ENV WWW_DIR "/usr/local/shuttle/dist/"
-ENV SSL_PREFIX "/usr/local/shuttle/data/ssl/"
-ENV SSL_KEY_FILE "www.tryshuttle.com.key"
-ENV SSL_CERT_FILE "www.tryshuttle.com.crt"
-ENV SSL_CA_FILE "www.tryshuttle.com.chain.crt"
+ENV SSL_PREFIX "/etc/letsencrypt/live/shuttlenote.com/"
+ENV SSL_KEY_FILE "privkey.pem"
+ENV SSL_CERT_FILE "fullchain.pem"
 ENV JWT_TOKEN_FILE "/usr/local/shuttle/data/ssl/jwttoken.txt"
 ENV EMAIL_TOKEN_FILE "/usr/local/shuttle/data/ssl/emailtoken.txt"
 
