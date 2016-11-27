@@ -38,11 +38,11 @@ if (fs.existsSync(passphraseFile)) {
   sslOptions.passphrase = fs.readFileSync(sslPrefix + 'passphrase.txt', 'utf-8').trim()
 }
 
-if (process.env.NODE_ENV === 'production') {
-  console.log('Forcing ssl for production');
-  var forceSSL = require('express-force-ssl');
-  app.use(forceSSL);
-}
+// if (process.env.NODE_ENV === 'production') {
+//   console.log('Forcing ssl for production');
+//   var forceSSL = require('express-force-ssl');
+//   app.use(forceSSL);
+// }
 
 var jwtToken = fs.readFileSync(jwtTokenFile, 'utf-8').trim();
 
