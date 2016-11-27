@@ -10,6 +10,7 @@ ENV EMAIL_TOKEN_FILE "/usr/local/shuttle/data/ssl/emailtoken.txt"
 
 WORKDIR /usr/local/shuttle
 ADD data data
+ADD data/letsencrypt /etc/letsencrypt/live/shuttlenote.com
 RUN apk update \
     && apk add --no-cache --virtual .build-deps g++ gcc git make \
     && apk add certbot nodejs supervisor \
