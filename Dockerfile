@@ -9,16 +9,13 @@ ENV JWT_TOKEN_FILE "/usr/local/shuttle/data/ssl/jwttoken.txt"
 ENV EMAIL_TOKEN_FILE "/usr/local/shuttle/data/ssl/emailtoken.txt"
 
 WORKDIR /usr/local/shuttle
-ADD data data
+ADD . /usr/local/shuttle
 ADD data/letsencrypt /etc/letsencrypt/live/shuttlenote.com
 RUN apk update \
     && apk add --no-cache --virtual .build-deps g++ gcc git make \
     && apk add certbot nodejs supervisor \
     && mkdir /usr/local/shuttle/dist \
     && npm install -g node-gyp webpack@1.13.3 \
-    && git clone https://github.com/scottmtp/shuttle.git tmp/ \
-    && mv tmp/* . \
-    && rm -rf tmp \
     && npm install --production \
     && npm run productiondist \
     && npm cache clean \
