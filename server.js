@@ -22,7 +22,6 @@ var publicHtml = process.env.WWW_DIR || './dist/';
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
 var sslKeyFile = process.env.SSL_KEY_FILE || 'key.enc.pem';
 var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
-var sslCaFile = process.env.SSL_CA_FILE || 'certchain.pem';
 var jwtTokenFile = process.env.JWT_TOKEN_FILE;
 var emailTokenFile = process.env.EMAIL_TOKEN_FILE;
 // END CONFIGURATION
@@ -30,7 +29,6 @@ var emailTokenFile = process.env.EMAIL_TOKEN_FILE;
 var sslOptions = {
   key: fs.readFileSync(sslPrefix + sslKeyFile, 'utf-8'),
   cert: fs.readFileSync(sslPrefix + sslCertFile, 'utf-8'),
-  ca: fs.readFileSync(sslPrefix + sslCaFile, 'utf-8'),
 };
 
 var passphraseFile = sslPrefix + 'passphrase.txt';
