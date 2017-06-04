@@ -70,7 +70,7 @@
   "scripts": {
     "lint": "eslint src",
     "test": "karma start",
-    "dev": "webpack-dev-server --host 0.0.0.0 --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
+    "dev": "webpack-dev-server --host local.tryshuttle.com --progress --colors --history-api-fallback --content-base dist/ --port 8000 --hot",
     "dist": "make copy; webpack --config webpack.config.dist.js",
     "productiondist": "make copy; webpack --config webpack.config.prod.js",
     "server": "node ./server.js"
