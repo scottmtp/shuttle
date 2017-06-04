@@ -6,17 +6,6 @@
   "page_objects_path" : "",
   "globals_path" : "",
 
-  "selenium" : {
-    "start_process" : false,
-    "server_path" : "../../../selenium/selenium-server-standalone-2.47.1.jar",
-    "log_path" : "",
-    "host" : "127.0.0.1",
-    "port" : 4444,
-    "cli_args" : {
-      "webdriver.chrome.driver" : "../../../selenium/chromedriver"
-    }
-  },
-
   "test_settings" : {
     "default" : {
       "launch_url" : "http://local.tryshuttle.com",
