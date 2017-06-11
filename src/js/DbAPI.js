@@ -19,6 +19,11 @@ var getPouchOpts = function() {
   if(process.env.NODE_ENV === 'production' && isFirefox()) {
     opts.storage = 'persistent';
   }
+
+  if (global.pouch_adapter) {
+    opts.adapter = global.pouch_adapter;
+  }
+
   return opts;
 };
 

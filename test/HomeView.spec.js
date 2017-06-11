@@ -1,24 +1,20 @@
 'use strict';
-var chai = require('chai')
-var assert = chai.assert;
-var expect = chai.expect;
+import HomeView from '../src/js/HomeView';
+import { LocalStorageMock } from './mocks.js';
+global.localStorage = new LocalStorageMock;
 
 describe('home view transition', function() {
- it('should redirect to projects page', function(done) {
-   var HomeView = require('../src/js/HomeView');
+ it('should redirect to projects page', () => {
    var redirectState = function(next, loc) {
-     assert.equal('projects', loc);
-     done();
+     expect(loc).toBe('projects');
    };
 
    HomeView.willTransitionTo(null, redirectState);
  });
 
- it('should check localStorage when redirecting', function(done) {
-   var HomeView = require('../src/js/HomeView');
+ it('should check localStorage when redirecting', () => {
    var redirectState = function(next, loc) {
-     assert.equal('/group/group/type/typeId', loc);
-     done();
+     expect(loc).toBe('/group/group/type/typeId');
    };
 
    global.localStorage.group = 'group';
@@ -29,9 +25,7 @@ describe('home view transition', function() {
  });
 
  it('should not render anything', function() {
-   var HomeView = require('../src/js/HomeView');
    var view = new HomeView();
-
-   assert.equal(false, view.render());
+   expect(view.render()).toBe(false);
  })
 });

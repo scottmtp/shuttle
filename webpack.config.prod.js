@@ -35,20 +35,23 @@ module.exports = {
         'ms-icon-310x310.png','ms-icon-70x70.png'],
       network: ['*']
     }),
-    new webpack.optimize.UglifyJsPlugin(),
-    new webpack.optimize.DedupePlugin()
+    new webpack.optimize.UglifyJsPlugin()
   ],
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
+        use: [{
+          loader: 'babel-loader'
+        }]
       },
       {
         test: /\.json$/,
-        loader: "json-loader"
+        use: [{
+          loader: 'json-loader'
+        }]
       }
     ]
   }

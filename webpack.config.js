@@ -34,20 +34,23 @@ module.exports = {
         'favicon.ico','index.html','manifest.json','ms-icon-144x144.png','ms-icon-150x150.png',
         'ms-icon-310x310.png','ms-icon-70x70.png'],
       network: ['*']
-    }),
-    new webpack.optimize.DedupePlugin()
+    })
   ],
 
   module: {
-    loaders: [
+    rules: [
       {
-        test: /\.js?$/,
+        test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
+        use: [{
+          loader: 'babel-loader'
+        }]
       },
       {
         test: /\.json$/,
-        loader: "json-loader"
+        use: [{
+          loader: 'json-loader'
+        }]
       }
     ]
   }
