@@ -37,7 +37,7 @@ export default class MasterView extends React.Component {
   }
 
   _appRefresh() {
-    document.location.reload(true);
+    window.location.reload(true);
   }
 
   _onChange() {

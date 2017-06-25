@@ -137,7 +137,7 @@ export default class ListView extends React.Component {
           primaryText={li.text}
           disableTouchRipple={true}
           style={this.getStyles().listItem}
-          rightIconButton={<ModeEditIcon onTouchTap={self.handleStartEditItem.bind(self, li)} />}
+          rightIcon={<ModeEditIcon onTouchTap={self.handleStartEditItem.bind(self, li)} />}
           key={li._id} />;
       }
 
