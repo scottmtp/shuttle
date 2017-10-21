@@ -6,3 +6,5 @@ keys/
 reports/
 coverage/
 data/
+shuttle_global/
+s_*/
