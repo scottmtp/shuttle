@@ -20,8 +20,8 @@ var port = process.env.PORT || 80;
 var sslPort = process.env.SSL_PORT || 443;
 var publicHtml = process.env.WWW_DIR || './dist/';
 var sslPrefix = process.env.SSL_PREFIX || './keys/';
-var sslKeyFile = process.env.SSL_KEY_FILE || 'key.enc.pem';
-var sslCertFile = process.env.SSL_CERT_FILE || 'cert.pem';
+var sslKeyFile = process.env.SSL_KEY_FILE || 'server.key';
+var sslCertFile = process.env.SSL_CERT_FILE || 'server.crt';
 var jwtTokenFile = process.env.JWT_TOKEN_FILE;
 var emailTokenFile = process.env.EMAIL_TOKEN_FILE;
 // END CONFIGURATION
