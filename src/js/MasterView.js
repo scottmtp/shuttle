@@ -17,9 +17,6 @@ import ShuttleTheme from './ShuttleTheme';
 
 import ProjectViewActions from './Project/ProjectViewActions';
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin(); // Needed for onTouchTap
-
 export default class MasterView extends React.Component {
 
   constructor(props) {
@@ -98,16 +95,16 @@ export default class MasterView extends React.Component {
     const muiTheme = getMuiTheme(ShuttleTheme);
 
     let menuIcon = <IconButton id='menuIcon' touch={true}
-      onTouchTap={NavViewActions.navOpen}>
+      onClick={NavViewActions.navOpen}>
       <MenuIcon />
     </IconButton>;
 
     let helpIcon = <IconButton id='helpIcon' touch={true}
-      onTouchTap={NavViewActions.helpOpen} tooltip='Help'>
+      onClick={NavViewActions.helpOpen} tooltip='Help'>
       <ActionHelpIcon />
     </IconButton>;
 
-    let helpActions = <FlatButton id='helpOk' label='Got it!' onTouchTap={NavViewActions.helpClose}/>;
+    let helpActions = <FlatButton id='helpOk' label='Got it!' onClick={NavViewActions.helpClose}/>;
 
     let navWidth = 0;
     if (this.refs.appLeftNav) {
@@ -150,7 +147,7 @@ export default class MasterView extends React.Component {
             ref='appUpdateSnackbar' onRequestClose={this._onAppRefreshIndicatorRequestClose}
             message={'Update ready'}
             action='refresh'
-            onActionTouchTap={this._appRefresh}
+            onActionClick={this._appRefresh}
             />
 
           <Dialog data-test='helpDialog' ref='helpDialog' open={this.state.helpDialogOpen} actions={helpActions}

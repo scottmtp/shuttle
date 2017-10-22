@@ -76,7 +76,7 @@ export default class AppLeftNav extends React.Component {
     };
 
     let style = self.props.router.isActive(elem.route) ? this._getActiveStyle() : basicStyle;
-    let menuItem = <MenuItem key={'mi_' + index} onTouchTap={ott} rightIcon={this._getLeftIcon(elem)}
+    let menuItem = <MenuItem key={'mi_' + index} onClick={ott} rightIcon={this._getLeftIcon(elem)}
       style={style}>{elem.text}</MenuItem>;
 
     return menuItem;

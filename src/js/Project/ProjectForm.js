@@ -71,9 +71,9 @@ export default class AddItemView extends React.Component {
     let self = this;
     const actions = [
       <FlatButton id='projectCancel' label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeProjectDialog} />,
+        onClick={ProjectViewActions.closeProjectDialog} />,
       <FlatButton id='projectSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={self.save} />
+        onClick={self.save} />
     ];
     return actions;
   }
@@ -102,9 +102,9 @@ export default class AddItemView extends React.Component {
     let self = this;
     const actions = [
       <FlatButton id='addPartCancel' label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeAddPartDialog} />,
+        onClick={ProjectViewActions.closeAddPartDialog} />,
       <FlatButton id='addPartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={self.saveAddPart} />
+        onClick={self.saveAddPart} />
     ];
     return actions;
   }
@@ -130,9 +130,9 @@ export default class AddItemView extends React.Component {
     let self = this;
     const actions = [
       <FlatButton label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeRenamePartDialog} />,
+        onClick={ProjectViewActions.closeRenamePartDialog} />,
       <FlatButton label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={self.saveRenamePart} />
+        onClick={self.saveRenamePart} />
     ];
     return actions;
   }
@@ -159,9 +159,9 @@ export default class AddItemView extends React.Component {
     let self = this;
     const actions = [
       <FlatButton id='deletePartCancel' label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeDeletePartDialog} />,
+        onClick={ProjectViewActions.closeDeletePartDialog} />,
       <FlatButton id='deletePartSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={self.saveDeletePart} />
+        onClick={self.saveDeletePart} />
     ];
     return actions;
   }
@@ -191,9 +191,9 @@ export default class AddItemView extends React.Component {
     let self = this;
     const actions = [
       <FlatButton id='requestTokenCancel' label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeRequestTokenDialog} />,
+        onClick={ProjectViewActions.closeRequestTokenDialog} />,
       <FlatButton id='requestTokenSave' label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={self.saveRequestToken} />
+        onClick={self.saveRequestToken} />
     ];
     return actions;
   }
@@ -221,8 +221,8 @@ export default class AddItemView extends React.Component {
 
       let rightIconMenu = (
         <IconMenu iconButtonElement={iconButton}>
-          <MenuItem onTouchTap={self.showRenamePartDialog.bind(self, comp)}>Rename</MenuItem>
-          <MenuItem onTouchTap={self.showDeletePartDialog.bind(self, comp)}>Delete</MenuItem>
+          <MenuItem onClick={self.showRenamePartDialog.bind(self, comp)}>Rename</MenuItem>
+          <MenuItem onClick={self.showDeletePartDialog.bind(self, comp)}>Delete</MenuItem>
         </IconMenu>
       );
 
@@ -265,13 +265,13 @@ export default class AddItemView extends React.Component {
               <List>
                 {this.buildPartsList()}
               </List>
-              <RaisedButton id='addProjectPartButton' label='Add' onTouchTap={ProjectViewActions.openAddPartDialog}/>
+              <RaisedButton id='addProjectPartButton' label='Add' onClick={ProjectViewActions.openAddPartDialog}/>
             </Tab>
             <Tab id='projectSharingTab' label='Sharing'>
               <div>
                 <TextField ref='roomField' multiLine={true} value={this.state.activeProject.room}
                   onChange={this.onFormChange} floatingLabelText='Key' style={{width: '100%'}}/>
-                <RaisedButton id='requestTokenButton' label='Request Key' onTouchTap={this.requestTokenDialog.bind(this)}/>
+                <RaisedButton id='requestTokenButton' label='Request Key' onClick={this.requestTokenDialog.bind(this)}/>
                 <div style={{color: grey600, marginTop: '6px',
                   display: this.state.activeProject.room ? 'none' : 'block'}}>
                   You will need to request a Sharing Key to enable Sharing.

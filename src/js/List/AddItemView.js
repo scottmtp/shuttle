@@ -48,7 +48,7 @@ export default class AddItemView extends React.Component {
       <div>
         <TextField id='addListItemText' ref='addItemField' onKeyDown={this.handleAddItemOnEnter}
           value={this.state.listItem.text} onChange={this.onChange} />
-        <RaisedButton id='addListItem' label='Add' onTouchTap={this.handleAddItem} />
+        <RaisedButton id='addListItem' label='Add' onClick={this.handleAddItem} />
       </div>
     );
   }

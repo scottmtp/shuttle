@@ -124,7 +124,7 @@ export default class ListView extends React.Component {
             onChange={self.handleChangeEditItemValue.bind(self, li)}
             value={li.text}
             key={li._id} />
-          <RaisedButton key={'b_' + li._id} label='Done' onTouchTap={self.handleUpdateEditItem.bind(self, li)} />
+          <RaisedButton key={'b_' + li._id} label='Done' onClick={self.handleUpdateEditItem.bind(self, li)} />
         </div>);
       } else {
         let checkbox = <Checkbox
@@ -137,7 +137,7 @@ export default class ListView extends React.Component {
           primaryText={li.text}
           disableTouchRipple={true}
           style={this.getStyles().listItem}
-          rightIcon={<ModeEditIcon onTouchTap={self.handleStartEditItem.bind(self, li)} />}
+          rightIcon={<ModeEditIcon onClick={self.handleStartEditItem.bind(self, li)} />}
           key={li._id} />;
       }
 
@@ -169,7 +169,7 @@ export default class ListView extends React.Component {
               message={'Item updated'}
               action='undo'
               autoHideDuration={5000}
-              onActionTouchTap={self.checkboxUndo.bind(self)} />
+              onActionClick={self.checkboxUndo.bind(self)} />
           </div>
         </Tab>
         <Tab label='Completed' style={self.getStyles().tab}>
@@ -178,7 +178,7 @@ export default class ListView extends React.Component {
             <List>
               {completedItems}
             </List>
-            <RaisedButton label='Clear Completed' onTouchTap={self.handleClearList.bind(self)}/>
+            <RaisedButton label='Clear Completed' onClick={self.handleClearList.bind(self)}/>
           </div>
         </Tab>
         <Tab label='All' style={self.getStyles().tab}>

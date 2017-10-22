@@ -53,9 +53,9 @@ export default class ProjectList extends React.Component {
   deleteProjectActions() {
     const actions = [
       <FlatButton label='Cancel' secondary={true}
-        onTouchTap={ProjectViewActions.closeDeleteProjectDialog} />,
+        onClick={ProjectViewActions.closeDeleteProjectDialog} />,
       <FlatButton label='OK' primary={true} keyboardFocused={true}
-        onTouchTap={this.saveDeleteProject} />
+        onClick={this.saveDeleteProject} />
     ];
     return actions;
   }
@@ -88,7 +88,7 @@ export default class ProjectList extends React.Component {
 
       let rightIconMenu = (
         <IconMenu iconButtonElement={iconButton}>
-          <MenuItem index={0} onTouchTap={this.showDeleteProjectDialog.bind(this, project)}>Delete</MenuItem>
+          <MenuItem index={0} onClick={this.showDeleteProjectDialog.bind(this, project)}>Delete</MenuItem>
         </IconMenu>
       );
 
@@ -97,7 +97,7 @@ export default class ProjectList extends React.Component {
         secondaryText={'Sharing ' + (project.room ? 'On' : 'Off')}
         key={project._id}
         rightIconButton={rightIconMenu}
-        onTouchTap={self.handleEditProject.bind(self, project)} />;
+        onClick={self.handleEditProject.bind(self, project)} />;
 
       projects.push(listItem);
     });
@@ -112,7 +112,7 @@ export default class ProjectList extends React.Component {
         <List id='projectList'>
           {projects}
         </List>
-        <RaisedButton id='newProject' label='New Project' onTouchTap={self.handleNewProject.bind(self)}/>
+        <RaisedButton id='newProject' label='New Project' onClick={self.handleNewProject.bind(self)}/>
         <ProjectForm ref='projectForm' />
         <Dialog ref='deleteProjectDialog'
           actions={this.deleteProjectActions()}
