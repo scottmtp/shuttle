@@ -18,6 +18,7 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': '"development"',
@@ -34,8 +35,7 @@ module.exports = {
         'favicon.ico','index.html','manifest.json','ms-icon-144x144.png','ms-icon-150x150.png',
         'ms-icon-310x310.png','ms-icon-70x70.png'],
       network: ['*']
-    }),
-    new webpack.optimize.UglifyJsPlugin()
+    })
   ],
 
   module: {

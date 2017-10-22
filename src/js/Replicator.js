@@ -1,12 +1,12 @@
 import SocketIoClient from 'socket.io-client';
 import PouchDB from 'pouchdb';
-import replicationStream from 'pouchdb-replication-stream';
 import stream from 'stream';
 import concat from 'concat-stream';
 import { throttle } from 'lodash';
-
 import Debug from 'debug';
-let debug = new Debug('shuttle');
+
+const replicationStream = require('pouchdb-replication-stream');
+const debug = new Debug('shuttle');
 if (process.env.NODE_ENV === 'development') {
   localStorage.debug = 'shuttle';
 }
